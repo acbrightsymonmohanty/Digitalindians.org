@@ -1,0 +1,4184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="Description" content="Browse top service providers, freelancers, and YouTubers based on your search. Compare listings and find the best match for your needs on DigitalIndians.org.">
+    <meta name="Keywords" content="search service providers, best freelancers, compare businesses, find YouTubers, business search results, online marketplace, verified suppliers">
+    <title> Search Results | Find the Best Service Providers & Businesses</title>
+    <script>
+        // Flag to indicate this is the search page - set this before any other scripts load
+        window.isSearchPage = true;
+    </script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Ensure new design is applied */
+        body.search-results-page.new-chat-page {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .app-container.new-design {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .main-content.new-main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0;
+            position: relative;
+            transition: margin-left 0.3s ease;
+        }
+        
+        .search-results-container {
+            /* padding: 2rem; */
+            max-width: 1200px;
+            margin: 0 auto;
+            /* padding-bottom: 100px; */
+            padding-bottom: 60px;
+    background: white;
+        }
+        
+        .main-header {
+            display: flex;
+            flex-direction: column;
+            background-color: #fff;
+            border-bottom: 1px solid #eaeaea;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            width: 100%;
+            transition: padding 0.3s ease;
+        }
+        
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            width: 100%;
+        }
+        
+        .header-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+            margin: 10px;
+        }
+        
+        .header-profile {
+            display: flex;
+            align-items: center;
+        }
+        
+        .profile-time {
+            margin-right: 1rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .profile-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: #2d7ff9;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        
+        .share-button {
+            margin-left: 1rem;
+            background-color: #2d7ff9;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .share-button:hover {
+            background-color: #1a6cd1;
+            transform: scale(1.05);
+        }
+        
+        .action-button {
+            background-color: #2d7ff9;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            margin-left: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            display: none;
+        }
+        
+        .action-button:hover {
+            transform: scale(1.05);
+        }
+        
+        .save-button {
+            background-color: #4CAF50;
+        }
+        
+        .save-button:hover {
+            background-color: #3d8b40;
+        }
+        
+        .favorite-button {
+            background-color: #e91e63;
+        }
+        
+        .favorite-button:hover {
+            background-color: #c2185b;
+        }
+        
+        .favorite-button.active {
+            background-color: #e91e63;
+            animation: pulse 0.3s ease;
+        }
+        
+        .save-button.active {
+            background-color: #3d8b40;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        
+        .user-profile-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 2rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 1rem;
+            min-width: 200px;
+            display: none;
+            z-index: 101;
+        }
+        
+        .user-profile-dropdown.active {
+            display: block;
+        }
+        
+        .user-profile-header {
+            display: flex;
+            align-items: center;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 0.8rem;
+        }
+        
+        .user-profile-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            margin-right: 0.8rem;
+            overflow: hidden;
+        }
+        
+        .user-profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .user-profile-info {
+            flex: 1;
+        }
+        
+        .user-profile-name {
+            font-weight: 600;
+            font-size: 1rem;
+            color: #333;
+        }
+        
+        .user-profile-email {
+            font-size: 0.8rem;
+            color: #666;
+        }
+        
+        .user-profile-actions a {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 0;
+            color: #333;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        
+        .user-profile-actions a:hover {
+            color: #2d7ff9;
+        }
+        
+        .user-profile-actions i {
+            width: 20px;
+            margin-right: 0.5rem;
+        }
+        
+        .logout-link {
+            color: #e74c3c !important;
+        }
+        
+        .logout-link:hover {
+            color: #c0392b !important;
+        }
+        
+        .query-bar {
+            background-color: #ffffff;
+            border-radius: 50px;
+            padding: 0.8rem 1.2rem;
+            font-size: 1.1rem;
+            color: #333;
+            font-weight: 500;
+            margin-top: 0.5rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .query-icon {
+            margin-right: 0.8rem;
+            color: #2d7ff9;
+        }
+        
+        .response-container {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+           
+            transition: all 0.3s ease;
+        }
+        
+        .response-container:hover {
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.12);
+        }
+        
+        .response-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        .response-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 1rem;
+            border: 2px solid #f0f0f0;
+        }
+        
+        .response-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .response-content {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: #444;
+        }
+        
+        .response-content p {
+            margin-bottom: 1rem;
+        }
+        
+        .followup-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 14px 20px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08);
+            z-index: 100;
+            margin-left: var(--sidebar-width, 280px);
+            transition: margin-left 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+        
+        .followup-container .input-group {
+            display: flex;
+            align-items: center;
+            max-width: 1274px;
+            margin: 0 auto;
+            border-radius: 50px;
+            background-color: #fff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            /* padding: 0 5px 0 20px; */
+        }
+        
+        .followup-container input {
+            flex: 1;
+            padding: 12px 16px;
+            border: none;
+            border-radius: 50px;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.3s;
+            background-color: transparent;
+        }
+        
+        .followup-container input:focus {
+            box-shadow: 0 0 0 2px rgba(45, 127, 249, 0.2);
+        }
+        
+        .followup-container button {
+            background-color: #157a9d;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            margin-left: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+        }
+        
+        .followup-container button:hover {
+            background-color: #3367d6;
+        }
+        
+        .followup-container button i {
+            font-size: 18px;
+        }
+        
+        .loading-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 150px;
+            margin: 20px 0;
+        }
+        
+        .loading-container .logo-container {
+            margin-bottom: 15px;
+        }
+        
+        .loading-container .loader-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            animation: logoFloat 3s infinite ease-in-out;
+        }
+        
+        @keyframes logoFloat {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            25% {
+                transform: translateY(-5px) rotate(-3deg);
+            }
+            75% {
+                transform: translateY(-5px) rotate(3deg);
+            }
+        }
+        
+        .loading-container .dots-row {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .loading-container .dot {
+            width: 14px;
+            height: 14px;
+            margin: 0 7px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #157a9d, #2d7ff9);
+            animation: dotBounce 1.4s infinite ease-in-out;
+            box-shadow: 0 4px 8px rgba(45, 127, 249, 0.3);
+            transform-origin: bottom;
+        }
+        
+        .loading-container .dot:nth-child(1) {
+            animation-delay: 0s;
+        }
+        
+        .loading-container .dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .loading-container .dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        .loading-container .dot:nth-child(4) {
+            animation-delay: 0.6s;
+        }
+        
+        .loading-container .loading-text {
+            font-size: 16px;
+            font-weight: 500;
+            color: #157a9d;
+            margin-top: 15px;
+            animation: textPulse 2s infinite alternate;
+        }
+        
+        .loading-spinner {
+            display: none; /* Hide the old spinner */
+        }
+        
+        @keyframes dotBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes textPulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .error-message {
+            color: #e74c3c;
+            background-color: #fdf3f2;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #e74c3c;
+        }
+        
+        /* Hide content until fully loaded */
+        .search-results-page {
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .search-results-page.loaded {
+            opacity: 1;
+        }
+        
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.95);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        
+        .loading-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        
+        .loading-overlay .card {
+            background: linear-gradient(145deg, #ffffff, #f8f9fa);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            padding: 35px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 240px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            animation: cardPulse 2s infinite ease-in-out;
+        }
+        
+        @keyframes cardPulse {
+            0%, 100% { box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); }
+            50% { box-shadow: 0 15px 40px rgba(45, 127, 249, 0.25); }
+        }
+        
+        .loading-overlay .logo {
+            width: 90px;
+            height: 90px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f0f5ff;
+            border-radius: 50%;
+            box-shadow: 0 4px 10px rgba(45, 127, 249, 0.15);
+            border: 2px solid rgba(45, 127, 249, 0.2);
+            animation: logoFloat 3s infinite ease-in-out;
+            overflow: hidden;
+        }
+        
+        .loading-overlay .loader-logo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        
+        @keyframes logoFloat {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            25% {
+                transform: translateY(-5px) rotate(-3deg);
+            }
+            75% {
+                transform: translateY(-5px) rotate(3deg);
+            }
+        }
+        
+        .loading-overlay .logo-text {
+            font-size: 24px;
+            font-weight: bold;
+            background: linear-gradient(45deg, #157a9d, #2d7ff9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 30px;
+            animation: textPulse 2s infinite alternate;
+        }
+        
+        .loading-overlay .dots-row {
+            display: flex;
+            justify-content: center;
+            margin-top: 5px;
+        }
+        
+        .loading-overlay .dot {
+            width: 14px;
+            height: 14px;
+            margin: 0 7px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #157a9d, #2d7ff9);
+            animation: dotBounce 1.4s infinite ease-in-out;
+            box-shadow: 0 4px 8px rgba(45, 127, 249, 0.3);
+            transform-origin: bottom;
+        }
+        
+        .loading-overlay .dot:nth-child(1) {
+            animation-delay: 0s;
+        }
+        
+        .loading-overlay .dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .loading-overlay .dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        .loading-overlay .dot:nth-child(4) {
+            animation-delay: 0.6s;
+        }
+        
+        .loading-overlay .spinner {
+            display: none; /* Hide the old spinner */
+        }
+        
+        @media (max-width: 768px) {
+            .main-header {
+                padding: 8px 15px;
+                margin-left: 0;
+            }
+            
+            .header-top {
+                flex-wrap: wrap;
+            }
+            
+            .header-title {
+                font-size: 1.2rem;
+                margin: 5px;
+            }
+            
+            .query-bar {
+                width: 100%;
+                order: 3;
+                margin-top: 10px;
+            }
+            
+            .header-profile {
+                margin-left: auto;
+            }
+            
+            .profile-time {
+                display: none;
+            }
+            
+            .action-button,
+            .share-button {
+                width: 32px;
+                height: 32px;
+                margin-left: 8px;
+            }
+            
+            .search-results-container {
+                padding: 1rem;
+            }
+            
+            .header-title {
+                font-size: 1.3rem;
+            }
+            
+            .query-bar {
+                font-size: 1rem;
+                padding: 0.7rem 1rem;
+            }
+            
+            .response-content {
+                font-size: 1rem;
+                line-height: 1.6;
+            }
+            
+            .followup-container {
+                margin-left: 0;
+                padding: 12px 16px;
+                margin-bottom: 70px;
+            }
+            
+            .search-results-container {
+                padding-bottom: 80px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .main-header {
+                padding: 8px 10px;
+            }
+            
+            .header-title {
+                font-size: 1.1rem;
+                margin-left: 50px;
+            }
+            
+            .action-button,
+            .share-button {
+                width: 28px;
+                height: 28px;
+                margin-left: 6px;
+            }
+            
+            .action-button i,
+            .share-button i {
+                font-size: 14px;
+            }
+            
+            .relevant-images-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Notification styles */
+        .translation-notification {
+            position: fixed;
+            bottom: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            transition: bottom 0.3s ease;
+        }
+        
+        .translation-notification.show {
+            bottom: 20px;
+        }
+        
+        .translation-notification i {
+            margin-right: 10px;
+            color: #4CAF50;
+        }
+        
+        .translation-notification span {
+            flex: 1;
+        }
+        
+        .close-notification {
+            background: none;
+            border: none;
+            color: #aaa;
+            cursor: pointer;
+            margin-left: 10px;
+            padding: 0;
+            font-size: 14px;
+        }
+        
+        .close-notification:hover {
+            color: white;
+        }
+        
+        /* Expert Profile Card Styles */
+        .expert-profile-container {
+            margin: 2.5rem auto;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+        
+        .section-title {
+            font-size: 1.4rem;
+    font-weight: 400;
+    color: #085f7e;
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.5rem;
+    text-align: justify;
+    padding-top: 10px;
+        }
+        
+        .expert-card {
+            background-color: #fff;
+            border-radius: 16px;
+            padding: 1.2rem; /* Reduced padding */
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            margin-bottom: 1rem; /* Reduced margin */
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+            max-height: 450px; /* Fixed maximum height */
+        }
+        
+        .expert-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(90deg, #157a9d, #157a9d);
+        }
+        
+        .expert-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+        }
+        
+        .expert-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem; /* Reduced margin */
+            position: relative;
+        }
+        
+        .expert-avatar {
+            width: 65px; /* Reduced size */
+            height: 65px; /* Reduced size */
+            min-width: 65px; /* Prevent shrinking */
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 1rem;
+            border: 2px solid #fff; /* Thinner border */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .expert-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .expert-card:hover .expert-avatar img {
+            transform: scale(1.05);
+        }
+        
+        .expert-info {
+            flex: 1;
+            position: relative;
+        }
+        
+        .expert-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #333;
+            margin: 0 0 0.3rem 0;
+            line-height: 1.2;
+        }
+        
+        .expert-title {
+            font-size: 1rem;
+            color: #666;
+            margin: 0 0 0.5rem 0;
+            font-weight: 500;
+        }
+        
+        .expert-rating {
+            color: #ffc107;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .expert-rating i {
+            margin-right: 2px;
+        }
+        
+        .expert-rating span {
+            color: #666;
+            margin-left: 0.5rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        .expert-bio {
+            font-size: 0.95rem; /* Slightly smaller text */
+            line-height: 1.5;
+            color: #444;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+            max-height: 80px; /* Limit bio height */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3; /* Show only 3 lines */
+            -webkit-box-orient: vertical;
+        }
+        
+        .expert-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+            border-radius: 12px;
+            padding: 0.8rem; /* Reduced padding */
+        }
+        
+        .stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 0.5rem;
+            font-size: 0.9rem;
+            color: #555;
+            flex: 1;
+            position: relative;
+        }
+        
+        .stat:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 20%;
+            height: 60%;
+            width: 1px;
+            background-color: #e0e0e0;
+        }
+        
+        .stat i {
+            font-size: 1.3rem;
+            color: #157a9d;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat span {
+            font-weight: 700;
+            color: #333;
+            font-size: 1.1rem;
+            margin-bottom: 0.2rem;
+        }
+        
+        .expert-actions {
+            display: flex;
+            justify-content: space-between;
+            gap: 8px; /* Reduced gap */
+        }
+        
+        .expert-action-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.6rem 0.4rem; /* Reduced padding */
+            border-radius: 10px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.85rem; /* Smaller font */
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+        
+        .expert-action-btn i {
+            margin-right: 0.5rem;
+            font-size: 1rem;
+        }
+        
+        .expert-action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
+        }
+        
+        .call-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+        
+        .call-btn:hover {
+            background-color: #3d8b40;
+        }
+        
+        .whatsapp-btn {
+            background-color: #25D366;
+            color: white;
+        }
+        
+        .whatsapp-btn:hover {
+            background-color: #1da851;
+        }
+        
+        .email-btn {
+            background-color: #2d7ff9;
+            color: white;
+        }
+        
+        .email-btn:hover {
+            background-color: #1a6cd1;
+        }
+        
+        /* Relevant Images Styles */
+        .relevant-images-container {
+            margin: 1.5rem 0 2.5rem 0;
+            padding: 0 20px;
+        }
+        
+        .relevant-images-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        
+        .relevant-image-item {
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            position: relative;
+            height: 160px;
+        }
+        
+        .relevant-image-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        }
+        
+        .relevant-image-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .relevant-image-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.2), transparent);
+            color: white;
+            padding: 20px 10px 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        @media (max-width: 768px) {
+            .expert-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .expert-avatar {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+            
+            .expert-stats {
+                flex-wrap: wrap;
+            }
+            
+            .stat {
+                flex: 1 0 33%;
+            }
+            
+            .expert-actions {
+                flex-direction: column;
+            }
+            
+            .relevant-images-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .relevant-images-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* AI Response Formatting Styles */
+        .response-content {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            /* padding: 1.5rem; */
+            background-color: #fff;
+            border-radius: 8px;
+            
+        }
+        
+        .response-content h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin: 1.8rem 0 1.2rem;
+            padding-bottom: 0.6rem;
+            border-bottom: 2px solid #eaeaea;
+            letter-spacing: -0.5px;
+        }
+        
+        .response-content h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #157a9d;
+            margin: 1.5rem 0 1rem;
+            padding-left: 0.8rem;
+            border-left: 4px solid #157a9d;
+            letter-spacing: -0.3px;
+        }
+        
+        .response-content h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2d7ff9;
+            margin: 1.2rem 0 0.8rem;
+            letter-spacing: -0.2px;
+        }
+        
+        .response-content p {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            margin: 1rem 0;
+            color: #333;
+        }
+        
+        .response-content ul, .response-content ol {
+            margin: 1rem 0 1.5rem;
+            padding-left: 1.2rem;
+        }
+        
+        .response-content li {
+            margin: 0.7rem 0;
+            line-height: 1.6;
+            position: relative;
+            padding-left: 0.8rem;
+        }
+        
+        .response-content ul {
+            list-style: none;
+            padding-left: 0.5rem;
+        }
+        
+        .response-content ul li {
+            padding-left: 1.8rem;
+            position: relative;
+        }
+        
+        .response-content ul li::before {
+            content: '•';
+            color: #157a9d;
+            font-weight: bold;
+            font-size: 1.2rem;
+            position: absolute;
+            left: 0;
+            top: -0.1rem;
+        }
+        
+        .response-content ul li li {
+            padding-left: 1.8rem;
+        }
+        
+        .response-content ul li li::before {
+            content: '◦';
+            color: #2d7ff9;
+        }
+        
+        .response-content ol {
+            counter-reset: item;
+            list-style-type: none;
+            padding-left: 0.5rem;
+        }
+        
+        .response-content ol li {
+            counter-increment: item;
+            padding-left: 1.8rem;
+            position: relative;
+        }
+        
+        .response-content ol li::before {
+            content: counter(item) ".";
+            color: #157a9d;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+        
+        .response-content ol li li {
+            counter-increment: subitem;
+        }
+        
+        .response-content ol li li::before {
+            content: counter(item) "." counter(subitem);
+            color: #2d7ff9;
+        }
+        
+        .response-content blockquote {
+            border-left: 4px solid #157a9d;
+            padding: 0.8rem 1.2rem;
+            margin: 1.2rem 0;
+            background: #f8f9fa;
+            font-style: italic;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .response-content strong {
+            font-weight: 700;
+            color: #157a9d;
+        }
+        
+        .response-content em {
+            font-style: italic;
+            color: #555;
+        }
+
+        .response-content code {
+            background: #f6f8fa;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: monospace;
+            font-size: 0.9em;
+            color: #e83e8c;
+        }
+
+        .response-content pre {
+            background: #f6f8fa;
+            padding: 1rem;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 1rem 0;
+            border: 1px solid #eaeaea;
+        }
+
+        .response-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 0 0 1px #eaeaea;
+        }
+
+        .response-content th, .response-content td {
+            border: 1px solid #eaeaea;
+            padding: 0.8rem;
+            text-align: left;
+        }
+
+        .response-content th {
+            background: #f0f5ff;
+            font-weight: 600;
+            color: #157a9d;
+        }
+
+        .response-content tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        /* Expert profile and relevant images containers */
+        .expert-profile-container, .relevant-images-container {
+            display: none; /* Hidden by default */
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            animation: fadeIn 0.5s ease-in-out forwards;
+        }
+
+        .expert-profile-container.visible, .relevant-images-container.visible {
+            display: block;
+            opacity: 1;
+            box-shadow: 0 2px 10px rgb(0 0 0 / 0%);
+            border-radius: 10px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Add mobile toggle and overlay styles */
+        .mobile-toggle {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            width: 40px;
+            height: 40px;
+            background: #fff;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            z-index: 1001;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-toggle {
+                display: flex;
+            }
+
+            .mobile-toggle i {
+                font-size: 20px;
+                color: #333;
+                transition: transform 0.3s ease;
+            }
+
+            .mobile-toggle.active i {
+                transform: rotate(90deg);
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                width: 280px;
+                z-index: 1000;
+                transition: transform 0.3s ease;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .overlay.active {
+                display: block;
+                opacity: 1;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding-top: 60px;
+            }
+        }
+        
+        /* Conversation history styles */
+        .conversation-history-container {
+            margin-bottom: 30px;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .conversation-item {
+            margin-bottom: 25px;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        
+        .conversation-query {
+            display: flex;
+            margin-bottom: 15px;
+        }
+        
+        .conversation-answer {
+            margin-bottom: 15px;
+        }
+        
+        .query-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            margin-right: 14px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f0f0f0;
+            color: #444;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .query-avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+        }
+        
+        .ai-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            margin-right: 14px;
+            flex-shrink: 0;
+            background-color: #e6f3ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .ai-avatar img {
+            width: 75%;
+            height: 75%;
+            object-fit: contain;
+        }
+        
+        .query-bubble {
+            background-color: #f7f9fc;
+            border-radius: 12px;
+            padding: 14px 18px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            line-height: 1.5;
+            color: #333;
+            font-size: 15px;
+            max-width: 85%;
+            font-weight: 700;
+        }
+        
+        .answer-bubble {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 16px 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            color: #333;
+            font-size: 15px;
+            line-height: 1.6;
+            border-left: 3px solid #157a9d;
+            margin-left: 50px;
+        }
+        
+        .conversation-divider {
+            display: flex;
+            align-items: center;
+            margin: 25px 0;
+        }
+        
+        .divider-line {
+            flex-grow: 1;
+            height: 1px;
+            background-color: #e9ecef;
+        }
+        
+        .divider-text {
+            margin: 0 15px;
+            font-size: 12px;
+            color: #8c9196;
+            background-color: #f8f9fa;
+            padding: 3px 10px;
+            border-radius: 10px;
+            white-space: nowrap;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Current conversation highlight */
+        .current-conversation {
+            border-left: 3px solid #157a9d;
+            padding-left: 20px;
+            margin-left: -23px;
+        }
+        
+        .main-content.new-main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0;
+            position: relative;
+            transition: margin-left 0.3s ease;
+        }
+        
+        .expert-profile-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .expert-profile-card {
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+    </style>
+    
+    <script>
+        // Add navigation function to handle different profile types
+        window.navigateBasedOnProfileType = function(profileType, returnUrlOnly = false) {
+            let targetUrl;
+            
+            switch(profileType) {
+                case 'Personnel':
+                    targetUrl = 'expert-details.html';
+                    break;
+                case 'Business':
+                    targetUrl = 'business-details.html';
+                    break;
+                case 'youtyb':
+                    targetUrl = 'youtube.html?channel=@bestmarg';
+                    break;
+                default:
+                    targetUrl = 'expert-details.html'; // Default fallback
+            }
+            
+            if (returnUrlOnly) {
+                return targetUrl;
+            } else {
+                window.location.href = targetUrl;
+            }
+        };
+        
+        // Function to create an expert card from provider data
+        function createExpertCard(provider) {
+            // Extract provider data with proper code handling
+            const name = provider.Name || 'Expert Name';
+            const avatar = provider.avatar || 'https://provider.digitalindians.org/Documents/profile.jpg';
+            const profession = provider.Profession || 'Digital Expert';
+            const rating = provider.rating || '4.5 (0 reviews)';
+            const profileType = provider.ProfileType || 'Personnel';
+            const providerCode = provider.Code || '';
+            
+            // Create expert card element
+            const card = document.createElement('div');
+            card.className = 'expert-card';
+            card.style.cursor = 'pointer';
+            
+            
+            
+            // Set inner HTML for the card with code display
+            card.innerHTML = `
+                <div class="expert-avatar">
+                    <img src="${avatar}" alt="${name}">
+                    <span class="profile-type">${profileType}</span>
+                </div>
+                <div class="expert-info">
+                    <h3 class="expert-name">${name}</h3>
+                    <p class="expert-title">${profession || 'Digital Expert'}</p>
+                    <p class="expert-code" style="display: none;">${providerCode}</p>
+                    <div class="expert-rating">
+                        <i class="fas fa-star"></i>
+                        <span>${rating ? rating.split('(')[0].trim() : '4.5'}</span>
+                        <small>(${rating && rating.includes('(') ? rating.split('(')[1].replace(')', '') : '0 reviews'})</small>
+                    </div>
+                </div>
+                <div class="view-profile-btn">
+                    View Profile
+                </div>
+            `;
+            
+            return card;
+        }
+        
+        // Add function to toggle bio text
+        window.toggleBio = function(button) {
+            const bioElement = button.previousElementSibling;
+            bioElement.classList.toggle('expanded');
+            button.textContent = bioElement.classList.contains('expanded') ? 'See less' : 'See more';
+        };
+        
+        // Add CSS for the new design
+        document.addEventListener('DOMContentLoaded', function() {
+            const style = document.createElement('style');
+            style.textContent = `
+                .expert-profile-card:hover {
+                    transform: translateY(-3px);
+                    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+                }
+                
+                .share-icon {
+                    position: absolute;
+                    top: 15px;
+                    right: 15px;
+                    width: 36px;
+                    height: 36px;
+                    border-radius: 50%;
+                    background-color: rgba(255, 255, 255, 0.9);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                    z-index: 10;
+                    cursor: pointer;
+                }
+                
+                .share-icon i {
+                    color: #157a9d;
+                    font-size: 16px;
+                }
+                
+                .share-icon:hover {
+                    background-color: #157a9d;
+                }
+                
+                .share-icon:hover i {
+                    color: white;
+                }
+                
+                .expert-profile-details {
+                    padding: 20px;
+                    box-shadow: 0 10px 15px #333;
+                    border-radius: 10px;
+                }
+                
+                .expert-header {
+                    display: flex;
+                    align-items: center;
+                    margin-bottom: 15px;
+                }
+                
+                .expert-avatar {
+                    width: 80px;
+                    height: 80px;
+                    border-radius: 50%;
+                    overflow: hidden;
+                    margin-right: 15px;
+                    border: 3px solid #f0f0f0;
+                }
+                
+                .expert-avatar img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+                
+                .expert-info {
+                    flex: 1;
+                }
+                
+                .expert-name {
+                    font-size: 18px;
+                    font-weight: 600;
+                    color: #333;
+                    margin: 0 0 5px 0;
+                }
+                
+                .expert-title {
+                    font-size: 14px;
+                    color: #666;
+                    margin: 0 0 5px 0;
+                }
+                
+                .expert-rating {
+                    display: flex;
+                    align-items: center;
+                    color: #ffc107;
+                    font-size: 14px;
+                }
+                
+                .expert-rating i {
+                    margin-right: 5px;
+                }
+                
+                .expert-bio {
+                    margin-bottom: 20px;
+                    line-height: 1.5;
+                    color: #555;
+                    position: relative;
+                }
+                
+                .truncated-bio {
+                    display: -webkit-box;
+                    -webkit-line-clamp: 2;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                    margin-bottom: 5px;
+                    transition: all 0.3s ease;
+                }
+                
+                .truncated-bio.expanded {
+                    -webkit-line-clamp: unset;
+                    display: block;
+                }
+                
+                .see-more-btn {
+                    background: none;
+                    border: none;
+                    color: #157a9d;
+                    font-size: 14px;
+                    font-weight: 500;
+                    cursor: pointer;
+                    padding: 0;
+                    margin-top: 5px;
+                }
+                
+                .see-more-btn:hover {
+                    text-decoration: underline;
+                }
+                
+                .expert-stats {
+                    display: flex;
+                    justify-content: space-between;
+                    margin-bottom: 20px;
+                    padding: 15px 0;
+                    border-top: 1px solid #f0f0f0;
+                    border-bottom: 1px solid #f0f0f0;
+                }
+                
+                .stat-item {
+                    display: flex;
+                    align-items: center;
+                    flex: 1;
+                    text-align: center;
+                    margin-left: 50px;
+                }
+                
+                .stat-item i {
+                    color: #157a9d;
+                    font-size: 20px;
+                    margin-right: 10px;
+                }
+                
+                .stat-info {
+                    display: flex;
+                    flex-direction: column;
+                }
+                
+                .stat-value {
+                    font-weight: 600;
+                    color: #333;
+                }
+                
+                .stat-label {
+                    font-size: 12px;
+                    color: #666;
+                }
+                
+                .expert-contact {
+                    display: flex;
+                    gap: 10px;
+                    margin-bottom: 20px;
+                }
+                
+                .contact-btn {
+                    flex: 1;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 8px;
+                    padding: 10px;
+                    border-radius: 8px;
+                    text-decoration: none;
+                    font-weight: 500;
+                    transition: all 0.2s ease;
+                }
+                
+                .phone-btn {
+                    background-color: #4CAF50;
+                    color: white;
+                }
+                
+                .whatsapp-btn {
+                    background-color: #25D366;
+                    color: white;
+                }
+                
+                .email-btn {
+                    background-color: #157a9d;
+                    color: white;
+                }
+                
+                .expert-introduction-section {
+                    background-color: #fff;
+                    border-radius: 12px;
+                    padding: 20px;
+                    margin-bottom: 20px;
+                    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+                    line-height: 1.6;
+                    color: #333;
+                }
+                
+                .expert-recommended-section {
+                    margin-bottom: 20px;
+                }
+                
+                .related-resources-section {
+                    background-color: #fff;
+                    border-radius: 12px;
+                    padding: 20px;
+                    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+                }
+                
+                .resources-content {
+                    line-height: 1.6;
+                    color: #333;
+                }
+                
+                @media (max-width: 768px) {
+                    .expert-stats {
+                        flex-direction: column;
+                        gap: 15px;
+                    }
+                    
+                    .expert-contact {
+                        flex-direction: column;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+        });
+        
+        // Function to check if bio needs "See more" button
+        window.checkBioLength = function(bioElement) {
+            // Create a clone to measure the actual height
+            const clone = bioElement.cloneNode(true);
+            clone.style.visibility = 'hidden';
+            clone.style.position = 'absolute';
+            clone.style.width = bioElement.offsetWidth + 'px';
+            clone.style.display = 'block';
+            clone.style.webkitLineClamp = 'unset';
+            document.body.appendChild(clone);
+            
+            // Get heights
+            const fullHeight = clone.offsetHeight;
+            const lineHeight = parseInt(window.getComputedStyle(bioElement).lineHeight);
+            const twoLinesHeight = lineHeight * 2;
+            
+            // Remove the clone
+            document.body.removeChild(clone);
+            
+            // Return true if the bio needs a "See more" button
+            return fullHeight > twoLinesHeight;
+        };
+
+        // Function to create a provider card from provider data
+        function createProviderCard(provider) {
+            const card = document.createElement('div');
+            card.className = 'listing-card';
+            card.setAttribute('data-id', provider.Code);
+            
+            // Update onclick handler to check ProfileType and route accordingly
+            card.onclick = function() {
+                const detailsPage = provider.ProfileType === 'Business' ? 'business-details.html' : 'expert-details.html';
+                window.location.href = `${detailsPage}?Code=${encodeURIComponent(provider.Code)}`;
+            };
+
+            // Rest of the createProviderCard code remains the same
+            const avatarUrl = provider.avatar || 'https://provider.digitalindians.org/Documents/profile.jpg';
+            const rating = provider.rating ? provider.rating.split('(')[0].trim() : '★ New';
+
+            // Set inner HTML for the card with code display
+            card.innerHTML = `
+                <div class="listing-avatar">
+                    <img src="${avatarUrl}" alt="${provider.Name}">
+                </div>
+                <div class="listing-info">
+                    <h3 class="listing-name">${provider.Name}</h3>
+                    <p class="listing-title">${provider.Profession || 'Digital Expert'}</p>
+                    <p class="listing-code" style="display: none;">${provider.Code}</p>
+                    <div class="listing-rating">
+                        <i class="fas fa-star"></i>
+                        <span>${rating}</span>
+                    </div>
+                </div>
+            `;
+            
+            return card;
+        }
+    </script>
+</head>
+<body class="search-results-page new-chat-page">
+    <!--<button class="mobile-toggle" aria-label="Toggle Menu">
+        <i class="fas fa-bars"></i>
+    </button>-->
+
+    <div class="overlay"></div>
+    <div class="app-container new-design">
+        <button class="sidebar-toggle" aria-label="Toggle Sidebar">
+            <svg width="20" height="20" viewBox="0 0 24 24" class="toggle-icon">
+                <path fill="currentColor" d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+            </svg>
+        </button>
+        <aside class="sidebar">
+           
+            <div class="sidebar-top">
+                <a href="./index.html">
+                <div class="logo-container">
+                    <img class="small-logo" style="width: 70%;"   src="./digitalindilogo.png" alt="DigitalIndians Small Logo">
+                    <img class="full-logo" style="width: 70%;" src="./digitalindia-logo.png" alt="DigitalIndians Logo">
+                </div></a>
+                <div class="new-thread">
+                    <button class="btn-new-thread">
+                        <i class="fas fa-plus"></i>
+                        <span class="btn-text">New Query</span>
+                        <span class="shortcut">Ctrl I</span>
+                    </button>
+                </div>
+                <nav class="nav-menu">
+                    <a href="index.html" class="nav-item active"><i class="fas fa-home"></i> <span class="nav-text">Home</span></a>
+                    <a href="discover.html" class="nav-item"><i class="fas fa-compass"></i> <span class="nav-text">Discover</span></a>
+                    <a href="youtube.html" class="nav-item"><i class="fab fa-youtube"></i> <span class="nav-text">YouTubers</span></a>
+                    <a href="spaces.html" class="nav-item"><i class="fas fa-layer-group"></i> <span class="nav-text">Spaces</span></a>
+                    <a href="library.html" class="nav-item"><i class="fas fa-book"></i> <span class="nav-text">Library</span></a>
+                    <a href="listing.html" class="nav-item "><i class="fas fa-list"></i> <span class="nav-text">Listings</span></a>
+                </nav>
+            </div>
+            <div class="sidebar-bottom">
+                <a style="text-decoration: none;" href="login.html" class="btn-sign-up">
+                    <i class="fas fa-user-plus"></i>
+                    <span style="text-decoration: none;" class="btn-text">Login</span>
+                </a>
+            </div>
+        </aside>
+        
+        <main class="main-content new-main-content">
+            <div class="main-header">
+                <div class="header-top">
+                    <div class="header-title">Search Results</div>
+                    <div class="query-bar">
+                    <div class="query-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <div id="user-query"></div>
+                </div>
+                    <div class="header-profile">
+                        <div class="profile-time" id="current-time"></div>
+                        
+                        <button class="action-button save-button" id="save-button" title="Save this result">
+                            <i class="fas fa-bookmark"></i>
+                        </button>
+                        <button class="action-button favorite-button" id="favorite-button" title="Add to favorites">
+                            <i class="fas fa-heart"></i>
+                        </button>
+                        <button class="share-button" id="share-button" title="Share this result">
+                            <i class="fas fa-share-alt"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                
+                <!-- User Profile Dropdown -->
+                <div class="user-profile-dropdown" id="user-profile-dropdown">
+                    <div class="user-profile-header">
+                        <div class="user-profile-avatar">
+                            <img id="dropdown-user-avatar" src="" alt="User Avatar">
+                        </div>
+                        <div class="user-profile-info">
+                            <div class="user-profile-name" id="user-profile-name"></div>
+                            <div class="user-profile-email" id="user-profile-email"></div>
+                        </div>
+                    </div>
+                    <div class="user-profile-actions">
+                        <a href="account.html">
+                            <i class="fas fa-user-cog"></i>
+                            <span>Account Settings</span>
+                        </a>
+                        <a href="#">
+                            <i class="fas fa-bell"></i>
+                            <span style="pointer-events: none; cursor: not-allowed;">Notifications</span>
+                        </a>
+                        <a href="#" class="logout-link" id="logout-link">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="search-results-container">
+                <!-- Conversation History Container - Added for previous Q&As -->
+                <div class="conversation-history-container" id="conversation-history-container">
+                    <!-- Previous questions and answers will be displayed here -->
+                </div>
+                
+                <div class="response-container" id="response-container">
+                   <!-- <div class="response-header">
+                        <img src="./digitalindilogo.png" alt="DigitalIndians AI" class="response-avatar">
+                        <div class="response-title">DigitalIndians AI</div>
+                    </div>-->
+                    <div class="response-content" id="ai-response">
+                        <div class="loading-container">
+                            <div class="logo-container">
+                                <img src="./digitalindilogo.png" alt="DigitalIndians AI" class="loader-logo">
+                            </div>
+                            <div class="dots-row">
+                                <div class="dot" style="background-color: #0088b2;"></div>
+                                <div class="dot" style="background-color: #0088b2;"></div>
+                                <div class="dot" style="background-color: #0088b2;"></div>
+                                <div class="dot" style="background-color: #0088b2;"></div>
+                            </div>
+                            <div class="loading-text">Generating response...</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Expert Profile Card -->
+                <div class="expert-profile-container" id="expert-profile-container">
+                    <h3 class="section-title">Expert Recommended For You</h3>
+                    <div class="expert-card" id="expert-card" onclick="window.location.href = 'expert-details.html?id=' + (expertId || '')">
+                        <div class="expert-header">
+                            <div class="expert-avatar">
+                                <img id="expert-avatar-img" src="" alt="Expert Profile">
+                            </div>
+                            <div class="expert-info">
+                                <h3 class="expert-name" id="expert-name"></h3>
+                                <p class="expert-title" id="expert-title"></p>
+                                <div class="expert-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                    <span id="expert-rating-value"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="expert-bio" id="expert-bio"></div>
+                        <div class="expert-stats">
+                            <div class="stat">
+                                <i class="fas fa-user-check"></i>
+                                <span id="expert-clients"></span> Clients
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-briefcase"></i>
+                                <span id="expert-experience"></span> Experience
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-comment-dots"></i>
+                                <span id="expert-consultations"></span> Consultations
+                            </div>
+                        </div>
+                        <div class="expert-actions">
+                            <a href="#" class="expert-action-btn call-btn" id="expert-call-btn" onclick="event.stopPropagation()">
+                                <i class="fas fa-phone"></i> Call Now
+                            </a>
+                            <a href="#" class="expert-action-btn whatsapp-btn" id="expert-whatsapp-btn" onclick="event.stopPropagation()">
+                                <i class="fab fa-whatsapp"></i> WhatsApp
+                            </a>
+                            <a href="#" class="expert-action-btn email-btn" id="expert-email-btn" onclick="event.stopPropagation()">
+                                <i class="fas fa-envelope"></i> Email
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Relevant Images Section -->
+                <div style=" display: none;" class="relevant-images-container" id="" >
+                    <h3 style="display: none;" class="section-title">Related Resources</h3>
+                    <div class="relevant-images-grid" id="relevant-images-grid">
+                        <!-- Images will be dynamically inserted here -->
+                    </div>
+                </div>
+            
+                <!-- Follow-up question container -->
+                <div class="followup-container">
+                    <div class="input-group">
+                        <input type="text" id="followup-input" placeholder="Ask a follow-up question...">
+                        <button id="followup-send-button">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <div class="loading-overlay">
+        <div class="card">
+            <div class="logo">
+                <img src="./digitalindilogo.png" alt="DigitalIndians AI" class="loader-logo">
+            </div>
+            <div class="logo-text">DigitalIndians AI</div>
+            <div class="dots-row">
+                <div class="dot" style="background-color: #0088b2;"></div>
+                <div class="dot" style="background-color: #0088b2;"></div>
+                <div class="dot" style="background-color: #0088b2;"></div>
+                <div class="dot" style="background-color: #0088b2;"></div>
+            </div>
+        </div>
+    </div>
+    <!-- Mobile Navigation Bar -->
+    <nav class="mobile-nav">
+        <div class="mobile-nav-menu">
+            <a href="index.html" class="mobile-nav-item active">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="discover.html" class="mobile-nav-item">
+                <i class="fas fa-compass"></i>
+                <span>Discover</span>
+            </a>
+            <a href="spaces.html" class="mobile-nav-item">
+                <i class="fas fa-layer-group"></i>
+                <span>Spaces</span>
+            </a>
+            <a href="library.html" class="mobile-nav-item">
+                <i class="fas fa-book"></i>
+                <span>Library</span>
+            </a>
+            <a href="javascript:void(0)" class="mobile-nav-item" id="moreBtn">
+                <i class="fas fa-ellipsis-h"></i>
+                <span>More</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Mobile Slide Menu -->
+    <div class="mobile-slide-menu" id="slideMenu">
+        <div class="slide-menu-header">
+            <span class="slide-menu-title">More Options</span>
+            <button class="slide-menu-close" id="closeSlideMenu">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="mobile-nav-menu">
+            <a href="youtube.html" class="mobile-nav-item">
+                <i class="fab fa-youtube"></i>
+                <span>YouTubers</span>
+            </a>
+            <a href="listing.html" class="mobile-nav-item">
+                <i class="fas fa-list"></i>
+                <span>Listings</span>
+            </a>
+            <a href="login.html" class="mobile-nav-item">
+                <i class="fas fa-user"></i>
+                <span>Login</span>
+            </a>
+            <a href="business-listing.html" class="mobile-nav-item">
+                <i class="fas fa-store"></i>
+                <span>List Business</span>
+            </a>
+        </div>
+    </div>
+    
+    <script src="gemini-api.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Flag to indicate this is the search page
+        window.isSearchPage = true;
+        
+            // Show loading overlay
+            const loadingOverlay = document.querySelector('.loading-overlay');
+        
+        // Update current time
+        function updateCurrentTime() {
+            const timeElement = document.getElementById('current-time');
+            if (timeElement) {
+                const now = new Date();
+                const hours = now.getHours().toString().padStart(2, '0');
+                const minutes = now.getMinutes().toString().padStart(2, '0');
+                timeElement.textContent = `${hours}:${minutes}`;
+            }
+        }
+        
+        // Update time immediately and then every minute
+        updateCurrentTime();
+        setInterval(updateCurrentTime, 60000);
+        
+        // Get query from URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const query = urlParams.get('q');
+        
+        // Display the query
+        const userQueryElement = document.getElementById('user-query');
+        if (userQueryElement && query) {
+            userQueryElement.textContent = query;
+            
+            // Generate AI response
+            generateAIResponse(query).then(() => {
+                // Hide loading overlay after response is generated
+                setTimeout(() => {
+                    document.body.classList.add('loaded');
+                    if (loadingOverlay) {
+                        loadingOverlay.classList.add('hidden');
+                    }
+                }, 800);
+            });
+        } else if (!query) {
+            // No query provided, redirect to index page
+            window.location.href = 'index.html';
+        }
+        
+        // Initialize user profile and share button
+        setupUserProfile();
+        setupShareButton();
+        setupActionButtons(); // Setup save and favorite buttons
+        
+        // Setup user profile
+        function setupUserProfile() {
+            const headerProfile = document.querySelector('.header-profile');
+            const profileAvatar = document.getElementById('user-profile-avatar');
+            const userProfileDropdown = document.getElementById('user-profile-dropdown');
+            const userProfileName = document.getElementById('user-profile-name');
+            const userProfileEmail = document.getElementById('user-profile-email');
+            const dropdownUserAvatar = document.getElementById('dropdown-user-avatar');
+            
+            if (!headerProfile || !profileAvatar) return;
+            
+            const authToken = localStorage.getItem('authToken');
+            const userEmail = localStorage.getItem('userEmail');
+            
+            if (authToken && userEmail) {
+                // User is logged in
+                const username = userEmail.split('@')[0];
+                
+                // Update profile avatar with user info
+                profileAvatar.innerHTML = '';
+                
+                // Create image element for avatar
+                const avatarImg = document.createElement('img');
+                avatarImg.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(username)}&background=2d7ff9&color=fff`;
+                avatarImg.alt = username;
+                profileAvatar.appendChild(avatarImg);
+                
+                // Update dropdown profile info if elements exist
+                if (userProfileName) {
+                    userProfileName.textContent = username;
+                }
+                
+                if (userProfileEmail) {
+                    userProfileEmail.textContent = userEmail;
+                }
+                
+                if (dropdownUserAvatar) {
+                    dropdownUserAvatar.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(username)}&background=2d7ff9&color=fff&size=128`;
+                }
+                
+                // Add click event to toggle dropdown
+                profileAvatar.addEventListener('click', function() {
+                    if (userProfileDropdown) {
+                        userProfileDropdown.classList.toggle('active');
+                    }
+                });
+                
+                // Close dropdown when clicking outside
+                document.addEventListener('click', function(event) {
+                    if (!profileAvatar.contains(event.target) && !userProfileDropdown.contains(event.target)) {
+                        userProfileDropdown.classList.remove('active');
+                    }
+                });
+                
+                // Setup logout link
+                const logoutLink = document.getElementById('logout-link');
+                if (logoutLink) {
+                    logoutLink.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        
+                        // Clear auth data
+                        localStorage.removeItem('authToken');
+                        localStorage.removeItem('userEmail');
+                        localStorage.removeItem('userLoggedIn');
+                        
+                        // Redirect to login page
+                        window.location.href = 'login.html';
+                    });
+                }
+            } else {
+                // User is not logged in, show default icon
+                profileAvatar.innerHTML = '<i class="fas fa-user"></i>';
+                
+                // Add click event to redirect to login page
+                profileAvatar.addEventListener('click', function() {
+                    window.location.href = 'login.html';
+                });
+            }
+        }
+        
+        // Function to set up share button
+        function setupShareButton() {
+            const shareButton = document.getElementById('share-button');
+            if (!shareButton) return;
+            
+            shareButton.addEventListener('click', function() {
+                // Get the current URL and query
+                const url = window.location.href;
+                const query = document.getElementById('user-query').textContent;
+                
+                // Create share modal
+                const shareModal = document.createElement('div');
+                shareModal.className = 'share-modal';
+                shareModal.innerHTML = `
+                    <div class="share-modal-content">
+                        <div class="share-modal-header">
+                            <h3>Share this result</h3>
+                            <button class="close-modal"><i class="fas fa-times"></i></button>
+                        </div>
+                        <div class="share-modal-body">
+                            <p>Share this search result with your friends:</p>
+                            <div class="share-url-container">
+                                <input type="text" class="share-url" value="${url}" readonly>
+                                <button class="copy-url-btn"><i class="fas fa-copy"></i> Copy</button>
+                            </div>
+                            <div class="share-options">
+                                <button class="share-option" data-platform="whatsapp">
+                                    <i class="fab fa-whatsapp"></i> WhatsApp
+                                </button>
+                                <button class="share-option" data-platform="facebook">
+                                    <i class="fab fa-facebook"></i> Facebook
+                                </button>
+                                <button class="share-option" data-platform="twitter">
+                                    <i class="fab fa-twitter"></i> Twitter
+                                </button>
+                                <button class="share-option" data-platform="email">
+                                    <i class="fas fa-envelope"></i> Email
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                // Add modal to body
+                document.body.appendChild(shareModal);
+                
+                // Add styles for the modal
+                const style = document.createElement('style');
+                style.textContent = `
+                    .share-modal {
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+                        justify-content: center;
+                        z-index: 1000;
+                        animation: fadeIn 0.3s ease;
+                    }
+                    
+                    @keyframes fadeIn {
+                        from { opacity: 0; }
+                        to { opacity: 1; }
+                    }
+                    
+                    .share-modal-content {
+                        background-color: white;
+            border-radius: 8px;
+                        width: 90%;
+                        max-width: 500px;
+                        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+                        animation: slideIn 0.3s ease;
+                    }
+                    
+                    @keyframes slideIn {
+                        from { transform: translateY(-20px); opacity: 0; }
+                        to { transform: translateY(0); opacity: 1; }
+                    }
+                    
+                    .share-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+                        padding: 15px 20px;
+                        border-bottom: 1px solid #eee;
+                    }
+                    
+                    .share-modal-header h3 {
+                        margin: 0;
+                        font-size: 18px;
+                        color: #333;
+                    }
+                    
+                    .close-modal {
+                        background: none;
+                        border: none;
+                        font-size: 18px;
+                        cursor: pointer;
+                        color: #666;
+                    }
+                    
+                    .share-modal-body {
+                        padding: 20px;
+                    }
+                    
+                    .share-url-container {
+                        display: flex;
+                        margin-bottom: 20px;
+                    }
+                    
+                    .share-url {
+                        flex: 1;
+                        padding: 10px;
+                        border: 1px solid #ddd;
+                        border-radius: 4px 0 0 4px;
+                        font-size: 14px;
+                    }
+                    
+                    .copy-url-btn {
+                        background-color: #2d7ff9;
+                        color: white;
+                        border: none;
+                        padding: 10px 15px;
+                        border-radius: 0 4px 4px 0;
+                        cursor: pointer;
+                    }
+                    
+                    .share-options {
+                        display: grid;
+                        grid-template-columns: repeat(2, 1fr);
+                        gap: 10px;
+                    }
+                    
+                    .share-option {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        padding: 10px;
+                        border: 1px solid #ddd;
+            border-radius: 4px;
+                        background-color: #f8f9fa;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+                    .share-option:hover {
+                        background-color: #eee;
+                    }
+                    
+                    .share-option i {
+                        margin-right: 8px;
+                        font-size: 16px;
+                    }
+                    
+                    .share-option[data-platform="whatsapp"] i {
+                        color: #25D366;
+                    }
+                    
+                    .share-option[data-platform="facebook"] i {
+                        color: #1877F2;
+                    }
+                    
+                    .share-option[data-platform="twitter"] i {
+                        color: #1DA1F2;
+                    }
+                    
+                    .share-option[data-platform="email"] i {
+                        color: #D44638;
+                    }
+                `;
+                
+                document.head.appendChild(style);
+                
+                // Handle close button
+                const closeButton = shareModal.querySelector('.close-modal');
+                closeButton.addEventListener('click', function() {
+                    document.body.removeChild(shareModal);
+                });
+                
+                // Handle click outside modal
+                shareModal.addEventListener('click', function(event) {
+                    if (event.target === shareModal) {
+                        document.body.removeChild(shareModal);
+                    }
+                });
+                
+                // Handle copy button
+                const copyButton = shareModal.querySelector('.copy-url-btn');
+                const urlInput = shareModal.querySelector('.share-url');
+                
+                copyButton.addEventListener('click', function() {
+                    urlInput.select();
+                    document.execCommand('copy');
+                    
+                    // Show copied feedback
+                    const originalText = copyButton.innerHTML;
+                    copyButton.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                    
+                setTimeout(() => {
+                        copyButton.innerHTML = originalText;
+                }, 2000);
+                });
+                
+                // Handle share options
+                const shareOptions = shareModal.querySelectorAll('.share-option');
+                shareOptions.forEach(option => {
+                    option.addEventListener('click', function() {
+                        const platform = this.getAttribute('data-platform');
+                        const shareText = `Check out this search result for "${query}" on DigitalIndians:`;
+                        
+                        let shareUrl;
+                        
+                        switch(platform) {
+                            case 'whatsapp':
+                                shareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText + ' ' + url)}`;
+                                break;
+                            case 'facebook':
+                                shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+                                break;
+                            case 'twitter':
+                                shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(url)}`;
+                                break;
+                            case 'email':
+                                shareUrl = `mailto:?subject=${encodeURIComponent('DigitalIndians Search Result')}&body=${encodeURIComponent(shareText + '\n\n' + url)}`;
+                                break;
+                        }
+                        
+                        // Open share URL in new window
+                        if (shareUrl) {
+                            window.open(shareUrl, '_blank');
+                        }
+                    });
+                });
+            });
+        }
+        
+        // Function to handle shares
+        function handleShare() {
+            // Get current query and share link
+            const query = document.getElementById('user-query').textContent;
+            const url = window.location.href;
+            
+            // Create share buttons
+            const shareButtons = `
+                <div class="share-options">
+                    <div class="share-option" data-platform="whatsapp">
+                        <i class="fab fa-whatsapp"></i>
+                        <span>WhatsApp</span>
+                    </div>
+                    <div class="share-option" data-platform="facebook">
+                        <i class="fab fa-facebook"></i>
+                        <span>Facebook</span>
+                    </div>
+                    <div class="share-option" data-platform="twitter">
+                        <i class="fab fa-twitter"></i>
+                        <span>Twitter</span>
+                    </div>
+                    <div class="share-option" data-platform="email">
+                        <i class="fas fa-envelope"></i>
+                        <span>Email</span>
+                    </div>
+                </div>
+            `;
+            
+            // Show share dialog
+            Swal.fire({
+                title: 'Share Search Result',
+                html: shareButtons,
+                showCancelButton: true,
+                showConfirmButton: false,
+                focusCancel: true,
+                cancelButtonText: 'Close',
+                customClass: {
+                    popup: 'share-popup',
+                    title: 'share-title',
+                    cancelButton: 'share-cancel-button'
+                }
+            }).then(() => {
+                // Do nothing on close
+            });
+            
+            // Add event listeners to share buttons
+            const shareOptions = document.querySelectorAll('.share-option');
+            
+            shareOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    const platform = this.getAttribute('data-platform');
+                    const shareText = `Check out this search result for "${query}" on DigitalIndians:`;
+                    
+                    let shareUrl;
+                    
+                    switch(platform) {
+                        case 'whatsapp':
+                            shareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText + ' ' + url)}`;
+                            break;
+                        case 'facebook':
+                            shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+                            break;
+                        case 'twitter':
+                            shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(url)}`;
+                            break;
+                        case 'email':
+                            shareUrl = `mailto:?subject=${encodeURIComponent('DigitalIndians Search Result')}&body=${encodeURIComponent(shareText + '\n\n' + url)}`;
+                            break;
+                    }
+                    
+                    // Open share URL in new window
+                    if (shareUrl) {
+                        window.open(shareUrl, '_blank');
+                    }
+                });
+            });
+        }
+        
+        // Function to handle follow-up questions
+        async function handleFollowUp() {
+            // If the global function from script.js is available, use it
+            if (typeof window.scriptJsHandleFollowUp === 'function') {
+                return window.scriptJsHandleFollowUp();
+            }
+            
+            const followupInput = document.getElementById('followup-input');
+            const followupQuestion = followupInput.value.trim();
+            
+            if (!followupQuestion) return;
+            
+            // Clear the input
+            followupInput.value = '';
+            
+            // Get the current query as the previous query
+            const currentQuery = document.getElementById('user-query').textContent;
+            
+            // Get references to key elements
+            const loadingOverlay = document.querySelector('.loading-overlay');
+            const appContainer = document.querySelector('.app-container');
+            
+            // Hide expert profile and relevant images containers during loading
+            const expertProfileContainer = document.getElementById('expert-profile-container');
+            const relevantImagesContainer = document.getElementById('relevant-images-container');
+            
+            if (expertProfileContainer) {
+                expertProfileContainer.classList.remove('visible');
+                expertProfileContainer.style.display = 'none';
+            }
+            
+            if (relevantImagesContainer) {
+                relevantImagesContainer.classList.remove('visible');
+                relevantImagesContainer.style.display = 'none';
+            }
+            
+            // Show loading overlay
+            if (loadingOverlay) loadingOverlay.classList.add('visible');
+            if (appContainer) appContainer.classList.remove('loaded');
+            
+            // Update the query display
+            const userQueryElement = document.getElementById('user-query');
+            if (userQueryElement) {
+                userQueryElement.textContent = followupQuestion;
+            }
+            
+            // Show loading animation in the response content area
+            const responseContent = document.getElementById('ai-response');
+            if (responseContent) {
+                responseContent.innerHTML = `
+                    <div class="loading-container">
+                        <div class="logo-container">
+                            <img src="./digitalindilogo.png" alt="DigitalIndians AI" class="loader-logo">
+                        </div>
+                        <div class="dots-row">
+                            <div class="dot" style="background-color: #0088b2;"></div>
+                            <div class="dot" style="background-color: #0088b2;"></div>
+                            <div class="dot" style="background-color: #0088b2;"></div>
+                            <div class="dot" style="background-color: #0088b2;"></div>
+                        </div>
+                        <div class="loading-text">Generating response...</div>
+                    </div>
+                `;
+            }
+            
+            // Create a new URL with the follow-up question and previous question
+            const url = new URL(window.location.href);
+            url.searchParams.set('q', followupQuestion);
+            url.searchParams.set('prev_q', currentQuery);
+            
+            // Update browser history without reloading the page
+            window.history.pushState({}, '', url.toString());
+            
+            try {
+                // Process the follow-up question with the current query as previous query
+                console.log("Processing follow-up question:", followupQuestion);
+                console.log("Previous question:", currentQuery);
+                
+                const response = await generateAIResponse(followupQuestion, currentQuery);
+                
+                // Response is already displayed by generateAIResponse
+                console.log("Follow-up response processed");
+                
+                // Hide loading overlay
+                if (loadingOverlay) {
+                    setTimeout(() => {
+                        loadingOverlay.classList.remove('visible');
+                        if (appContainer) appContainer.classList.add('loaded');
+                    }, 1000); // Minimum loading time for better UX
+                }
+            } catch (error) {
+                console.error('Error in follow-up question:', error);
+                
+                if (responseContent) {
+                    responseContent.innerHTML = `<p class="error-message">Sorry, I encountered an error while processing your follow-up question. Please try again later.</p>`;
+                }
+                
+                // Hide loading overlay even on error
+                if (loadingOverlay) {
+                    loadingOverlay.classList.remove('visible');
+                    if (appContainer) appContainer.classList.add('loaded');
+                }
+            }
+        }
+        
+        // Format Gemini response
+        function formatGeminiResponse(response) {
+            // Process markdown-like formatting
+            let formattedText = response;
+            
+            // Process code blocks
+            formattedText = formattedText.replace(/```([\s\S]*?)```/g, function(match, code) {
+                return `<pre><code>${code.trim()}</code></pre>`;
+            });
+            
+            // Split into lines for processing
+            const lines = formattedText.split('\n');
+            let inList = false;
+            let listType = null;
+            let result = '';
+            
+            for (let i = 0; i < lines.length; i++) {
+                let line = lines[i].trim();
+                
+                // Skip empty lines
+                if (line === '') {
+                    if (inList) {
+                        // End the current list
+                        result += listType === 'ul' ? '</ul>' : '</ol>';
+                        inList = false;
+                        listType = null;
+                    }
+                    continue;
+                }
+                
+                // Process headings
+                if (line.startsWith('# ')) {
+                    if (inList) {
+                        result += listType === 'ul' ? '</ul>' : '</ol>';
+                        inList = false;
+                    }
+                    result += `<h1>${line.substring(2)}</h1>`;
+                } 
+                else if (line.startsWith('## ')) {
+                    if (inList) {
+                        result += listType === 'ul' ? '</ul>' : '</ol>';
+                        inList = false;
+                    }
+                    result += `<h2>${line.substring(3)}</h2>`;
+                } 
+                else if (line.startsWith('### ')) {
+                    if (inList) {
+                        result += listType === 'ul' ? '</ul>' : '</ol>';
+                        inList = false;
+                    }
+                    result += `<h3>${line.substring(4)}</h3>`;
+                }
+                // Process numbered lists
+                else if (/^\d+\.\s/.test(line)) {
+                    if (!inList || listType !== 'ol') {
+                        if (inList) {
+                            result += listType === 'ul' ? '</ul>' : '</ol>';
+                        }
+                        result += '<ol>';
+                        inList = true;
+                        listType = 'ol';
+                    }
+                    const content = line.replace(/^\d+\.\s/, '');
+                    result += `<li>${content}</li>`;
+                }
+                // Process bullet points
+                else if (line.startsWith('• ') || line.startsWith('* ') || line.startsWith('- ')) {
+                    if (!inList || listType !== 'ul') {
+                        if (inList) {
+                            result += listType === 'ul' ? '</ul>' : '</ol>';
+                        }
+                        result += '<ul>';
+                        inList = true;
+                        listType = 'ul';
+                    }
+                    const content = line.replace(/^[•*-]\s/, '');
+                    result += `<li>${content}</li>`;
+                }
+                // Process sub-bullet points (indented)
+                else if (line.startsWith('  • ') || line.startsWith('  * ') || line.startsWith('  - ')) {
+                    if (!inList) {
+                        result += '<ul>';
+                        inList = true;
+                        listType = 'ul';
+                    }
+                    const content = line.replace(/^\s+[•*-]\s/, '');
+                    result += `<li style="margin-left: 20px;">${content}</li>`;
+                }
+                // Process blockquotes
+                else if (line.startsWith('> ')) {
+                    if (inList) {
+                        result += listType === 'ul' ? '</ul>' : '</ol>';
+                        inList = false;
+                    }
+                    result += `<blockquote>${line.substring(2)}</blockquote>`;
+                }
+                // Regular paragraph
+                else {
+                    if (inList) {
+                        result += listType === 'ul' ? '</ul>' : '</ol>';
+                        inList = false;
+                    }
+                    
+                    // Check if next line is empty (paragraph break)
+                    if (i < lines.length - 1 && lines[i + 1].trim() === '') {
+                        result += `<p>${line}</p>`;
+                    } 
+                    // Check if this is a continuation of previous paragraph
+                    else if (i > 0 && lines[i - 1].trim() !== '' && 
+                            !lines[i - 1].trim().startsWith('#') && 
+                            !lines[i - 1].trim().startsWith('*') && 
+                            !lines[i - 1].trim().startsWith('-') && 
+                            !lines[i - 1].trim().startsWith('>') && 
+                            !/^\d+\.\s/.test(lines[i - 1].trim())) {
+                        result += ` ${line}`;
+                    } 
+                    else {
+                        result += `<p>${line}</p>`;
+                    }
+                }
+            }
+            
+            // Close any open list
+            if (inList) {
+                result += listType === 'ul' ? '</ul>' : '</ol>';
+            }
+            
+            // Process bold and italic text
+            result = result.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            result = result.replace(/\*(.*?)\*/g, '<em>$1</em>');
+            
+            return result;
+        }
+        
+        // Save to conversation history
+        function saveToConversationHistory(query, response, prevQuery = null) {
+            try {
+                // Get existing history or create new one
+                let history = JSON.parse(localStorage.getItem('chatHistory')) || [];
+                
+                // Generate a unique ID for this conversation
+                const conversationId = Date.now().toString();
+                
+                // Create a new conversation or add to existing one
+                if (prevQuery) {
+                    // Find the previous conversation
+                    const prevConversation = history.find(conv => 
+                        conv.messages.some(msg => msg.content === prevQuery && msg.role === 'user')
+                    );
+                    
+                    if (prevConversation) {
+                        // Add to existing conversation
+                        prevConversation.messages.push(
+                            { role: 'user', content: query, timestamp: new Date().toISOString() },
+                            { role: 'assistant', content: response, timestamp: new Date().toISOString() }
+                        );
+                        prevConversation.lastUpdated = new Date().toISOString();
+                    } else {
+                        // Create new conversation if previous not found
+                        createNewConversation(history, query, response, conversationId);
+                    }
+                } else {
+                    // Create new conversation
+                    createNewConversation(history, query, response, conversationId);
+                }
+                
+                // Save back to localStorage
+                localStorage.setItem('chatHistory', JSON.stringify(history));
+            } catch (error) {
+                console.error('Error saving to conversation history:', error);
+            }
+        }
+        
+        function createNewConversation(history, query, response, conversationId) {
+            const now = new Date().toISOString();
+            const newConversation = {
+                id: conversationId,
+                title: query.substring(0, 30) + (query.length > 30 ? '...' : ''),
+                created: now,
+                lastUpdated: now,
+                messages: [
+                    { role: 'user', content: query, timestamp: now },
+                    { role: 'assistant', content: response, timestamp: now }
+                ]
+            };
+            
+            // Add to beginning of array (newest first)
+            history.unshift(newConversation);
+            
+            // Limit history to 50 conversations
+            if (history.length > 50) {
+                history = history.slice(0, 50);
+            }
+            
+            return history;
+        }
+        
+        // Set up event listeners for follow-up
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle initial page load
+            handleInitialPageLoad();
+            
+            // Set up event listeners for follow-up questions
+            const followupSendButton = document.getElementById('followup-send-button');
+            const followupInput = document.getElementById('followup-input');
+            
+            if (followupSendButton) {
+                followupSendButton.addEventListener('click', handleFollowUp);
+                console.log('Added click event listener to follow-up send button');
+            } else {
+                console.error('Follow-up send button not found');
+            }
+            
+            if (followupInput) {
+                followupInput.addEventListener('keypress', function(event) {
+                    if (event.key === 'Enter') {
+                        handleFollowUp();
+                    }
+                });
+                console.log('Added keypress event listener to follow-up input');
+            } else {
+                console.error('Follow-up input not found');
+            }
+            
+            // Inform any script.js that this is the search page
+            window.isSearchPage = true;
+            console.log('Search page initialized, isSearchPage flag set to true');
+        });
+        
+        // Initialize notification close buttons
+        function initializeNotificationCloseButtons() {
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.close-notification')) {
+                    const notification = e.target.closest('.translation-notification');
+                    if (notification) {
+                        notification.classList.remove('show');
+                        setTimeout(() => {
+                            notification.remove();
+                        }, 300);
+                    }
+                }
+            });
+        }
+        
+        // Generate expert profile based on query
+        async function generateExpertProfile(query) {
+            const expertProfileContainer = document.getElementById('expert-profile-container');
+            if (!expertProfileContainer) return;
+            
+            // Check if user is logged in
+            const authToken = localStorage.getItem('authToken');
+            const userEmail = localStorage.getItem('userEmail');
+            
+            if (!authToken || !userEmail) {
+                console.log("User not logged in, cannot fetch vendor details");
+                expertProfileContainer.innerHTML = `
+                    <div class="expert-profile-card">
+                        <div class="login-required-message">
+                            <i class="fas fa-lock"></i>
+                            <h3>Login Required</h3>
+                            <p>Please log in to view recommended service providers.</p>
+                            <a href="login.html" class="login-btn">Login Now</a>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+            
+            try {
+                // Show loading state
+                expertProfileContainer.innerHTML = `
+                    <div class="expert-profile-card loading">
+                        <div class="loading-container">
+                            <div class="dots-row">
+                                <div class="dot"></div>
+                                <div class="dot"></div>
+                                <div class="dot"></div>
+                            </div>
+                            <div class="loading-text">Finding the best service provider for you...</div>
+                        </div>
+                    </div>
+                `;
+                
+                // Make API call to get vendor details
+                const response = await fetch('https://bmsbeta.dileep.live/api/Response/ProcessGetAnswerWithProviderDetails/000001', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'CCode': 'DGIndians',
+                        'TokenCode': authToken,
+                        'Email': userEmail
+                    },
+                    body: JSON.stringify({
+                        "Question": query,
+                        
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`API request failed with status ${response.status}`);
+                }
+                
+                const data = await response.json();
+                console.log("Vendor API response:", data);
+                
+                // Check if we have valid data
+                if (!data.SuggestedProfile || data.SuggestedProfile.length === 0) {
+                    expertProfileContainer.innerHTML = `
+                        <div class="expert-profile-card">
+                            <div class="no-results-message">
+                                <i class="fas fa-search"></i>
+                                <h3>No Service Providers Found</h3>
+                                <p>We couldn't find any service providers matching your query. Please try a different search.</p>
+                            </div>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // Get the vendor profile
+                const vendor = data.SuggestedProfile[0];
+                const intro = data.AnswerIntro && data.AnswerIntro.length > 0 ? data.AnswerIntro[0].Introduction : "";
+                const conclusion = data.ProfileConclusion && data.ProfileConclusion.length > 0 ? data.ProfileConclusion[0].Conclusion : "";
+                   
+                
+                // Create HTML for the vendor card with the specified format
+                expertProfileContainer.innerHTML = `
+                    <!-- Expert Recommended Section -->
+                    <div class="expert-recommended-section">
+                        <h2 class="section-title">Recommended Service Provider</h2>
+                        <p class="section-title" style="font-size: 16px; color: #333; margin-bottom: 10px;">${intro}</p>
+                        <div class="expert-profile-card">
+                            <div class="share-icon">
+                                <i class="fas fa-share-alt" onclick="event.stopPropagation(); shareExpertProfile('${vendor.Name}', '${vendor.Profession}')"></i>
+                            </div>
+                            <div class="expert-profile-details" onclick="handleProfileClick('${vendor.ProfileType}', '${vendor.Code}')">
+                                <div class="expert-header">
+                                    <div class="expert-avatar">
+                                        <img src="${vendor.avatar}" alt="${vendor.Name}">
+                                    </div>
+                                    <div class="expert-info">
+                                        <h3 class="expert-name">${vendor.Name}</h3>
+                                        <p class="expert-title">${vendor.Profession}</p>
+                                        <p class="expert-title">${vendor.ProfileType}</p>
+                                        <p class="expert-code" style="display: none;">${vendor.Code}</p>
+                                        <div class="expert-rating">
+                                            <i class="fas fa-star"></i>
+                                            <span>${vendor.rating}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="expert-bio">
+                                    <p class="truncated-bio">${vendor.bio}</p>
+                                    <button class="see-more-btn" onclick="event.stopPropagation(); toggleBio(this)" style="display: none;">See more</button>
+                                </div>
+                                
+                                <div class="expert-stats">
+                                    <div class="stat-item">
+                                        <i class="fas fa-users"></i>
+                                        <div class="stat-info">
+                                            <span class="stat-value">${vendor.clients}</span>
+                                            <span class="stat-label">Clients</span>
+                                        </div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <i class="fas fa-briefcase"></i>
+                                        <div class="stat-info">
+                                            <span class="stat-value">${vendor.experience}</span>
+                                            <span class="stat-label">Experience</span>
+                                        </div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <i class="fas fa-comments"></i>
+                                        <div class="stat-info">
+                                            <span class="stat-value">${vendor.consultations}</span>
+                                            <span class="stat-label">Consultations</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="expert-contact">
+                                    <a href="tel:${vendor.phone === 'Clickhere' ? '+919876543210' : vendor.phone}" class="contact-btn phone-btn" onclick="event.stopPropagation()">
+                                        <i class="fas fa-phone"></i>
+                                        <span>Call</span>
+                                    </a>
+                                    <a href="https://wa.me/${vendor.whatsapp === 'Clickhere' ? '919876543210' : vendor.whatsapp.replace(/\D/g, '')}" class="contact-btn whatsapp-btn" onclick="event.stopPropagation()">
+                                        <i class="fab fa-whatsapp"></i>
+                                        <span>WhatsApp</span>
+                                    </a>
+                                    <a href="mailto:${vendor.email === 'Clickhere' ? 'contact@digitalindians.org' : vendor.email}" class="contact-btn email-btn" onclick="event.stopPropagation()">
+                                        <i class="fas fa-envelope"></i>
+                                        <span>Email</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Related Resources Section -->
+                    <div class="related-resources-section">
+                        <h2 class="section-title">Why We recommend ${vendor.Name}?</h2>
+                        <div class="resources-content">
+                            <p>${conclusion}</p>
+                        </div>
+                    </div>
+                `;
+                
+                // Add navigation function to handle different profile types
+                window.navigateBasedOnProfileType = function(profileType) {
+                    switch(profileType) {
+                        case 'Personnel':
+                            window.location.href = 'expert-details.html';
+                            break;
+                        case 'Business':
+                            window.location.href = 'business-details.html';
+                            break;
+                        case 'youtyb':
+                            window.location.href = 'youtube.html?channel=@bestmarg';
+                            break;
+                        default:
+                            window.location.href = 'expert-details.html'; // Default fallback
+                    }
+                };
+                
+                // Add function to toggle bio text
+                window.toggleBio = function(button) {
+                    const bioElement = button.previousElementSibling;
+                    bioElement.classList.toggle('expanded');
+                    button.textContent = bioElement.classList.contains('expanded') ? 'See less' : 'See more';
+                };
+                
+                // Add CSS for the new design
+                const style = document.createElement('style');
+                style.textContent = `
+                    .expert-profile-card:hover {
+                        transform: translateY(-3px);
+                        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+                    }
+                    
+                    .share-icon {
+                        position: absolute;
+                        top: 15px;
+                        right: 15px;
+                        width: 36px;
+                        height: 36px;
+                        border-radius: 50%;
+                        background-color: rgba(255, 255, 255, 0.9);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                        z-index: 10;
+                        cursor: pointer;
+                    }
+                    
+                    .share-icon i {
+                        color: #157a9d;
+                        font-size: 16px;
+                    }
+                    
+                    .share-icon:hover {
+                        background-color: #157a9d;
+                    }
+                    
+                    .share-icon:hover i {
+                        color: white;
+                    }
+                    
+                    .expert-profile-details {
+                        padding: 20px;
+                        box-shadow: 0 10px 15px #333;
+                        border-radius: 10px;
+                    }
+                    
+                    .expert-header {
+                        display: flex;
+                        align-items: center;
+                        margin-bottom: 15px;
+                    }
+                    
+                    .expert-avatar {
+                        width: 80px;
+                        height: 80px;
+                        border-radius: 50%;
+                        overflow: hidden;
+                        margin-right: 15px;
+                        border: 3px solid #f0f0f0;
+                    }
+                    
+                    .expert-avatar img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                    }
+                    
+                    .expert-info {
+                        flex: 1;
+                    }
+                    
+                    .expert-name {
+                        font-size: 18px;
+                        font-weight: 600;
+                        color: #333;
+                        margin: 0 0 5px 0;
+                    }
+                    
+                    .expert-title {
+                        font-size: 14px;
+                        color: #666;
+                        margin: 0 0 5px 0;
+                    }
+                    
+                    .expert-rating {
+                        display: flex;
+                        align-items: center;
+                        color: #ffc107;
+                        font-size: 14px;
+                    }
+                    
+                    .expert-rating i {
+                        margin-right: 5px;
+                    }
+                    
+                    .expert-bio {
+                        margin-bottom: 20px;
+                        line-height: 1.5;
+                        color: #555;
+                        position: relative;
+                    }
+                    
+                    .truncated-bio {
+                        display: -webkit-box;
+                        -webkit-line-clamp: 2;
+                        -webkit-box-orient: vertical;
+                        overflow: hidden;
+                        margin-bottom: 5px;
+                        transition: all 0.3s ease;
+                    }
+                    
+                    .truncated-bio.expanded {
+                        -webkit-line-clamp: unset;
+                        display: block;
+                    }
+                    
+                    .see-more-btn {
+                        background: none;
+                        border: none;
+                        color: #157a9d;
+                        font-size: 14px;
+                        font-weight: 500;
+                        cursor: pointer;
+                        padding: 0;
+                        margin-top: 5px;
+                    }
+                    
+                    .see-more-btn:hover {
+                        text-decoration: underline;
+                    }
+                    
+                    .expert-stats {
+                        display: flex;
+                        justify-content: space-between;
+                        margin-bottom: 20px;
+                        padding: 15px 0;
+                        border-top: 1px solid #f0f0f0;
+                        border-bottom: 1px solid #f0f0f0;
+                    }
+                    
+                    .stat-item {
+                        display: flex;
+                        align-items: center;
+                        flex: 1;
+                        text-align: center;
+                    }
+                    
+                    .stat-item i {
+                        color: #157a9d;
+                        font-size: 20px;
+                        margin-right: 10px;
+                    }
+                    
+                    .stat-info {
+                        display: flex;
+                        flex-direction: column;
+                    }
+                    
+                    .stat-value {
+                        font-weight: 600;
+                        color: #333;
+                    }
+                    
+                    .stat-label {
+                        font-size: 12px;
+                        color: #666;
+                    }
+                    
+                    .expert-contact {
+                        display: flex;
+                        gap: 10px;
+                        margin-bottom: 20px;
+                    }
+                    
+                    .contact-btn {
+                        flex: 1;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 8px;
+                        padding: 10px;
+                        border-radius: 8px;
+                        text-decoration: none;
+                        font-weight: 500;
+                        transition: all 0.2s ease;
+                    }
+                    
+                    .phone-btn {
+                        background-color: #4CAF50;
+                        color: white;
+                    }
+                    
+                    .whatsapp-btn {
+                        background-color: #25D366;
+                        color: white;
+                    }
+                    
+                    .email-btn {
+                        background-color: #157a9d;
+                        color: white;
+                    }
+                    
+                    .expert-introduction-section {
+                        background-color: #fff;
+                        border-radius: 12px;
+                        padding: 20px;
+                        margin-bottom: 20px;
+                        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+                        line-height: 1.6;
+                        color: #333;
+                    }
+                    
+                    .expert-recommended-section {
+                        margin-bottom: 20px;
+                    }
+                    
+                    .related-resources-section {
+                        background-color: #fff;
+                        border-radius: 12px;
+                        padding: 20px;
+                        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+                    }
+                    
+                    .resources-content {
+                        line-height: 1.6;
+                        color: #333;
+                    }
+                    
+                    @media (max-width: 768px) {
+                        .expert-stats {
+                            flex-direction: column;
+                            gap: 15px;
+                        }
+                        
+                        .expert-contact {
+                            flex-direction: column;
+                        }
+                    }
+                `;
+                document.head.appendChild(style);
+                
+                // After the card is added to the DOM, check if we need the "See more" button
+                setTimeout(() => {
+                    const bioElements = document.querySelectorAll('.truncated-bio');
+                    bioElements.forEach(bio => {
+                        const seeMoreBtn = bio.nextElementSibling;
+                        if (seeMoreBtn && seeMoreBtn.classList.contains('see-more-btn')) {
+                            if (checkBioLength(bio)) {
+                                seeMoreBtn.style.display = 'inline-block';
+                            } else {
+                                seeMoreBtn.style.display = 'none';
+                            }
+                        }
+                    });
+                }, 100);
+                
+            } catch (error) {
+                console.error('Error fetching vendor details:', error);
+                expertProfileContainer.innerHTML = `
+                    <div class="expert-profile-card">
+                        <div class="error-message">
+                            <i class="fas fa-exclamation-circle"></i>
+                            <h3>Error</h3>
+                            <p>We encountered an error while fetching service provider details. Please try again later.</p>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+        
+        // Generate relevant images based on query
+        function generateRelevantImages(query) {
+            // Define image categories and their associated images
+            const imageCategories = {
+                health: [
+                    { url: "https://images.pexels.com/photos/3786157/pexels-photo-3786157.jpeg", caption: "Modern Medical Treatments" },
+                    { url: "https://images.pexels.com/photos/1640770/pexels-photo-1640770.jpeg", caption: "Balanced Nutrition Guide" },
+                    { url: "https://images.pexels.com/photos/3822906/pexels-photo-3822906.jpeg", caption: "Yoga for Wellness" },
+                    { url: "https://images.pexels.com/photos/2294361/pexels-photo-2294361.jpeg", caption: "Fitness Routines" },
+                    { url: "https://images.pexels.com/photos/3759657/pexels-photo-3759657.jpeg", caption: "Meditation Practices" },
+                    { url: "https://images.pexels.com/photos/1692693/pexels-photo-1692693.jpeg", caption: "Healthcare Facilities" }
+                ],
+                technology: [
+                    { url: "https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg", caption: "Programming & Development" },
+                    { url: "https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg", caption: "Artificial Intelligence" },
+                    { url: "https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg", caption: "Software Solutions" },
+                    { url: "https://images.pexels.com/photos/60504/security-protection-anti-virus-software-60504.jpeg", caption: "Cybersecurity Measures" },
+                    { url: "https://images.pexels.com/photos/590022/pexels-photo-590022.jpeg", caption: "Data Analytics" },
+                    { url: "https://images.pexels.com/photos/1148820/pexels-photo-1148820.jpeg", caption: "Cloud Computing" }
+                ],
+                education: [
+                    { url: "https://images.pexels.com/photos/3769981/pexels-photo-3769981.jpeg", caption: "Effective Study Methods" },
+                    { url: "https://images.pexels.com/photos/267885/pexels-photo-267885.jpeg", caption: "Higher Education Options" },
+                    { url: "https://images.pexels.com/photos/256431/pexels-photo-256431.jpeg", caption: "Learning Environments" },
+                    { url: "https://images.pexels.com/photos/159866/books-book-pages-read-literature-159866.jpeg", caption: "Educational Resources" },
+                    { url: "https://images.pexels.com/photos/267885/pexels-photo-267885.jpeg", caption: "Academic Achievements" },
+                    { url: "https://images.pexels.com/photos/4145153/pexels-photo-4145153.jpeg", caption: "Online Learning Platforms" }
+                ],
+                business: [
+                    { url: "https://images.pexels.com/photos/7821702/pexels-photo-7821702.jpeg", caption: "Startup Essentials" },
+                    { url: "https://images.pexels.com/photos/6801648/pexels-photo-6801648.jpeg", caption: "Financial Planning" },
+                    { url: "https://images.pexels.com/photos/6476254/pexels-photo-6476254.jpeg", caption: "Marketing Strategies" },
+                    { url: "https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg", caption: "Leadership Development" },
+                    { url: "https://images.pexels.com/photos/1170412/pexels-photo-1170412.jpeg", caption: "Workspace Optimization" },
+                    { url: "https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg", caption: "Business Networking" }
+                ],
+                lifestyle: [
+                    { url: "https://images.pexels.com/photos/3935702/pexels-photo-3935702.jpeg", caption: "Travel Destinations" },
+                    { url: "https://images.pexels.com/photos/1640774/pexels-photo-1640774.jpeg", caption: "Culinary Experiences" },
+                    { url: "https://images.pexels.com/photos/934070/pexels-photo-934070.jpeg", caption: "Fashion Trends" },
+                    { url: "https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg", caption: "Home Decor Ideas" },
+                    { url: "https://images.pexels.com/photos/4132326/pexels-photo-4132326.jpeg", caption: "Hobby Exploration" },
+                    { url: "https://images.pexels.com/photos/1770809/pexels-photo-1770809.jpeg", caption: "Nature Retreats" }
+                ]
+            };
+            
+            // Keywords to match categories (same as expert categories)
+            const categoryKeywords = {
+                health: ["health", "medical", "doctor", "hospital", "disease", "treatment", "medicine", "nutrition", "diet", "fitness", "wellness"],
+                technology: ["technology", "software", "computer", "programming", "app", "website", "digital", "online", "internet", "tech", "IT", "AI", "artificial intelligence", "data"],
+                education: ["education", "school", "college", "university", "course", "study", "learning", "teaching", "student", "academic", "exam", "degree", "career"],
+                business: ["business", "company", "startup", "entrepreneur", "market", "finance", "investment", "money", "profit", "strategy", "management", "leadership"],
+                lifestyle: ["lifestyle", "living", "home", "family", "relationship", "travel", "food", "fashion", "hobby", "entertainment", "yoga", "meditation", "mindfulness"]
+            };
+            
+            // Determine category based on query
+            let matchedCategory = "lifestyle"; // Default category
+            let highestMatchCount = 0;
+            
+            const queryLower = query.toLowerCase();
+            
+            for (const [category, keywords] of Object.entries(categoryKeywords)) {
+                const matchCount = keywords.filter(keyword => queryLower.includes(keyword)).length;
+                if (matchCount > highestMatchCount) {
+                    highestMatchCount = matchCount;
+                    matchedCategory = category;
+                }
+            }
+            
+            // Select 3 random images from the matched category
+            const images = imageCategories[matchedCategory];
+            const selectedImages = [];
+            const usedIndices = new Set();
+            
+            // Get 3 unique random images
+            while (selectedImages.length < 3 && usedIndices.size < images.length) {
+                const randomIndex = Math.floor(Math.random() * images.length);
+                if (!usedIndices.has(randomIndex)) {
+                    usedIndices.add(randomIndex);
+                    selectedImages.push(images[randomIndex]);
+                }
+            }
+            
+            // Populate images grid
+            const imagesGrid = document.getElementById('relevant-images-grid');
+            imagesGrid.innerHTML = '';
+            
+            selectedImages.forEach(image => {
+                const imageItem = document.createElement('div');
+                imageItem.className = 'relevant-image-item';
+                imageItem.innerHTML = `
+                    <img src="${image.url}" alt="${image.caption}" loading="lazy">
+                    <div class="relevant-image-caption">${image.caption}</div>
+                `;
+                imagesGrid.appendChild(imageItem);
+            });
+        }
+        
+        // Function to set up save and favorite buttons
+        function setupActionButtons() {
+            const saveButton = document.getElementById('save-button');
+            const favoriteButton = document.getElementById('favorite-button');
+            
+            if (!saveButton || !favoriteButton) return;
+            
+            // Check if already saved/favorited
+            const savedQueries = JSON.parse(localStorage.getItem('savedQueries') || '[]');
+            const favoritedQueries = JSON.parse(localStorage.getItem('favoritedQueries') || '[]');
+            const currentQuery = document.getElementById('user-query').textContent;
+            
+            // Update UI based on saved state
+            if (savedQueries.includes(currentQuery)) {
+                saveButton.classList.add('active');
+                saveButton.querySelector('i').classList.remove('fa-bookmark');
+                saveButton.querySelector('i').classList.add('fa-bookmark-check', 'fas');
+            }
+            
+            if (favoritedQueries.includes(currentQuery)) {
+                favoriteButton.classList.add('active');
+                favoriteButton.querySelector('i').classList.remove('fa-heart');
+                favoriteButton.querySelector('i').classList.add('fa-heart', 'fas');
+                favoriteButton.style.backgroundColor = '#e91e63';
+            }
+            
+            // Add click event for save button
+            saveButton.addEventListener('click', function() {
+                const query = document.getElementById('user-query').textContent;
+                const savedQueries = JSON.parse(localStorage.getItem('savedQueries') || '[]');
+                
+                if (savedQueries.includes(query)) {
+                    // Remove from saved
+                    const index = savedQueries.indexOf(query);
+                    savedQueries.splice(index, 1);
+                    localStorage.setItem('savedQueries', JSON.stringify(savedQueries));
+                    
+                    // Update UI
+                    saveButton.classList.remove('active');
+                    saveButton.querySelector('i').classList.remove('fa-bookmark-check');
+                    saveButton.querySelector('i').classList.add('fa-bookmark');
+                    
+                    // Show notification
+                    showNotification('Removed from saved items', 'info');
+                } else {
+                    // Add to saved
+                    savedQueries.push(query);
+                    localStorage.setItem('savedQueries', JSON.stringify(savedQueries));
+                    
+                    // Update UI
+                    saveButton.classList.add('active');
+                    saveButton.querySelector('i').classList.remove('fa-bookmark');
+                    saveButton.querySelector('i').classList.add('fa-bookmark-check');
+                    
+                    // Show notification
+                    showNotification('Saved successfully', 'success');
+                }
+            });
+            
+            // Add click event for favorite button
+            favoriteButton.addEventListener('click', function() {
+                const query = document.getElementById('user-query').textContent;
+                const favoritedQueries = JSON.parse(localStorage.getItem('favoritedQueries') || '[]');
+                
+                if (favoritedQueries.includes(query)) {
+                    // Remove from favorites
+                    const index = favoritedQueries.indexOf(query);
+                    favoritedQueries.splice(index, 1);
+                    localStorage.setItem('favoritedQueries', JSON.stringify(favoritedQueries));
+                    
+                    // Update UI
+                    favoriteButton.classList.remove('active');
+                    favoriteButton.style.backgroundColor = '';
+                    
+                    // Show notification
+                    showNotification('Removed from favorites', 'info');
+                } else {
+                    // Add to favorites
+                    favoritedQueries.push(query);
+                    localStorage.setItem('favoritedQueries', JSON.stringify(favoritedQueries));
+                    
+                    // Update UI
+                    favoriteButton.classList.add('active');
+                    favoriteButton.style.backgroundColor = '#e91e63';
+                    
+                    // Animate heart
+                    favoriteButton.style.animation = 'pulse 0.3s ease';
+                    setTimeout(() => {
+                        favoriteButton.style.animation = '';
+                    }, 300);
+                    
+                    // Show notification
+                    showNotification('Added to favorites', 'success');
+                }
+            });
+        }
+        
+        // Show notification
+        function showNotification(message, type = 'success') {
+            // Remove any existing notifications
+            const existingNotification = document.querySelector('.notification');
+            if (existingNotification) {
+                existingNotification.remove();
+            }
+            
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            
+            // Set icon based on type
+            let icon = 'check-circle';
+            if (type === 'info') icon = 'info-circle';
+            if (type === 'warning') icon = 'exclamation-triangle';
+            if (type === 'error') icon = 'times-circle';
+            
+            notification.innerHTML = `
+                <i class="fas fa-${icon}"></i>
+                <span>${message}</span>
+                <button class="close-notification"><i class="fas fa-times"></i></button>
+            `;
+            
+            // Add to document
+            document.body.appendChild(notification);
+            
+            // Add styles
+            const style = document.createElement('style');
+            style.textContent = `
+                .notification {
+                    position: fixed;
+                    bottom: 20px;
+                    right: 20px;
+                    background-color: #fff;
+                    color: #333;
+                    padding: 12px 20px;
+            border-radius: 8px;
+                    display: flex;
+                    align-items: center;
+                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                    z-index: 1000;
+                    animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.7s forwards;
+                    max-width: 300px;
+                }
+                
+                .notification i:first-child {
+                    margin-right: 10px;
+                    font-size: 16px;
+                }
+                
+                .notification.success i:first-child {
+                    color: #4CAF50;
+                }
+                
+                .notification.info i:first-child {
+                    color: #2196F3;
+                }
+                
+                .notification.warning i:first-child {
+                    color: #FF9800;
+                }
+                
+                .notification.error i:first-child {
+                    color: #F44336;
+                }
+                
+                .notification span {
+                    flex: 1;
+                    font-size: 14px;
+                }
+                
+                .close-notification {
+                    background: none;
+                    border: none;
+                    color: #aaa;
+                    cursor: pointer;
+                    margin-left: 10px;
+                    padding: 0;
+                    font-size: 14px;
+                }
+                
+                .close-notification:hover {
+                    color: #333;
+                }
+                
+                @keyframes slideIn {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+                
+                @keyframes fadeOut {
+                    from { opacity: 1; }
+                    to { opacity: 0; visibility: hidden; }
+                }
+            `;
+            
+            document.head.appendChild(style);
+            
+            // Add close button functionality
+            const closeButton = notification.querySelector('.close-notification');
+            closeButton.addEventListener('click', function() {
+                notification.style.animation = 'fadeOut 0.3s ease forwards';
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            });
+            
+            // Auto-remove after 3 seconds
+            setTimeout(() => {
+                if (document.body.contains(notification)) {
+                    notification.style.animation = 'fadeOut 0.3s ease forwards';
+                    setTimeout(() => {
+                        if (document.body.contains(notification)) {
+                            notification.remove();
+                        }
+                    }, 300);
+                }
+            }, 3000);
+        }
+        
+        // Generate AI response
+        async function generateAIResponse(query, prevQuery = null) {
+            const responseContent = document.getElementById('ai-response');
+            if (!responseContent) {
+                console.error('Response content element not found');
+                return;
+            }
+
+            // Show loading animation
+            responseContent.innerHTML = `
+                <div class="loading-container">
+                    <div class="logo-container">
+                        <img src="./digitalindilogo.png" alt="DigitalIndians AI" class="loader-logo">
+                    </div>
+                    <div class="dots-row">
+                        <div class="dot" style="background-color: #0088b2;"></div>
+                        <div class="dot" style="background-color: #0088b2;"></div>
+                        <div class="dot" style="background-color: #0088b2;"></div>
+                        <div class="dot" style="background-color: #0088b2;"></div>
+                    </div>
+                    <div class="loading-text">Generating response...</div>
+                </div>
+            `;
+
+            try {
+                // Get auth data
+                const authToken = localStorage.getItem('authToken');
+                const userEmail = localStorage.getItem('userEmail');
+                
+                // Prepare the context based on previous query
+                let contextQuery = query;
+                if (prevQuery) {
+                    contextQuery = `Previous question: "${prevQuery}"\nFollow-up question: "${query}"`;
+                }
+                
+                // Get response from Gemini API
+                const response = await getGeminiResponse(contextQuery);
+                
+                // Format and display the response
+                responseContent.innerHTML = formatGeminiResponse(response);
+                
+                // Get expert profile data
+                let suggestedProvider = '';
+                
+                try {
+                    // Make API call to get vendor details
+                    const expertResponse = await fetch('https://bmsbeta.dileep.live/api/Response/ProcessGetAnswerWithProviderDetails/000001', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'CCode': 'DGIndians',
+                            'TokenCode': authToken || 'f288d27095a2435397c3b88fff2618ca',
+                            'Email': userEmail || 'acbrightsymonm@gmail.com'
+                        },
+                        body: JSON.stringify({
+                            "Question": query
+                        })
+                    });
+
+                    if (expertResponse.ok) {
+                        const expertData = await expertResponse.json();
+                        
+                        // Extract suggested provider code
+                        if (expertData && expertData.SuggestedProfile && expertData.SuggestedProfile.length > 0) {
+                            suggestedProvider = expertData.SuggestedProfile[0].Code;
+                            
+                            // Update UI with expert data
+                            const expertProfileContainer = document.getElementById('expert-profile-container');
+                            if (expertProfileContainer) {
+                                generateExpertProfile(query);
+                                expertProfileContainer.style.display = 'block';
+                                setTimeout(() => {
+                                    expertProfileContainer.classList.add('visible');
+                                }, 100);
+                            }
+                        }
+                    }
+                } catch (expertError) {
+                    console.error("Error fetching expert data:", expertError);
+                }
+
+                // Save the response data only once
+                try {
+                    const saveResponse = await fetch('https://bmsbeta.dileep.live/api/Response/ProcessSaveQuestionResponse/000001', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'CCode': 'DGIndians',
+                            'TokenCode': authToken || 'f288d27095a2435397c3b88fff2618ca',
+                            'Email': userEmail || 'acbrightsymonm@gmail.com'
+                        },
+                        body: JSON.stringify({
+                            "Question": query,
+                            "GenericAnswer": response,
+                            "SugesstedProvider": suggestedProvider,
+                            "MainQuestion": prevQuery || query
+                        })
+                    });
+
+                    if (saveResponse.ok) {
+                        console.log("Data stored successfully");
+                    }
+                } catch (saveError) {
+                    console.error("Error storing data:", saveError);
+                }
+
+                // Show relevant images if available
+                const relevantImagesContainer = document.getElementById('relevant-images-container');
+                if (relevantImagesContainer) {
+                    generateRelevantImages(query);
+                    relevantImagesContainer.style.display = 'block';
+                    setTimeout(() => {
+                        relevantImagesContainer.classList.add('visible');
+                    }, 300);
+                }
+
+                // Save to conversation history
+                saveToConversationHistory(query, response, prevQuery);
+
+                return response;
+            } catch (error) {
+                console.error('Error generating AI response:', error);
+                responseContent.innerHTML = `<p class="error-message">Sorry, I encountered an error while processing your request. Please try again later.</p>`;
+                return null;
+            }
+        }
+
+        // Function to handle initial page load
+        function handleInitialPageLoad() {
+            const query = urlParams.get('q');
+            const prevQuery = urlParams.get('prev_q');
+            const historyId = urlParams.get('history_id');
+            
+            // Clear conversation history container on new page load
+            const conversationHistoryContainer = document.getElementById('conversation-history-container');
+            if (conversationHistoryContainer) {
+                conversationHistoryContainer.innerHTML = '';
+            }
+            
+            // Hide expert profile and relevant images containers initially
+            const expertProfileContainer = document.getElementById('expert-profile-container');
+            const relevantImagesContainer = document.getElementById('relevant-images-container');
+            
+            if (expertProfileContainer) {
+                expertProfileContainer.classList.remove('visible');
+                expertProfileContainer.style.display = 'none';
+            }
+            
+            if (relevantImagesContainer) {
+                relevantImagesContainer.classList.remove('visible');
+                relevantImagesContainer.style.display = 'none';
+            }
+            
+            if (historyId) {
+                // Load from history
+                loadHistoryItem(historyId);
+            } else if (query) {
+                // Update the query display
+                const userQueryElement = document.getElementById('user-query');
+                if (userQueryElement) {
+                    userQueryElement.textContent = query;
+                }
+                
+                // Generate AI response
+                generateAIResponse(query, prevQuery);
+            } else {
+                // No query provided, show empty state or default content
+                const responseContent = document.getElementById('ai-response');
+                if (responseContent) {
+                    responseContent.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">
+                                <i class="fas fa-search"></i>
+                            </div>
+                            <h2>Ask me anything</h2>
+                            <p>Type your question in the search bar above to get started.</p>
+                        </div>
+                    `;
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileToggle = document.querySelector('.mobile-toggle');
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.querySelector('.overlay');
+            const mainContent = document.querySelector('.main-content');
+
+            function toggleSidebar() {
+                sidebar.classList.toggle('active');
+                overlay.classList.toggle('active');
+                mobileToggle.classList.toggle('active');
+            }
+
+            mobileToggle.addEventListener('click', toggleSidebar);
+            overlay.addEventListener('click', toggleSidebar);
+
+            // Close sidebar when clicking nav items
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    if (window.innerWidth <= 768) {
+                        toggleSidebar();
+                    }
+                });
+            });
+
+            // Handle swipe gestures
+            let touchStartX = 0;
+            let touchEndX = 0;
+
+            mainContent.addEventListener('touchstart', e => {
+                touchStartX = e.changedTouches[0].screenX;
+            }, false);
+
+            mainContent.addEventListener('touchend', e => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            }, false);
+
+            function handleSwipe() {
+                const swipeDistance = touchEndX - touchStartX;
+                if (Math.abs(swipeDistance) > 50) {
+                    if (swipeDistance > 0 && !sidebar.classList.contains('active')) {
+                        toggleSidebar(); // Open sidebar on right swipe
+                    } else if (swipeDistance < 0 && sidebar.classList.contains('active')) {
+                        toggleSidebar(); // Close sidebar on left swipe
+                    }
+                }
+            }
+        });
+
+        // Function to load a history item
+        async function loadHistoryItem(historyId) {
+            const authToken = localStorage.getItem('authToken');
+            const userEmail = localStorage.getItem('userEmail');
+            
+            if (!authToken || !userEmail) {
+                console.error('Authentication required to load history item');
+                return;
+            }
+            
+            const responseContent = document.getElementById('ai-response');
+            
+            if (!responseContent) {
+                console.error('Response content element not found');
+                return;
+            }
+            
+            // Show loading animation
+            responseContent.innerHTML = `
+                <div class="loading-container">
+                    <div class="logo-container">
+                        <img src="./digitalindilogo.png" alt="DigitalIndians AI" class="loader-logo">
+                    </div>
+                    <div class="dots-row">
+                        <div class="dot" style="background-color: #0088b2;"></div>
+                        <div class="dot" style="background-color: #0088b2;"></div>
+                        <div class="dot" style="background-color: #0088b2;"></div>
+                        <div class="dot" style="background-color: #0088b2;"></div>
+                    </div>
+                    <div class="loading-text">Loading conversation...</div>
+                </div>
+            `;
+            
+            try {
+                // Fetch the history item details
+                const response = await fetch('https://bmsbeta.dileep.live/api/Response/ProcessGetQuestionAnswerDetails/000001', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'CCode': 'DGIndians',
+                        'TokenCode': authToken,
+                        'Email': userEmail
+                    },
+                    body: JSON.stringify({
+                        "AIRequestResponseID": historyId
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`API request failed with status ${response.status}`);
+                }
+                
+                const data = await response.json();
+                console.log("History item details:", data);
+                
+                if (!data.AIREQUESTRESPONSE || data.AIREQUESTRESPONSE.length === 0) {
+                    throw new Error('No data found for this history item');
+                }
+                
+                const historyItem = data.AIREQUESTRESPONSE[0];
+                
+                // Update the query display
+                const userQueryElement = document.getElementById('user-query');
+                if (userQueryElement) {
+                    userQueryElement.textContent = historyItem.AIRequestQuestion;
+                }
+                
+                // Display the AI response
+                responseContent.innerHTML = formatGeminiResponse(historyItem.AIAnswer);
+                
+                // Update URL parameters
+                const url = new URL(window.location.href);
+                url.searchParams.set('q', historyItem.AIRequestQuestion);
+                if (historyItem.AIMainQuestion !== historyItem.AIRequestQuestion) {
+                    url.searchParams.set('prev_q', historyItem.AIMainQuestion);
+                } else {
+                    url.searchParams.delete('prev_q');
+                }
+                url.searchParams.delete('history_id');
+                window.history.replaceState({}, '', url.toString());
+                
+                // Show expert profile if available
+                if (historyItem.AISugesstedProvider) {
+                    const expertProfileContainer = document.getElementById('expert-profile-container');
+                    if (expertProfileContainer) {
+                        // Generate expert profile based on the question
+                        generateExpertProfile(historyItem.AIRequestQuestion);
+                        
+                        // Show with animation
+                        expertProfileContainer.style.display = 'block';
+                        setTimeout(() => {
+                            expertProfileContainer.classList.add('visible');
+                        }, 100);
+                    }
+                }
+                
+                // Generate relevant images
+                const relevantImagesContainer = document.getElementById('relevant-images-container');
+                if (relevantImagesContainer) {
+                    generateRelevantImages(historyItem.AIRequestQuestion);
+                    
+                    // Show with animation
+                    relevantImagesContainer.style.display = 'block';
+                    setTimeout(() => {
+                        relevantImagesContainer.classList.add('visible');
+                    }, 300);
+                }
+                
+                // Save to conversation history
+                saveToConversationHistory(
+                    historyItem.AIRequestQuestion, 
+                    historyItem.AIAnswer, 
+                    historyItem.AIMainQuestion !== historyItem.AIRequestQuestion ? historyItem.AIMainQuestion : null
+                );
+                
+            } catch (error) {
+                console.error('Error loading history item:', error);
+                responseContent.innerHTML = `
+                    <div class="error-message">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <h3>Error Loading Conversation</h3>
+                        <p>${error.message || 'We encountered an error while loading this conversation. Please try again later.'}</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Add this function before the existing scripts
+        function handleProfileClick(profileType, code) {
+            let targetPage;
+            
+            switch(profileType) {
+                case 'Business':
+                    targetPage = 'business-details.html';
+                    break;
+                case 'Personnel':
+                    targetPage = 'expert-details.html';
+                    break;
+                case 'youtyb':
+                    targetPage = 'youtube.html';
+                    break;
+                default:
+                    targetPage = 'expert-details.html'; // Default fallback
+            }
+            
+            window.location.href = `${targetPage}?Code=${code}`;
+        }
+        // Add mobile navigation functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const moreBtn = document.getElementById('moreBtn');
+            const slideMenu = document.getElementById('slideMenu');
+            const closeSlideMenu = document.getElementById('closeSlideMenu');
+            let touchStartY = 0;
+            let touchEndY = 0;
+
+            // Slide menu functionality
+            moreBtn.addEventListener('click', function() {
+                slideMenu.classList.add('active');
+            });
+
+            closeSlideMenu.addEventListener('click', function() {
+                slideMenu.classList.remove('active');
+            });
+
+            // Close slide menu when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!slideMenu.contains(e.target) && !moreBtn.contains(e.target)) {
+                    slideMenu.classList.remove('active');
+                }
+            });
+
+            // Pull to refresh functionality
+            const pullToRefresh = document.querySelector('.pull-to-refresh');
+            const mainContent = document.querySelector('.main-content');
+
+            mainContent.addEventListener('touchstart', function(e) {
+                touchStartY = e.touches[0].clientY;
+            });
+
+            mainContent.addEventListener('touchmove', function(e) {
+                touchEndY = e.touches[0].clientY;
+                const diff = touchEndY - touchStartY;
+
+                if (diff > 50 && window.scrollY === 0) {
+                    pullToRefresh.classList.add('active');
+                }
+            });
+
+            mainContent.addEventListener('touchend', function() {
+                if (pullToRefresh.classList.contains('active')) {
+                    setTimeout(function() {
+                        window.location.reload();
+                    }, 1000);
+                }
+            });
+
+            // Active state for mobile nav items
+            const navItems = document.querySelectorAll('.mobile-nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    if (!this.id || this.id !== 'moreBtn') {
+                        navItems.forEach(i => i.classList.remove('active'));
+                        this.classList.add('active');
+                    }
+                });
+            });
+
+            // Smooth scroll to top
+            const scrollToTop = () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            };
+
+            // Add swipe gesture for slide menu
+            let touchStartX = 0;
+            let touchEndX = 0;
+
+            document.addEventListener('touchstart', function(e) {
+                touchStartX = e.touches[0].clientX;
+            });
+
+            document.addEventListener('touchend', function(e) {
+                touchEndX = e.changedTouches[0].clientX;
+                const diff = touchEndX - touchStartX;
+
+                if (Math.abs(diff) > 100) {
+                    if (diff > 0 && !slideMenu.classList.contains('active')) {
+                        // Swipe right
+                        slideMenu.classList.add('active');
+                    } else if (diff < 0 && slideMenu.classList.contains('active')) {
+                        // Swipe left
+                        slideMenu.classList.remove('active');
+                    }
+                }
+            });
+        });
+    </script>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+</body>
+</html>

@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Settings - Digital India</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-toggle">
+                <i class="fas fa-chevron-left"></i>
+            </div>
+            <div class="sidebar-top">
+                <div class="logo-container">
+                    <img style="width: 70%;" src="./digitalindia-logo.png" alt="Digital India Logo">
+                </div>
+                <div class="new-thread">
+                    <button class="btn-new-thread">
+                        <i class="fas fa-plus"></i>
+                        <span class="btn-text">New Query</span>
+                    </button>
+                </div>
+                <div class="nav-menu">
+                    <a href="index.html" class="nav-item">
+                        <i class="fas fa-home"></i>
+                        <span class="nav-text">Home</span>
+                    </a>
+                    <a href="discover.html" class="nav-item">
+                        <i class="fas fa-compass"></i>
+                        <span class="nav-text">Discover</span>
+                    </a>
+                    <a href="youtube.html" class="nav-item"><i class="fab fa-youtube"></i> <span class="nav-text">YouTubers</span></a>
+                    <a href="spaces.html" class="nav-item">
+                        <i class="fas fa-users"></i>
+                        <span class="nav-text">Spaces</span>
+                    </a>
+                    <a href="library.html" class="nav-item">
+                        <i class="fas fa-book"></i>
+                        <span class="nav-text">Library</span>
+                    </a>
+                    <a href="listing.html" class="nav-item "><i class="fas fa-list"></i> <span class="nav-text">Listings</span></a>
+                </div>
+            </div>
+            <div class="sidebar-bottom">
+                <!-- Profile will be added by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="main-header">
+                <div class="header-content">
+                    <h1>Account Settings</h1>
+                </div>
+            </div>
+
+            <div class="account-settings-container">
+                <div class="account-settings-card">
+                    <div class="account-settings-header">
+                        <h2>Personal Information</h2>
+                    </div>
+                    <div class="account-settings-form">
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" id="username" placeholder="Your username" value="">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" placeholder="Your email" value="" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="profile-image">Profile Image</label>
+                            <div class="profile-image-container">
+                                <div class="current-profile-image">
+                                    <img id="profile-preview" src="" alt="Profile">
+                                </div>
+                                <button class="change-image-btn">Change Image</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="account-settings-card">
+                    <div class="account-settings-header">
+                        <h2>Preferences</h2>
+                    </div>
+                    <div class="account-settings-form">
+                        <div class="form-group">
+                            <label for="language">Default Language</label>
+                            <select id="language">
+                                <option value="en">English</option>
+                                <option value="hi">Hindi</option>
+                                <option value="bn">Bengali</option>
+                                <option value="or">Odia</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="theme">Theme</label>
+                            <select id="theme" disabled>
+                                <option value="light" selected>Light</option>
+                                <option value="dark" disabled>Dark (Disabled)</option>
+                                <option value="system" disabled>System Default (Disabled)</option>
+                            </select>
+                            <small style="display: block; margin-top: 5px; color: #666;">Light theme is set as default for all users.</small>
+                        </div>
+                        <div class="form-group checkbox-group">
+                            <input type="checkbox" id="notifications" checked>
+                            <label for="notifications">Enable Notifications</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="account-settings-card">
+                    <div class="account-settings-header">
+                        <h2>Security</h2>
+                    </div>
+                    <div class="account-settings-form" style="display: none;">
+                        <div class="form-group">
+                            <label for="current-password">Current Password</label>
+                            <input type="password" id="current-password" placeholder="Enter current password">
+                        </div>
+                        <div class="form-group">
+                            <label for="new-password">New Password</label>
+                            <input type="password" id="new-password" placeholder="Enter new password">
+                        </div>
+                        <div class="form-group">
+                            <label for="confirm-password">Confirm New Password</label>
+                            <input type="password" id="confirm-password" placeholder="Confirm new password">
+                        </div>
+                        <button class="update-password-btn">Update Password</button>
+                    </div>
+                </div>
+
+                <div class="account-settings-actions">
+                    <button class="save-settings-btn">Save Changes</button>
+                    <button class="cancel-btn">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Account settings specific JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get user data from localStorage
+            const userEmail = localStorage.getItem('userEmail');
+            const username = userEmail ? userEmail.split('@')[0] : '';
+            
+            // Populate form fields
+            document.getElementById('username').value = username;
+            document.getElementById('email').value = userEmail || '';
+            
+            // Set profile image
+            const profilePreview = document.getElementById('profile-preview');
+            profilePreview.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(username)}&background=157a9d&color=fff&size=128`;
+            
+            // Get language preference from localStorage
+            const savedLanguage = localStorage.getItem('selectedLanguage') || 'en';
+            document.getElementById('language').value = savedLanguage;
+            
+            // Always set light theme as default
+            localStorage.setItem('selectedTheme', 'light');
+            document.getElementById('theme').value = 'light';
+            
+            // Force add the light theme class
+            document.body.classList.remove('theme-dark');
+            document.body.classList.add('theme-light');
+            
+            // Apply light theme
+            applyTheme('light');
+            
+            // Theme selector change event
+            const themeSelector = document.getElementById('theme');
+            if (themeSelector) {
+                themeSelector.addEventListener('change', function() {
+                    // Always revert to light theme regardless of selection
+                    this.value = 'light';
+                    applyTheme('light');
+                });
+            }
+            
+            // Language selector change event
+            const languageSelector = document.getElementById('language');
+            if (languageSelector) {
+                languageSelector.addEventListener('change', function() {
+                    const selectedLanguage = this.value;
+                    // Preview language change
+                    translatePagePreview(selectedLanguage);
+                });
+            }
+            
+            // Save settings button
+            const saveButton = document.querySelector('.save-settings-btn');
+            if (saveButton) {
+                saveButton.addEventListener('click', function() {
+                    const newUsername = document.getElementById('username').value;
+                    const newLanguage = document.getElementById('language').value;
+                    
+                    // Always save light theme
+                    const newTheme = 'light';
+                    
+                    // Save to localStorage
+                    localStorage.setItem('selectedLanguage', newLanguage);
+                    localStorage.setItem('selectedTheme', newTheme);
+                    
+                    // Apply light theme
+                    applyTheme(newTheme);
+                    
+                    // Show success message
+                    alert('Settings saved successfully!');
+                });
+            }
+            
+            // Cancel button
+            const cancelButton = document.querySelector('.cancel-btn');
+            if (cancelButton) {
+                cancelButton.addEventListener('click', function() {
+                    window.location.href = 'index.html';
+                });
+            }
+            
+            // Function to apply theme
+            function applyTheme(theme) {
+                console.log('Account page - Applying theme (always light):', theme);
+                const root = document.documentElement;
+                
+                // Always remove dark theme and add light theme
+                document.body.classList.remove('theme-dark');
+                document.body.classList.add('theme-light');
+                
+                // Always apply light theme settings
+                applyLightTheme();
+            }
+            
+            function applyLightTheme() {
+                console.log('Account page - Applying light theme');
+                const root = document.documentElement;
+                root.style.setProperty('--bg-primary', '#ffffff');
+                root.style.setProperty('--bg-secondary', '#f8f9fa');
+                root.style.setProperty('--text-primary', '#333333');
+                root.style.setProperty('--text-secondary', '#6c757d');
+                root.style.setProperty('--border-color', '#e0e0e0');
+                
+                // Additional light theme specific styles
+                root.style.setProperty('--bg-tertiary', '#f3f4f6');
+                root.style.setProperty('--shadow-sm', '0 1px 3px rgba(0, 0, 0, 0.1)');
+                root.style.setProperty('--shadow-md', '0 4px 6px rgba(0, 0, 0, 0.1)');
+                root.style.setProperty('--shadow-lg', '0 10px 15px rgba(0, 0, 0, 0.1)');
+            }
+            
+            // Keep this function for compatibility but it won't be used
+            function applyDarkTheme() {
+                console.log('Account page - Dark theme disabled, applying light theme instead');
+                applyLightTheme();
+            }
+            
+            // Function to preview language change
+            function translatePagePreview(lang) {
+                const translations = {
+                    'en': {
+                        'Account Settings': 'Account Settings',
+                        'Personal Information': 'Personal Information',
+                        'Username': 'Username',
+                        'Email': 'Email',
+                        'Profile Image': 'Profile Image',
+                        'Change Image': 'Change Image',
+                        'Preferences': 'Preferences',
+                        'Default Language': 'Default Language',
+                        'Theme': 'Theme',
+                        'Enable Notifications': 'Enable Notifications',
+                        'Security': 'Security',
+                        'Current Password': 'Current Password',
+                        'New Password': 'New Password',
+                        'Confirm New Password': 'Confirm New Password',
+                        'Update Password': 'Update Password',
+                        'Save Changes': 'Save Changes',
+                        'Cancel': 'Cancel'
+                    },
+                    'hi': {
+                        'Account Settings': 'खाता सेटिंग्स',
+                        'Personal Information': 'व्यक्तिगत जानकारी',
+                        'Username': 'उपयोगकर्ता नाम',
+                        'Email': 'ईमेल',
+                        'Profile Image': 'प्रोफ़ाइल छवि',
+                        'Change Image': 'छवि बदलें',
+                        'Preferences': 'प्राथमिकताएँ',
+                        'Default Language': 'डिफ़ॉल्ट भाषा',
+                        'Theme': 'थीम',
+                        'Enable Notifications': 'सूचनाएं सक्षम करें',
+                        'Security': 'सुरक्षा',
+                        'Current Password': 'वर्तमान पासवर्ड',
+                        'New Password': 'नया पासवर्ड',
+                        'Confirm New Password': 'नए पासवर्ड की पुष्टि करें',
+                        'Update Password': 'पासवर्ड अपडेट करें',
+                        'Save Changes': 'परिवर्तन सहेजें',
+                        'Cancel': 'रद्द करें'
+                    },
+                    'bn': {
+                        'Account Settings': 'অ্যাকাউন্ট সেটিংস',
+                        'Personal Information': 'ব্যক্তিগত তথ্য',
+                        'Username': 'ব্যবহারকারীর নাম',
+                        'Email': 'ইমেল',
+                        'Profile Image': 'প্রোফাইল ছবি',
+                        'Change Image': 'ছবি পরিবর্তন করুন',
+                        'Preferences': 'পছন্দসমূহ',
+                        'Default Language': 'ডিফল্ট ভাষা',
+                        'Theme': 'থিম',
+                        'Enable Notifications': 'বিজ্ঞপ্তি সক্ষম করুন',
+                        'Security': 'নিরাপত্তা',
+                        'Current Password': 'বর্তমান পাসওয়ার্ড',
+                        'New Password': 'নতুন পাসওয়ার্ড',
+                        'Confirm New Password': 'নতুন পাসওয়ার্ড নিশ্চিত করুন',
+                        'Update Password': 'পাসওয়ার্ড আপডেট করুন',
+                        'Save Changes': 'পরিবর্তনগুলি সংরক্ষণ করুন',
+                        'Cancel': 'বাতিল করুন'
+                    },
+                    'or': {
+                        'Account Settings': 'ଆକାଉଣ୍ଟ ସେଟିଙ୍ଗ',
+                        'Personal Information': 'ବ୍ୟକ୍ତିଗତ ସୂଚନା',
+                        'Username': 'ୟୁଜରନେମ',
+                        'Email': 'ଇମେଲ',
+                        'Profile Image': 'ପ୍ରୋଫାଇଲ ଛବି',
+                        'Change Image': 'ଛବି ବଦଳାନ୍ତୁ',
+                        'Preferences': 'ପସନ୍ଦ',
+                        'Default Language': 'ଡିଫଲ୍ଟ ଭାଷା',
+                        'Theme': 'ଥିମ',
+                        'Enable Notifications': 'ବିଜ୍ଞପ୍ତି ସକ୍ଷମ କରନ୍ତୁ',
+                        'Security': 'ସୁରକ୍ଷା',
+                        'Current Password': 'ବର୍ତ୍ତମାନ ପାସୱାର୍ଡ',
+                        'New Password': 'ନୂଆ ପାସୱାର୍ଡ',
+                        'Confirm New Password': 'ନୂଆ ପାସୱାର୍ଡ ନିଶ୍ଚିତ କରନ୍ତୁ',
+                        'Update Password': 'ପାସୱାର୍ଡ ଅପଡେଟ କରନ୍ତୁ',
+                        'Save Changes': 'ପରିବର୍ତ୍ତନ ସଞ୍ଚୟ କରନ୍ତୁ',
+                        'Cancel': 'ବାତିଲ କରନ୍ତୁ'
+                    }
+                };
+                
+                // Get all elements with text to translate
+                const elements = document.querySelectorAll('h1, h2, h3, label, button, .btn-text');
+                
+                elements.forEach(element => {
+                    const originalText = element.getAttribute('data-original-text') || element.textContent.trim();
+                    
+                    // Store original text if not already stored
+                    if (!element.getAttribute('data-original-text')) {
+                        element.setAttribute('data-original-text', originalText);
+                    }
+                    
+                    // Translate if translation exists
+                    if (translations[lang] && translations[lang][originalText]) {
+                        element.textContent = translations[lang][originalText];
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html> 

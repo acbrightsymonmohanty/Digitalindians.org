@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="Description" content="Explore a curated list of verified businesses, freelancers, and service providers across various industries. Find the right professional for your needs on DigitalIndians.org.">
+    <meta name="Keywords" content="verified service providers, business directory, find freelancers, best businesses in India, trusted suppliers, online service marketplace, professional listings">
+    <title>Top Verified Service Providers & Businesses | DigitalIndians.org</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="stylelisting.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script>
+        // Check authentication on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const authToken = localStorage.getItem('authToken');
+            if (!authToken) {
+                console.log("User not logged in, redirecting to login page");
+                
+                // Show a notification that login is required
+                const notification = document.createElement('div');
+                notification.className = 'translation-notification';
+                notification.innerHTML = '<i class="fas fa-lock"></i>' +
+                    '<span>Login required to access this page</span>' +
+                    '<button class="close-notification"><i class="fas fa-times"></i></button>';
+                
+                document.body.appendChild(notification);
+                
+                // Add event listener for close button
+                const closeBtn = notification.querySelector('.close-notification');
+                if (closeBtn) {
+                    closeBtn.addEventListener('click', function() {
+                        notification.classList.remove('show');
+                        setTimeout(() => {
+                            notification.remove();
+                        }, 300);
+                    });
+                }
+                
+                // Show notification with animation
+                setTimeout(() => {
+                    notification.classList.add('show');
+                    
+                    // Redirect to login page after a short delay
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 1500);
+                }, 100);
+            }
+        });
+    </script>
+    <style>
+        .listing-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        
+        .listings-logo {
+            width: 150px;
+            height: 150px;
+            margin-bottom: 1.5rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .listings-logo:hover {
+            transform: scale(1.1);
+        }
+        
+        .listings-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        
+        .listings-description {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 600px;
+            margin-bottom: 2rem;
+        }
+        
+        .listing-button {
+            background-color: #157a9d;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .listing-button:hover {
+            background-color: #0e6a8a;
+        }
+        
+        /* Styles for Listing Grid */
+        .popular-listings-section {
+            padding: 20px 0;
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #333;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .listings-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+        
+        .listing-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .listing-card.highlighted {
+            box-shadow: 0 8px 25px rgba(21, 122, 157, 0.25);
+            transform: translateY(-5px) scale(1.02);
+            border: 2px solid #157a9d;
+        }
+        
+        .listing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+        
+        .listing-card.highlighted:hover {
+            transform: translateY(-5px) scale(1.02);
+        }
+        
+        .listing-thumbnail {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 75%;
+            overflow: hidden;
+        }
+        
+        .listing-thumbnail::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+            z-index: 1;
+        }
+        
+        .listing-thumbnail img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .listing-card:hover .listing-thumbnail img {
+            transform: scale(1.05);
+        }
+        
+        .featured-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #157a9d;
+            color: white;
+            border-radius: 4px;
+            padding: 4px 8px;
+            font-size: 12px;
+            z-index: 2;
+        }
+        
+        .listing-price {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            border-radius: 4px;
+            padding: 5px 10px;
+            font-size: 14px;
+            font-weight: bold;
+            z-index: 2;
+        }
+        
+        .listing-info {
+            padding: 15px;
+        }
+        
+        .listing-info h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin: 0 0 5px 0;
+            color: #333;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .listing-location {
+            font-size: 13px;
+            color: #666;
+            margin: 0 0 5px 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .listing-location i {
+            margin-right: 5px;
+            color: #157a9d;
+        }
+        
+        .listing-category {
+            font-size: 12px;
+            color: #888;
+            background-color: #f5f5f5;
+            padding: 3px 8px;
+            border-radius: 12px;
+            display: inline-block;
+        }
+        
+        @media (max-width: 1200px) {
+            .listings-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .listings-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .listings-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .section-title {
+                font-size: 20px;
+            }
+        }
+        
+        /* Fixed navigation bar */
+        .main-header {
+            position: sticky;
+            top: 0;
+            background-color: #fff;
+            z-index: 100;
+            padding: 15px 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .main-header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+        }
+        
+        .main-header input {
+            flex: 1;
+            max-width: 400px;
+            margin: 0 15px;
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .main-header button {
+            margin-left: 10px;
+        }
+        
+        /* Add padding to the top of the container to account for fixed header */
+        .discover-container {
+            padding-top: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .main-header {
+                flex-direction: column;
+                padding: 15px;
+                gap: 10px;
+            }
+
+            .main-header h1 {
+                font-size: 1.5rem;
+                text-align: center;
+                margin: 0;
+            }
+
+            .search-controls {
+                flex-direction: column;
+                gap: 10px;
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .search-controls input,
+            .search-controls select,
+            .search-controls button {
+                width: 100%;
+                margin: 0;
+            }
+
+            .listings-grid {
+                grid-template-columns: 1fr;
+                padding: 10px;
+                gap: 15px;
+            }
+
+            .listing-card {
+                margin: 0 10px;
+            }
+
+            .listing-thumbnail {
+                padding-bottom: 60%;
+            }
+
+            .listing-info h3 {
+                font-size: 14px;
+            }
+
+            .listing-location,
+            .listing-category {
+                font-size: 12px;
+            }
+
+            .section-title {
+                font-size: 18px;
+                padding: 0 15px;
+                margin: 10px 0;
+            }
+
+            .filter-options {
+                padding: 10px;
+                margin: 10px;
+            }
+
+            .filter-option {
+                font-size: 12px;
+                padding: 6px 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-header {
+                padding: 10px;
+            }
+
+            .search-controls {
+                gap: 8px;
+                
+            }
+
+            .listing-card {
+                margin: 0 5px;
+            }
+
+            .listing-thumbnail {
+                padding-bottom: 65%;
+            }
+
+            .featured-badge {
+                font-size: 10px;
+                padding: 3px 6px;
+            }
+
+            .listing-price {
+                font-size: 12px;
+                padding: 4px 8px;
+            }
+
+            #no-results,
+            #error-message {
+                padding: 20px 15px;
+            }
+
+            #loading-indicator {
+                padding: 20px;
+            }
+
+            .filter-options {
+                margin: 5px;
+                gap: 5px;
+            }
+        }
+
+        /* Mobile Toggle Button Styles */
+        .mobile-toggle {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            width: 40px;
+            height: 40px;
+            background: #fff;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            z-index: 1001;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-toggle {
+                display: flex;
+            }
+
+            .mobile-toggle i {
+                font-size: 20px;
+                color: #333;
+                transition: transform 0.3s ease;
+            }
+
+            .mobile-toggle.active i {
+                transform: rotate(90deg);
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                width: 280px;
+                z-index: 1000;
+                transition: transform 0.3s ease;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .overlay.active {
+                display: block;
+                opacity: 1;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .listings-grid {
+                padding: 10px;
+            }
+        }
+        
+        /* Filter options */
+        .filter-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+        }
+        
+        .filter-option {
+            padding: 8px 15px;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .filter-option:hover {
+            background-color: #eee;
+        }
+        
+        .filter-option.active {
+            background-color: #157a9d;
+            color: white;
+            border-color: #157a9d;
+        }
+
+        .search-controls {
+            display: flex;
+            gap: 70px;
+            align-items: center;
+            flex: 1;
+            
+        }
+
+        .filter-select {
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            background-color: white;
+            min-width: 150px;
+        }
+
+        @media (max-width: 768px) {
+            .search-controls {
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+            
+            .filter-select {
+                flex: 1;
+                min-width: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="mobile-toggle" aria-label="Toggle Menu" style="display: none;">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="overlay"></div>
+
+    <div class="app-container">
+        <button class="sidebar-toggle" aria-label="Toggle Sidebar">
+            <svg width="20" height="20" viewBox="0 0 24 24" class="toggle-icon">
+                <path fill="currentColor" d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+            </svg>
+        </button>
+        <aside class="sidebar">
+        
+            <div class="sidebar-top">
+                <a href="./index.html">
+                <div class="logo-container">
+                    <img class="small-logo" style="width: 70%;" src="./digitalindilogo.png" alt="DigitalIndians Small Logo">
+                    <img class="full-logo" style="width: 70%;" src="./digitalindia-logo.png" alt="DigitalIndians Logo">
+                </div></a>
+                <div class="new-thread">
+                    <button class="btn-new-thread">
+                        <i class="fas fa-plus"></i>
+                        <span class="btn-text">New Query</span>
+                        <span class="shortcut">Ctrl I</span>
+                    </button>
+                </div>
+                <nav class="nav-menu">
+                    <a href="index.html" class="nav-item"><i class="fas fa-home"></i> <span class="nav-text">Home</span></a>
+                    <a href="discover.html" class="nav-item"><i class="fas fa-compass"></i> <span class="nav-text">Discover</span></a>
+                    <a href="youtube.html" class="nav-item"><i class="fab fa-youtube"></i> <span class="nav-text">YouTubers</span></a>
+                    <a href="spaces.html" class="nav-item"><i class="fas fa-layer-group"></i> <span class="nav-text">Spaces</span></a>
+                    <a href="library.html" class="nav-item"><i class="fas fa-book"></i> <span class="nav-text">Library</span></a>
+                    <a href="listing.html" class="nav-item active"><i class="fas fa-list"></i> <span class="nav-text">Listings</span></a>
+                </nav>
+            </div>
+            <div class="sidebar-bottom">
+                <a style="text-decoration: none;" href="login.html" class="btn-sign-up">
+                    <i class="fas fa-user-plus"></i>
+                    <span style="text-decoration: none;" class="btn-text">Login</span>
+                </a>
+            </div>
+        </aside>
+        <main class="main-content">
+            <div class="main-header">
+                <h1>Listings</h1>
+                <div class="search-controls">
+                    <input type="text" id="searchInput" placeholder="Search providers...">
+                    <select id="categoryFilter" class="filter-select" style="display: none;">
+                        <option value="">All Categories</option>
+                        <option value="b2b">B2B</option>
+                        <option value="beauty">Beauty & Personal Care</option>
+                        <option value="doctors">Doctors</option>
+                        <option value="restaurants">Restaurants</option>
+                        <option value="astrology">Astrology</option>
+                        <option value="education">Education</option>
+                    </select>
+                    <select id="typeFilter" class="filter-select">
+                        <option value="">All Types</option>
+                        <option value="Business">Business</option>
+                        <option value="Personnel">Personnel</option>
+                    </select>
+                    <button class="btn-sign-up" id="searchButton" style="border-radius: 50px; margin-bottom: 0px;">Search</button>
+                </div>
+            </div>
+            <div class="discover-container">
+                <!-- Filter options -->
+                <!--<div class="filter-options">
+                    <div class="filter-option active" data-filter="all">All Categories</div>
+                    <div class="filter-option" data-filter="Business">Business</div>
+                    <div class="filter-option" data-filter="Personnel">Personnel</div>
+                </div>-->
+                
+                <!-- Listings Results Section -->
+                <div id="listings-results" class="popular-listings-section">
+                    <h2 class="section-title">Featured Providers</h2>
+                    <div id="listings-grid" class="listings-grid">
+                        <!-- Loading state -->
+                        <div id="loading-indicator" style="text-align: center; padding: 30px; grid-column: 1/-1;">
+                            <i class="fas fa-spinner fa-spin" style="font-size: 40px; color: #157a9d;"></i>
+                            <p>Loading providers...</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- No Results Message -->
+                <div id="no-results" style="display: none; text-align: center; padding: 30px;">
+                    <i class="fas fa-search" style="font-size: 40px; color: #999; margin-bottom: 15px;"></i>
+                    <p>No providers found matching your search. Try different keywords.</p>
+                </div>
+                
+                <!-- Error Message -->
+                <div id="error-message" style="display: none; text-align: center; padding: 30px; color: #d9534f;">
+                    <i class="fas fa-exclamation-circle" style="font-size: 40px; margin-bottom: 15px;"></i>
+                    <p>Failed to load providers. Please try again later.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+    <!-- Mobile Navigation Bar -->
+    <nav class="mobile-nav">
+        <div class="mobile-nav-menu">
+            <a href="index.html" class="mobile-nav-item active">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="discover.html" class="mobile-nav-item">
+                <i class="fas fa-compass"></i>
+                <span>Discover</span>
+            </a>
+            <a href="spaces.html" class="mobile-nav-item">
+                <i class="fas fa-layer-group"></i>
+                <span>Spaces</span>
+            </a>
+            <a href="library.html" class="mobile-nav-item">
+                <i class="fas fa-book"></i>
+                <span>Library</span>
+            </a>
+            <a href="javascript:void(0)" class="mobile-nav-item" id="moreBtn">
+                <i class="fas fa-ellipsis-h"></i>
+                <span>More</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Mobile Slide Menu -->
+    <div class="mobile-slide-menu" id="slideMenu">
+        <div class="slide-menu-header">
+            <span class="slide-menu-title">More Options</span>
+            <button class="slide-menu-close" id="closeSlideMenu">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="mobile-nav-menu">
+            <a href="youtube.html" class="mobile-nav-item">
+                <i class="fab fa-youtube"></i>
+                <span>YouTubers</span>
+            </a>
+            <a href="listing.html" class="mobile-nav-item">
+                <i class="fas fa-list"></i>
+                <span>Listings</span>
+            </a>
+            <a href="login.html" class="mobile-nav-item">
+                <i class="fas fa-user"></i>
+                <span>Login</span>
+            </a>
+            <a href="business-listing.html" class="mobile-nav-item">
+                <i class="fas fa-store"></i>
+                <span>List Business</span>
+            </a>
+        </div>
+    </div>
+    <script src="gemini-api.js"></script>
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileToggle = document.querySelector('.mobile-toggle');
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.querySelector('.overlay');
+            const mainContent = document.querySelector('.main-content');
+            const filterOptions = document.querySelectorAll('.filter-option');
+            const searchInput = document.getElementById('searchInput');
+            const searchButton = document.querySelector('.main-header .btn-sign-up');
+            
+            // API Configuration
+            const API_CONFIG = {
+                url: 'https://bmsbeta.dileep.live/api/Response/ProcessGetProviderList/000001',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'CCode': 'DGIndians',
+                    'TokenCode': localStorage.getItem('authToken') || 'default_token',
+                    'Email': localStorage.getItem('userEmail') || 'default_email'
+                }
+            };
+            
+            let currentFilter = 'all';
+            let providers = [];
+            let defaultProviders = [];
+
+            // Toggle sidebar on mobile
+            function toggleSidebar() {
+                sidebar.classList.toggle('active');
+                overlay.classList.toggle('active');
+                mobileToggle.classList.toggle('active');
+            }
+
+            mobileToggle.addEventListener('click', toggleSidebar);
+            overlay.addEventListener('click', toggleSidebar);
+
+            // Mobile navigation handlers
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    if (window.innerWidth <= 768) {
+                        toggleSidebar();
+                    }
+                });
+            });
+
+            // Fetch providers from API
+            async function fetchProviders(searchTerm = '', providerType = '', category = '') {
+                const loadingIndicator = document.getElementById('loading-indicator');
+                const errorMessage = document.getElementById('error-message');
+                const noResults = document.getElementById('no-results');
+                const listingsResults = document.getElementById('listings-results');
+                const listingsGrid = document.getElementById('listings-grid');
+            
+                try {
+                    // Show loading state
+                    if (loadingIndicator) loadingIndicator.style.display = 'block';
+                    if (errorMessage) errorMessage.style.display = 'none';
+                    if (noResults) noResults.style.display = 'none';
+                    if (listingsResults) listingsResults.style.display = 'none';
+            
+                    // Clear existing content
+                    listingsGrid.innerHTML = '';
+            
+                    // Format the category based on the selection
+                    let formattedCategory = '';
+                    if (category) {
+                        // Map the category values to your API's expected format
+                        const categoryMap = {
+                            'b2b': 'B2B',
+                            'beauty': 'Beauty & Personal Care',
+                            'doctors': 'Doctors',
+                            'restaurants': 'Restaurants',
+                            'astrology': 'Astrology',
+                            'education': 'Education'
+                        };
+                        formattedCategory = categoryMap[category] || category;
+                    }
+            
+                    const response = await fetch(API_CONFIG.url, {
+                        method: 'POST',
+                        headers: API_CONFIG.headers,
+                        body: JSON.stringify({
+                            "ProviderCategory": formattedCategory,
+                            "ProviderName": searchTerm,
+                            "ProviderType": providerType
+                        })
+                    });
+            
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+            
+                    const data = await response.json();
+            
+                    if (!data.ProfileDetails || data.ProfileDetails.length === 0) {
+                        if (searchTerm) {
+                            if (noResults) noResults.style.display = 'block';
+                            if (listingsResults) listingsResults.style.display = 'none';
+                        } else {
+                            if (noResults) noResults.style.display = 'none';
+                            if (listingsResults) listingsResults.style.display = 'block';
+                            displayProviders(defaultProviders, '');
+                        }
+                    } else {
+                        if (noResults) noResults.style.display = 'none';
+                        if (listingsResults) listingsResults.style.display = 'block';
+                        providers = data.ProfileDetails;
+                        if (!searchTerm) {
+                            defaultProviders = [...providers];
+                        }
+                        displayProviders(providers, searchTerm);
+                    }
+                } catch (error) {
+                    console.error('Error fetching providers:', error);
+                    if (errorMessage) errorMessage.style.display = 'block';
+                    if (listingsResults) listingsResults.style.display = 'none';
+                } finally {
+                    if (loadingIndicator) loadingIndicator.style.display = 'none';
+                }
+            }
+            
+            // Display providers in the grid
+            function displayProviders(providers, searchTerm = '') {
+                const grid = document.getElementById('listings-grid');
+                grid.innerHTML = '';
+                
+                const filteredProviders = providers.filter(provider => 
+                    (currentFilter === 'all' || provider.ProfileType === currentFilter)
+                );
+                
+                if (filteredProviders.length === 0) {
+                    document.getElementById('no-results').style.display = 'block';
+                    document.getElementById('listings-results').style.display = 'none';
+                    return;
+                }
+                
+                const title = document.querySelector('#listings-results .section-title');
+                title.textContent = searchTerm ? 
+                    `Results (${filteredProviders.length})` : 
+                    'Featured Providers';
+                
+                filteredProviders.forEach(provider => {
+                    const card = createProviderCard(provider);
+                    grid.appendChild(card);
+                });
+            }
+            
+            // Create provider card element
+            function createProviderCard(provider) {
+                const card = document.createElement('div');
+                card.className = 'listing-card';
+                card.setAttribute('data-id', provider.Code);
+                
+                card.onclick = function() {
+                    // Redirect based on ProfileType
+                    if (provider.ProfileType === 'Business') {
+                        window.location.href = `business-details.html?Code=${encodeURIComponent(provider.Code)}`;
+                    } else {
+                        window.location.href = `expert-details.html?Code=${encodeURIComponent(provider.Code)}`;
+                    }
+                };
+                
+                // Use base64 data URI for fallback image
+                const fallbackImage = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
+                const avatarUrl = provider.ProfileImage || provider.avatar || 'https://provider.digitalindians.org/Documents/profile.jpg';
+                const rating = provider.rating ? provider.rating.split('(')[0].trim() : '★ New';
+                
+                card.innerHTML = `
+                    <div class="listing-thumbnail">
+                        <img src="${avatarUrl}" alt="${provider.Name}" 
+                            onerror="this.onerror=null; this.src='${fallbackImage}'">
+                        ${provider.ProfileType === 'Business' ? '<div class="featured-badge">Business</div>' : ''}
+                        <div class="listing-price">${rating}</div>
+                    </div>
+                    <div class="listing-info">
+                        <h3>${provider.Name}</h3>
+                        <p class="listing-location"><i class="fas fa-briefcase"></i> ${provider.Profession || 'Professional'}</p>
+                        <p class="listing-category">${provider.ProfileType || 'Service Provider'}</p>
+                    </div>
+                `;
+                
+                return card;
+            }
+            
+            // Filter functionality
+            filterOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    filterOptions.forEach(opt => opt.classList.remove('active'));
+                    this.classList.add('active');
+                    currentFilter = this.getAttribute('data-filter');
+                    const searchTerm = searchInput.value.trim();
+                    if (searchTerm) {
+                        fetchProviders(searchTerm, currentFilter === 'all' ? '' : currentFilter);
+                    } else {
+                        displayProviders(defaultProviders);
+                    }
+                });
+            });
+            
+            // Search functionality
+            function handleSearch() {
+                const searchTerm = document.getElementById('searchInput').value.trim();
+                const categoryValue = document.getElementById('categoryFilter').value;
+                const typeValue = document.getElementById('typeFilter').value;
+                
+                // Update URL with search parameters
+                const searchParams = new URLSearchParams(window.location.search);
+                if (searchTerm) searchParams.set('search', searchTerm);
+                if (categoryValue) searchParams.set('category', categoryValue);
+                if (typeValue) searchParams.set('type', typeValue);
+                
+                const newUrl = `${window.location.pathname}?${searchParams.toString()}`;
+                window.history.pushState({}, '', newUrl);
+                
+                // Fetch providers with all parameters
+                fetchProviders(searchTerm, typeValue, categoryValue);
+            }
+            
+            // Add event listeners for search
+            if (searchButton) {
+                searchButton.addEventListener('click', handleSearch);
+            }
+            
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    handleSearch();
+                }
+            });
+            
+            // Initial load with internal 'S' search
+            fetchProviders('S');
+
+            // Get URL parameters on page load
+            const urlParams = new URLSearchParams(window.location.search);
+            const searchParam = urlParams.get('search') || '';
+            const categoryParam = urlParams.get('category') || '';
+            const typeParam = urlParams.get('type') || '';
+
+            // Set initial values in filters
+            document.getElementById('searchInput').value = searchParam;
+            document.getElementById('categoryFilter').value = categoryParam;
+            document.getElementById('typeFilter').value = typeParam;
+
+            // Automatically trigger search if any parameter exists in URL
+            if (searchParam || categoryParam || typeParam) {
+                // Small delay to ensure DOM is fully loaded
+                setTimeout(() => {
+                    const searchButton = document.getElementById('searchButton');
+                    if (searchButton) {
+                        searchButton.click();
+                    }
+                }, 500);
+            } else {
+                // Initial load with 'S' if no parameters
+                fetchProviders('S');
+            }
+        });
+        // Add mobile navigation functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const moreBtn = document.getElementById('moreBtn');
+            const slideMenu = document.getElementById('slideMenu');
+            const closeSlideMenu = document.getElementById('closeSlideMenu');
+            let touchStartY = 0;
+            let touchEndY = 0;
+
+            // Slide menu functionality
+            moreBtn.addEventListener('click', function() {
+                slideMenu.classList.add('active');
+            });
+
+            closeSlideMenu.addEventListener('click', function() {
+                slideMenu.classList.remove('active');
+            });
+
+            // Close slide menu when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!slideMenu.contains(e.target) && !moreBtn.contains(e.target)) {
+                    slideMenu.classList.remove('active');
+                }
+            });
+
+            // Pull to refresh functionality
+            const pullToRefresh = document.querySelector('.pull-to-refresh');
+            const mainContent = document.querySelector('.main-content');
+
+            mainContent.addEventListener('touchstart', function(e) {
+                touchStartY = e.touches[0].clientY;
+            });
+
+            mainContent.addEventListener('touchmove', function(e) {
+                touchEndY = e.touches[0].clientY;
+                const diff = touchEndY - touchStartY;
+
+                if (diff > 50 && window.scrollY === 0) {
+                    pullToRefresh.classList.add('active');
+                }
+            });
+
+            mainContent.addEventListener('touchend', function() {
+                if (pullToRefresh.classList.contains('active')) {
+                    setTimeout(function() {
+                        window.location.reload();
+                    }, 1000);
+                }
+            });
+
+            // Active state for mobile nav items
+            const navItems = document.querySelectorAll('.mobile-nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    if (!this.id || this.id !== 'moreBtn') {
+                        navItems.forEach(i => i.classList.remove('active'));
+                        this.classList.add('active');
+                    }
+                });
+            });
+
+            // Smooth scroll to top
+            const scrollToTop = () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            };
+
+            // Add swipe gesture for slide menu
+            let touchStartX = 0;
+            let touchEndX = 0;
+
+            document.addEventListener('touchstart', function(e) {
+                touchStartX = e.touches[0].clientX;
+            });
+
+            document.addEventListener('touchend', function(e) {
+                touchEndX = e.changedTouches[0].clientX;
+                const diff = touchEndX - touchStartX;
+
+                if (Math.abs(diff) > 100) {
+                    if (diff > 0 && !slideMenu.classList.contains('active')) {
+                        // Swipe right
+                        slideMenu.classList.add('active');
+                    } else if (diff < 0 && slideMenu.classList.contains('active')) {
+                        // Swipe left
+                        slideMenu.classList.remove('active');
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

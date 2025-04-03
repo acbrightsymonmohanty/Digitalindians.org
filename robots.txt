@@ -1,0 +1,14 @@
+User-agent: *
+Disallow: /data/
+Disallow: /gemini-api.js
+Disallow: /api.html
+Disallow: /search.html
+Disallow: /expert-details.html
+Disallow: /business-details.html
+
+Allow: /blog/
+Allow: /search-results/
+Allow: /provider-listing/
+Allow: /youtubers-listing/
+Allow: /business-listing/
+Allow: /freelancer-listing/

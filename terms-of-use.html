@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>Terms of Use - DigitalIndians</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Page Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #333;
+            scroll-behavior: smooth;
+        }
+        
+        body.no-scroll {
+            overflow: hidden;
+        }
+
+        /* Header Styles */
+        .listing-header {
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 385px;
+        }
+        
+        .logo {
+            height: 40px;
+        }
+        
+        .header-nav {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-link {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #157a9d, #19aa8d);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: #157a9d;
+            background-color: rgba(21, 122, 157, 0.05);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link.active {
+            color: #157a9d;
+            background-color: rgba(21, 122, 157, 0.1);
+        }
+        
+        .nav-link.active::after {
+            width: 100%;
+        }
+        
+        .header-phone {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            color: #333;
+            padding: 8px 15px;
+            border-radius: 30px;
+            background-color: #f0f7fa;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .header-phone:hover {
+            background-color: #e1f5fe;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        @media (max-width: 768px) {
+            .header-nav {
+                gap: 15px;
+            }
+            
+            .nav-link {
+                padding: 6px 10px;
+                font-size: 14px;
+            }
+            
+            .header-phone {
+                padding: 6px 10px;
+                font-size: 14px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .header-nav {
+                gap: 5px;
+            }
+            
+            .nav-link {
+                padding: 4px 8px;
+                font-size: 12px;
+            }
+        }
+        
+        /* Mobile Menu Styles */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            z-index: 101;
+        }
+        
+        .menu-icon {
+            width: 24px;
+            height: 20px;
+            position: relative;
+            transform: rotate(0deg);
+            transition: .5s ease-in-out;
+        }
+        
+        .menu-icon span {
+            display: block;
+            position: absolute;
+            height: 3px;
+            width: 100%;
+            background: #333;
+            border-radius: 3px;
+            opacity: 1;
+            left: 0;
+            transform: rotate(0deg);
+            transition: .25s ease-in-out;
+        }
+        
+        .menu-icon span:nth-child(1) {
+            top: 0px;
+        }
+        
+        .menu-icon span:nth-child(2), .menu-icon span:nth-child(3) {
+            top: 8px;
+        }
+        
+        .menu-icon span:nth-child(4) {
+            top: 16px;
+        }
+        
+        .menu-icon.open span:nth-child(1) {
+            top: 8px;
+            width: 0%;
+            left: 50%;
+        }
+        
+        .menu-icon.open span:nth-child(2) {
+            transform: rotate(45deg);
+        }
+        
+        .menu-icon.open span:nth-child(3) {
+            transform: rotate(-45deg);
+        }
+        
+        .menu-icon.open span:nth-child(4) {
+            top: 8px;
+            width: 0%;
+            left: 50%;
+        }
+        
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+            
+            .header-right {
+                position: relative;
+            }
+            
+            .header-nav {
+                position: fixed;
+                top: 0;
+                right: -280px;
+                width: 280px;
+                height: 100vh;
+                background: white;
+                padding: 80px 20px 30px;
+                flex-direction: column;
+                gap: 20px;
+                box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+                transition: right 0.3s ease;
+                z-index: 100;
+            }
+            
+            .header-nav.open {
+                right: 0;
+            }
+            
+            .overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 99;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            }
+            
+            .overlay.active {
+                display: block;
+                opacity: 1;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .header-right {
+                gap: 15px;
+            }
+            
+            .header-phone {
+                font-size: 12px;
+                padding: 6px 8px;
+            }
+            
+            .header-phone span {
+                display: none;
+            }
+            
+            .logo {
+                height: 32px;
+            }
+        }
+
+        /* Terms Page Styles */
+        .terms-hero {
+            background: linear-gradient(135deg, #157a9d 0%, #19aa8d 100%);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+        }
+        
+        .terms-hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .terms-hero-title {
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 15px;
+            animation: fadeIn 1s ease forwards;
+        }
+        
+        .terms-hero-subtitle {
+            font-size: 18px;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+            animation: fadeIn 1.5s ease forwards;
+        }
+        
+        .terms-section {
+            padding: 60px 0;
+        }
+        
+        .terms-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .terms-content {
+            padding: 40px;
+        }
+        
+        .terms-content-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: #333;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .terms-content-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #157a9d, #19aa8d);
+        }
+        
+        .terms-date {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+        
+        .terms-section-title {
+            font-size: 22px;
+            font-weight: 600;
+            margin: 40px 0 20px;
+            color: #333;
+        }
+        
+        .terms-section-title:first-of-type {
+            margin-top: 0;
+        }
+        
+        .terms-list {
+            margin-bottom: 25px;
+            padding-left: 20px;
+        }
+        
+        .terms-list li {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        .terms-text {
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 20px;
+        }
+        
+        .terms-highlight {
+            background-color: #f0f7fa;
+            border-left: 4px solid #157a9d;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .terms-highlight-title {
+            font-weight: 600;
+            color: #157a9d;
+            margin-bottom: 10px;
+        }
+        
+        .terms-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0 30px;
+        }
+        
+        .terms-table th {
+            background-color: #f0f7fa;
+            font-weight: 600;
+            text-align: left;
+            padding: 12px 15px;
+            border-bottom: 2px solid #157a9d;
+        }
+        
+        .terms-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .terms-table tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .terms-contact {
+            background-color: #f0f7fa;
+            border-radius: 8px;
+            padding: 25px;
+            margin-top: 40px;
+        }
+        
+        .terms-contact-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 40px;
+            height: 40px;
+            background-color: #157a9d;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 99;
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .back-to-top:hover {
+            background-color: #19aa8d;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .terms-nav {
+            background-color: white;
+            border-bottom: 1px solid #eee;
+            padding: 15px 0;
+            overflow-x: auto;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+            position: sticky;
+            top: 71px;
+            z-index: 99;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .terms-nav-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 20px;
+        }
+        
+        .terms-nav-item {
+            color: #555;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 12px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .terms-nav-item:hover {
+            color: #157a9d;
+            background-color: rgba(21, 122, 157, 0.05);
+        }
+        
+        .terms-nav-item.active {
+            color: #157a9d;
+            background-color: rgba(21, 122, 157, 0.1);
+        }
+        
+        @media (max-width: 768px) {
+            .terms-hero-title {
+                font-size: 32px;
+            }
+            
+            .terms-content {
+                padding: 30px 20px;
+            }
+            
+            .terms-content-title {
+                font-size: 24px;
+            }
+            
+            .terms-section-title {
+                font-size: 20px;
+            }
+            
+            .terms-nav {
+                top: 65px;
+            }
+            
+            .back-to-top {
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+        
+
+        /* Footer */
+        .listing-footer {
+            background-color: #333;
+            color: #fff;
+            padding: 40px 0 20px;
+        }
+        
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-column h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            
+        }
+        
+        .footer-links {
+            display: block;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: #fff;
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #888;
+        }
+
+        .footer-bottom a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-bottom a:hover {
+            color: #157a9d;
+        }
+.social-media {
+            text-align: center;
+        }
+.social-links {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            transform: translateY(-3px);
+            background: #157a9d;
+            color: white;
+        }
+
+        .social-link i {
+            transition: transform 0.3s ease;
+        }
+
+        .social-link:hover i {
+            transform: scale(1.2);
+        }
+
+        /* Social media specific hover colors */
+        .social-link:hover .fa-youtube {
+            color: #FF0000;
+        }
+
+        .social-link:hover .fa-instagram {
+            color: #E4405F;
+        }
+
+        .social-link:hover .fa-facebook {
+            color: #1877F2;
+        }
+
+        .social-link:hover .fa-twitter {
+            color: #1DA1F2;
+        }
+
+        @media (max-width: 768px) {
+            .social-links {
+                gap: 15px;
+            }
+
+            .social-link {
+                width: 35px;
+                height: 35px;
+                font-size: 18px;
+            }
+        }
+        /* Animation Keyframes */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideInUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .fade-in {
+            animation: fadeIn 1s ease forwards;
+        }
+        
+        .slide-in-up {
+            animation: slideInUp 1s ease forwards;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="listing-header">
+        <div class="header-container">
+            <a href="index.html">
+                <img src="./digitalindia-logo.png"
+                    alt="DigitalIndians Logo" class="logo">
+            </a>
+            <div class="header-right">
+                <nav class="header-nav">
+                    <a href="business-listing.html#plans" class="nav-link">Plans & Pricing</a>
+                    <a href="business-listing.html" class="nav-link">List Your Business</a>
+                    <a href="business-listing.html#faq-section" class="nav-link">FAQs</a>
+                </nav>
+                <div class="header-phone">
+                    <a style="text-decoration: none; color: #0e6a8a;" href="tel:+918481889577"  onclick="event.stopPropagation()">
+                        <i class="fa fa-phone"></i>
+                        <span>8481889577</span></a>
+                </div>
+                <button class="mobile-menu-toggle">
+                    <div class="menu-icon">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </button>
+            </div>
+            <div class="overlay"></div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="terms-hero">
+        <div class="terms-hero-container">
+            <h1 class="terms-hero-title">Terms of Use</h1>
+            <p class="terms-hero-subtitle">Please read these terms carefully before using our services.</p>
+        </div>
+    </section>
+    
+    <!-- Terms Navigation -->
+    <nav class="terms-nav">
+        <div class="terms-nav-container">
+            <a href="#introduction" class="terms-nav-item active">Introduction</a>
+            <a href="#eligibility" class="terms-nav-item">Eligibility</a>
+            <a href="#account" class="terms-nav-item">Account</a>
+            <a href="#content" class="terms-nav-item">User Content</a>
+            <a href="#prohibited" class="terms-nav-item">Prohibited Uses</a>
+            <a href="#intellectual" class="terms-nav-item">Intellectual Property</a>
+            <a href="#termination" class="terms-nav-item">Termination</a>
+            <a href="#privacy" class="terms-nav-item">Privacy</a>
+            <a href="#limitation" class="terms-nav-item">Limitation of Liability</a>
+            <a href="#contact" class="terms-nav-item">Contact Us</a>
+        </div>
+    </nav>
+
+    <!-- Terms Section -->
+    <section class="terms-section">
+        <div class="terms-container">
+            <div class="terms-content">
+                <h2 class="terms-content-title">Terms and Conditions of Use</h2>
+                <p class="terms-date">Last Updated: March 15, 2023</p>
+                
+                <h3 class="terms-section-title" id="introduction">1. Introduction</h3>
+                <p class="terms-text">
+                    Welcome to DigitalIndians. These Terms of Use govern your use of our website, mobile applications, and services (collectively, the "Services"). By accessing or using our Services, you agree to be bound by these Terms. If you do not agree to these Terms, please do not use our Services.
+                </p>
+                <p class="terms-text">
+                    DigitalIndians provides a platform for businesses to list their services and for users to discover local businesses across India. We strive to create a trusted environment for users to find reliable information about local businesses and services.
+                </p>
+                
+                <div class="terms-highlight">
+                    <div class="terms-highlight-title">Important Notice</div>
+                    <p>By using our Services, you acknowledge that DigitalIndians is not responsible for the quality of services provided by the businesses listed on our platform. We aim to provide accurate information, but we do not guarantee the accuracy of all business listings.</p>
+                </div>
+                
+                <h3 class="terms-section-title" id="eligibility">2. Eligibility</h3>
+                <p class="terms-text">
+                    You must be at least 18 years old to use our Services. By using our Services, you represent and warrant that:
+                </p>
+                <ul class="terms-list">
+                    <li>You are at least 18 years of age.</li>
+                    <li>You have the legal capacity to enter into binding contracts.</li>
+                    <li>You are not barred from using our Services under applicable laws.</li>
+                    <li>You will comply with these Terms and all applicable local, state, national, and international laws, rules, and regulations.</li>
+                </ul>
+                
+                <h3 class="terms-section-title" id="account">3. User Accounts</h3>
+                <p class="terms-text">
+                    To access certain features of our Services, you may need to register for an account. When you register, you agree to provide accurate, current, and complete information about yourself.
+                </p>
+                <p class="terms-text">
+                    You are responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account. You agree to notify us immediately of any unauthorized use of your account.
+                </p>
+                <p class="terms-text">
+                    We reserve the right to suspend or terminate your account if any information provided during the registration process or thereafter proves to be inaccurate, false, or misleading, or if you fail to comply with these Terms.
+                </p>
+                
+                <h3 class="terms-section-title" id="content">4. User Content</h3>
+                <p class="terms-text">
+                    Our Services may allow you to post, submit, publish, display, or transmit content, including but not limited to text, photographs, videos, reviews, and ratings ("User Content").
+                </p>
+                <p class="terms-text">
+                    You retain all rights in the User Content you post on our Services. By submitting User Content, you grant DigitalIndians a non-exclusive, royalty-free, perpetual, irrevocable, and fully sublicensable right to use, reproduce, modify, adapt, publish, translate, create derivative works from, distribute, and display such User Content throughout the world in any media.
+                </p>
+                <p class="terms-text">
+                    You represent and warrant that:
+                </p>
+                <ul class="terms-list">
+                    <li>You own or have the necessary rights to the User Content you post.</li>
+                    <li>The User Content does not infringe on the intellectual property rights or other rights of any third party.</li>
+                    <li>The User Content does not violate any applicable law or regulation.</li>
+                    <li>The User Content is accurate and not misleading.</li>
+                </ul>
+                
+                <h3 class="terms-section-title" id="prohibited">5. Prohibited Uses</h3>
+                <p class="terms-text">
+                    You agree not to use our Services for any unlawful purpose or in any way that violates these Terms. Specifically, you agree not to:
+                </p>
+                <ul class="terms-list">
+                    <li>Post, upload, or distribute any content that is unlawful, defamatory, harassing, abusive, fraudulent, obscene, or otherwise objectionable.</li>
+                    <li>Impersonate any person or entity or falsely state or otherwise misrepresent your affiliation with a person or entity.</li>
+                    <li>Interfere with or disrupt the operation of our Services or servers or networks connected to our Services.</li>
+                    <li>Use our Services to transmit any malware, viruses, or other harmful code.</li>
+                    <li>Attempt to gain unauthorized access to any part of our Services, other accounts, or computer systems or networks connected to our Services.</li>
+                    <li>Collect or harvest any information from our Services, including user information, without proper consent.</li>
+                    <li>Use our Services for any commercial purpose not expressly approved by DigitalIndians.</li>
+                </ul>
+                
+                <h3 class="terms-section-title" id="intellectual">6. Intellectual Property Rights</h3>
+                <p class="terms-text">
+                    The Services and their content, features, and functionality are owned by DigitalIndians and are protected by copyright, trademark, patent, trade secret, and other intellectual property or proprietary rights laws.
+                </p>
+                <p class="terms-text">
+                    DigitalIndians grants you a limited, non-exclusive, non-transferable, and revocable license to access and use the Services for personal, non-commercial purposes. This license does not include:
+                </p>
+                <ul class="terms-list">
+                    <li>Any resale or commercial use of our Services or their contents.</li>
+                    <li>Any collection and use of any product listings, descriptions, or prices.</li>
+                    <li>Any derivative use of our Services or their contents.</li>
+                    <li>Any downloading or copying of account information for the benefit of another merchant.</li>
+                    <li>Any use of data mining, robots, or similar data gathering and extraction tools.</li>
+                </ul>
+                
+                <h3 class="terms-section-title" id="termination">7. Termination</h3>
+                <p class="terms-text">
+                    We may terminate or suspend your access to all or part of our Services immediately, without prior notice or liability, for any reason, including without limitation if you breach these Terms.
+                </p>
+                <p class="terms-text">
+                    Upon termination, your right to use the Services will immediately cease. All provisions of these Terms which by their nature should survive termination shall survive termination, including, without limitation, ownership provisions, warranty disclaimers, indemnity, and limitations of liability.
+                </p>
+                
+                <h3 class="terms-section-title" id="privacy">8. Privacy Policy</h3>
+                <p class="terms-text">
+                    Your use of our Services is also governed by our Privacy Policy, which can be found at <a href="privacy-policy.html">Privacy Policy</a>. By using our Services, you consent to the collection, use, and sharing of your information as set forth in our Privacy Policy.
+                </p>
+                
+                <h3 class="terms-section-title" id="limitation">9. Limitation of Liability</h3>
+                <p class="terms-text">
+                    In no event shall DigitalIndians, its directors, employees, or agents be liable for any indirect, punitive, incidental, special, consequential, or exemplary damages, including without limitation damages for loss of profits, goodwill, use, data, or other intangible losses, arising out of or relating to your use of, or inability to use, the Services.
+                </p>
+                <p class="terms-text">
+                    DigitalIndians does not guarantee the accuracy, completeness, or usefulness of any information on the Services, including business listings, reviews, or ratings, and is not responsible for any:
+                </p>
+                <ul class="terms-list">
+                    <li>Errors or omissions in content.</li>
+                    <li>Personal injury or property damage, of any nature whatsoever, resulting from your access to and use of our Services.</li>
+                    <li>Unauthorized access to or use of our servers and/or any personal or financial information stored therein.</li>
+                    <li>Interruption or cessation of transmission to or from our Services.</li>
+                    <li>Bugs, viruses, trojan horses, or the like which may be transmitted to or through our Services by any third party.</li>
+                </ul>
+                
+                <table class="terms-table">
+                    <thead>
+                        <tr>
+                            <th>Service</th>
+                            <th>Warranty</th>
+                            <th>Support</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Business Listing</td>
+                            <td>As described in listing</td>
+                            <td>Customer service via email/phone</td>
+                        </tr>
+                        <tr>
+                            <td>User Reviews</td>
+                            <td>No warranty on accuracy</td>
+                            <td>Report inappropriate content</td>
+                        </tr>
+                        <tr>
+                            <td>Search Functionality</td>
+                            <td>Best effort basis</td>
+                            <td>Technical support for issues</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <h3 class="terms-section-title" id="contact">10. Contact Us</h3>
+                <p class="terms-text">
+                    If you have any questions about these Terms, please contact us at:
+                </p>
+                
+                <div class="terms-contact">
+                    <h4 class="terms-contact-title">Contact Information</h4>
+                    <p>Email: legal@digitalindians.org</p>
+                    <p>Phone: +91 8481889577</p>
+                    <p>Address: 1234 Business Park Ave, Suite 100, Mumbai, Maharashtra 400001, India</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Back to Top Button -->
+    <a href="#" class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <!-- Footer -->
+    <footer class="listing-footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3>About Us</h3>
+                    <ul class="footer-links">
+                        <li><a href="about-us.html" target="_blank">About DigitalIndians</a></li>
+                        <li><a href="#advertise-section" target="_blank">Advertise With Us</a></li>
+                        <li><a href="about-us.html#mission-section" target="_blank">Mission</a></li>
+                        <li><a href="contact-us.html" target="_blank">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>For Businesses</h3>
+                    <ul class="footer-links">
+                        <li><a href="business-listing.html#faq-section" target="_blank">List Your Business</a></li>
+                        <li><a href="listing.html" target="_blank">Listing</a></li>
+                        <li><a href="index.html" target="_blank">Home</a></li>
+                        <li><a href="discover.html" target="_blank">Discover</a></li>
+                        <li><a href="spaces.html" target="_blank">Space</a></li>
+                        <li><a href="youtube.html" target="_blank">YouTubers</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Categories</h3>
+                    <ul class="footer-links">
+                        <li><a href="listing.html?category=b2b" target="_blank">B2B</a></li>
+                        <li><a href="listing.html?category=beauty" target="_blank">Beauty & Personal Care</a></li>
+                        <li><a href="listing.html?category=doctors" target="_blank">Doctors</a></li>
+                        <li><a href="listing.html?category=restaurants" target="_blank">Restaurants</a></li>
+                        <li><a href="listing.html?category=astrology" target="_blank">Astrology</a></li>
+                        <li><a href="listing.html?category=education" target="_blank">Education</a></li>
+                    </ul>
+                </div>
+
+                <!--<div class="footer-column">
+                    <h3>Legal</h3>
+                    <ul class="footer-links">
+                        <li><a href="#" target="_blank">Terms of Use</a></li>
+                        <li><a href="#" target="_blank">Privacy Policy</a></li>
+                        <li><a href="#" target="_blank">Cookie Policy</a></li>
+                        <li><a href="#" target="_blank">Infringement Policy</a></li>
+                        <li><a href="#" target="_blank">Sitemap</a></li>
+                    </ul>
+                </div>-->
+                <!-- Add new social media column -->
+                <div class="footer-column social-media">
+                    <h3>Connect With Us</h3>
+                    <div class="social-links">
+                        <a href="https://www.youtube.com/@digitalindians" target="_blank" class="social-link">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="https://www.instagram.com/digitalindians.org/" target="_blank" class="social-link">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://www.facebook.com/digitalindians.org" target="_blank" class="social-link">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="https://twitter.com/digitalindians" target="_blank" class="social-link">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>By continuing, you agree to our <a href="./terms-of-use.html">Terms of Use</a>, <a href="./privacy-infringement-policy.html">Privacy</a> & <a href="./privacy-infringement-policy.html">Infringement Policy</a></p>
+                <p>&copy; 2023 DigitalIndians. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu toggle functionality
+            const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+            const menuIcon = document.querySelector('.menu-icon');
+            const headerNav = document.querySelector('.header-nav');
+            const overlay = document.querySelector('.overlay');
+            
+            function toggleMobileMenu() {
+                menuIcon.classList.toggle('open');
+                headerNav.classList.toggle('open');
+                overlay.classList.toggle('active');
+                document.body.classList.toggle('no-scroll');
+            }
+            
+            if (mobileMenuToggle) {
+                mobileMenuToggle.addEventListener('click', toggleMobileMenu);
+            }
+            
+            if (overlay) {
+                overlay.addEventListener('click', toggleMobileMenu);
+            }
+            
+            // Back to top button
+            const backToTopBtn = document.getElementById('backToTop');
+            
+            if (backToTopBtn) {
+                window.addEventListener('scroll', function() {
+                    if (window.pageYOffset > 300) {
+                        backToTopBtn.classList.add('visible');
+                    } else {
+                        backToTopBtn.classList.remove('visible');
+                    }
+                });
+                
+                backToTopBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                });
+            }
+            
+            // Terms navigation active state
+            const termsNavItems = document.querySelectorAll('.terms-nav-item');
+            const sections = document.querySelectorAll('.terms-section-title');
+            
+            window.addEventListener('scroll', function() {
+                let current = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - 150;
+                    const sectionId = section.getAttribute('id');
+                    
+                    if (window.pageYOffset >= sectionTop) {
+                        current = sectionId;
+                    }
+                });
+                
+                termsNavItems.forEach(item => {
+                    item.classList.remove('active');
+                    const href = item.getAttribute('href').substring(1);
+                    if (href === current) {
+                        item.classList.add('active');
+                    }
+                });
+            });
+            
+            termsNavItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = document.getElementById(this.getAttribute('href').substring(1));
+                    
+                    window.scrollTo({
+                        top: target.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

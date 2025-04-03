@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+    <!-- Homepage -->
+    <url>
+        <loc>https://digitalindians.org/</loc>
+        <priority>1.0</priority>
+        <changefreq>daily</changefreq>
+    </url>
+
+    <!-- Customer Pages -->
+    <url>
+        <loc>https://digitalindians.org/index.html</loc>
+        <priority>0.8</priority>
+        <changefreq>monthly</changefreq>
+    </url>
+    <url>
+        <loc>https://digitalindians.org/search.html</loc>
+        <priority>0.8</priority>
+        <changefreq>weekly</changefreq>
+    </url>
+    <url>
+        <loc>https://digitalindians.org/library.html</loc>
+        <priority>0.7</priority>
+        <changefreq>weekly</changefreq>
+    </url>
+
+    <!-- Search Pages -->
+    <url>
+        <loc>https://digitalindians.org/expert-details.html</loc>
+        <priority>0.9</priority>
+        <changefreq>daily</changefreq>
+    </url>
+
+    <!-- Provider Pages -->
+    <url>
+        <loc>https://digitalindians.org/expert-details.html</loc>
+        <priority>0.9</priority>
+        <changefreq>monthly</changefreq>
+    </url>
+    <url>
+        <loc>https://digitalindians.org/listing.html</loc>
+        <priority>0.9</priority>
+        <changefreq>weekly</changefreq>
+    </url>
+    <url>
+        <loc>https://digitalindians.org/expert-details.html?Code=9038033390</loc>
+        <priority>0.8</priority>
+        <changefreq>weekly</changefreq>
+    </url>
+    <url>
+        <loc>https://digitalindians.org/business-details.html?Code=9038033390</loc>
+        <priority>0.8</priority>
+        <changefreq>weekly</changefreq>
+    </url>
+
+    <!-- YouTuber Pages -->
+    <url>
+        <loc>https://digitalindians.org/youtube.html</loc>
+        <priority>0.9</priority>
+        <changefreq>weekly</changefreq>
+    </url>
+    <url>
+        <loc>https://digitalindians.org/youtube.html?channel=@otvodisha</loc>
+        <priority>0.8</priority>
+        <changefreq>weekly</changefreq>
+    </url>
+
+    <!-- Business & Freelancers -->
+    <url>
+        <loc>https://digitalindians.org/business-listing.html</loc>
+        <priority>0.9</priority>
+        <changefreq>weekly</changefreq>
+    </url>
+    <url>
+        <loc>https://digitalindians.org/enterprise.html</loc>
+        <priority>0.9</priority>
+        <changefreq>weekly</changefreq>
+    </url>
+
+    <!-- Blog & Help Pages -->
+    <url>
+        <loc>https://digitalindians.org/discover.html</loc>
+        <priority>0.7</priority>
+        <changefreq>weekly</changefreq>
+    </url>
+    <url>
+        <loc>https://digitalindians.org/contact-us.html</loc>
+        <priority>0.6</priority>
+        <changefreq>monthly</changefreq>
+    </url>
+    <url>
+        <loc>https://digitalindians.org/contact-us.html</loc>
+        <priority>0.6</priority>
+        <changefreq>monthly</changefreq>
+    </url>
+    <url>
+        <loc>https://digitalindians.org/contact-us.html</loc>
+        <priority>0.5</priority>
+        <changefreq>yearly</changefreq>
+    </url>
+    <url>
+        <loc>https://digitalindians.org/terms-of-use.html</loc>
+        <priority>0.5</priority>
+        <changefreq>yearly</changefreq>
+    </url>
+
+</urlset>

@@ -1,0 +1,19 @@
+/* Base styles */
+.listing-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.listings-logo {
+    width: 150px;
+    height: 150px;
+    margin-bottom: 1.5rem;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+/* Move all styles from listing.html <style> tag here */
+/* ... copy remaining styles ... */

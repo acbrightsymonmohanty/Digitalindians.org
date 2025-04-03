@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>YouTube Channel Viewer</title>
+    <meta name="description" content="View YouTube channel details and videos">
+    <meta property="og:title" content="YouTube Channel Viewer">
+    <meta property="og:description" content="View YouTube channel details and videos">
+    <meta property="og:type" content="website">
+    <link rel="canonical" id="canonicalUrl" href="index.html">
+    <link rel="stylesheet" href="styleyoutub.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="search-container">
+            <div class="nav-left">
+                <img class="youtube-logo" src="./digitalindia-logo.png" alt="YouTube">
+            </div>
+            <div class="nav-middle" >
+                <div class="search-group">
+                    <input type="text" id="searchInput" placeholder="Enter channel name...">
+                    <button onclick="searchChannel()">Search</button>
+                </div>
+            </div>
+            <div>
+                <i class='fas fa-user-circle' style='font-size:48px;color:#167a9d'></i>
+            </div>
+        </div>
+        <div id="results" class="results-container"></div>
+    </div>
+    <script src="scriptyoutub.js"></script>
+</body>
+</html>

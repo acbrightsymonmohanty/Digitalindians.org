@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>Get Started - DigitalIndians</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Base Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #333;
+            scroll-behavior: smooth;
+        }
+        
+        body.no-scroll {
+            overflow: hidden;
+        }
+
+        /* Header Styles */
+        .listing-header {
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 385px;
+        }
+        
+        .logo {
+            height: 40px;
+        }
+        
+        .header-nav {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-link {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #157a9d, #19aa8d);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: #157a9d;
+            background-color: rgba(21, 122, 157, 0.05);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link.active {
+            color: #157a9d;
+            background-color: rgba(21, 122, 157, 0.1);
+        }
+        
+        .nav-link.active::after {
+            width: 100%;
+        }
+        
+        .header-phone {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            color: #333;
+            padding: 8px 15px;
+            border-radius: 30px;
+            background-color: #f0f7fa;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .header-phone:hover {
+            background-color: #e1f5fe;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        @media (max-width: 768px) {
+            .header-nav {
+                gap: 15px;
+            }
+            
+            .nav-link {
+                padding: 6px 10px;
+                font-size: 14px;
+            }
+            
+            .header-phone {
+                padding: 6px 10px;
+                font-size: 14px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .header-nav {
+                gap: 5px;
+            }
+            
+            .nav-link {
+                padding: 4px 8px;
+                font-size: 12px;
+            }
+        }
+
+        /* Mobile Menu Styles */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            z-index: 101;
+        }
+        
+        .menu-icon {
+            width: 24px;
+            height: 20px;
+            position: relative;
+            transform: rotate(0deg);
+            transition: .5s ease-in-out;
+        }
+        
+        .menu-icon span {
+            display: block;
+            position: absolute;
+            height: 3px;
+            width: 100%;
+            background: #333;
+            border-radius: 3px;
+            opacity: 1;
+            left: 0;
+            transform: rotate(0deg);
+            transition: .25s ease-in-out;
+        }
+        
+        .menu-icon span:nth-child(1) { top: 0px; }
+        .menu-icon span:nth-child(2), .menu-icon span:nth-child(3) { top: 8px; }
+        .menu-icon span:nth-child(4) { top: 16px; }
+        
+        .menu-icon.open span:nth-child(1) {
+            top: 8px;
+            width: 0%;
+            left: 50%;
+        }
+        
+        .menu-icon.open span:nth-child(2) { transform: rotate(45deg); }
+        .menu-icon.open span:nth-child(3) { transform: rotate(-45deg); }
+        
+        .menu-icon.open span:nth-child(4) {
+            top: 8px;
+            width: 0%;
+            left: 50%;
+        }
+
+        /* Hero Section */
+        .page-hero {
+            background: linear-gradient(135deg, #157a9d 0%, #19aa8d 100%);
+            color: white;
+            padding: 1px 0;
+            text-align: center;
+        }
+        
+        .page-hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .page-hero-title {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            animation: slideInUp 1s ease forwards;
+        }
+        
+        .page-hero-subtitle {
+            font-size: 20px;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+            animation: slideInUp 1s ease forwards;
+            animation-delay: 0.2s;
+        }
+
+        /* Get Started Page Specific Styles */
+        .feature-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: #157a9d;
+            margin-bottom: 20px;
+        }
+
+        .feature-title {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .feature-description {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .example-section {
+            background: #f8f9fa;
+            padding: 40px;
+            border-radius: 12px;
+            margin: 30px 0;
+        }
+
+        .example-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .example-icon {
+            font-size: 24px;
+            color: #19aa8d;
+            margin-right: 15px;
+        }
+
+        .tip-section {
+            background: linear-gradient(135deg, rgba(21, 122, 157, 0.1) 0%, rgba(25, 170, 141, 0.1) 100%);
+            padding: 30px;
+            border-radius: 12px;
+            margin: 40px 0;
+        }
+
+        .tip-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .tip-number {
+            font-size: 18px;
+            font-weight: 600;
+            color: #157a9d;
+            margin-bottom: 10px;
+        }
+
+        .cta-section {
+            text-align: center;
+            padding: 60px 0;
+            background: linear-gradient(135deg, #157a9d 0%, #19aa8d 100%);
+            color: white;
+            border-radius: 12px;
+            margin: 40px 0;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: #157a9d;
+            padding: 15px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .learn-more {
+            display: inline-block;
+            color: #157a9d;
+            text-decoration: none;
+            margin-top: 15px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .learn-more:hover {
+            color: #19aa8d;
+        }
+
+        /* Footer */
+        .listing-footer {
+            background-color: #333;
+            color: #fff;
+            padding: 40px 0 20px;
+        }
+        
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-column h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            
+        }
+        
+        .footer-links {
+            display: block;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: #fff;
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #888;
+        }
+
+        .footer-bottom a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-bottom a:hover {
+            color: #157a9d;
+        }
+.social-media {
+            text-align: center;
+        }
+.social-links {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            transform: translateY(-3px);
+            background: #157a9d;
+            color: white;
+        }
+
+        .social-link i {
+            transition: transform 0.3s ease;
+        }
+
+        .social-link:hover i {
+            transform: scale(1.2);
+        }
+
+        /* Social media specific hover colors */
+        .social-link:hover .fa-youtube {
+            color: #FF0000;
+        }
+
+        .social-link:hover .fa-instagram {
+            color: #E4405F;
+        }
+
+        .social-link:hover .fa-facebook {
+            color: #1877F2;
+        }
+
+        .social-link:hover .fa-twitter {
+            color: #1DA1F2;
+        }
+
+        @media (max-width: 768px) {
+            .social-links {
+                gap: 15px;
+            }
+
+            .social-link {
+                width: 35px;
+                height: 35px;
+                font-size: 18px;
+            }
+        }
+        /* Animation Keyframes */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideInUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .fade-in {
+            animation: fadeIn 1s ease forwards;
+        }
+        
+        .slide-in-up {
+            animation: slideInUp 1s ease forwards;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+            
+            .header-right {
+                position: relative;
+            }
+            
+            .header-nav {
+                position: fixed;
+                top: 0;
+                right: -280px;
+                width: 280px;
+                height: 100vh;
+                background: white;
+                padding: 80px 20px 30px;
+                flex-direction: column;
+                gap: 20px;
+                box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+                transition: right 0.3s ease;
+                z-index: 100;
+            }
+            
+            .header-nav.open {
+                right: 0;
+            }
+            
+            .overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 99;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            }
+            
+            .overlay.active {
+                display: block;
+                opacity: 1;
+            }
+
+            .page-hero-title {
+                font-size: 36px;
+            }
+            
+            .page-hero-subtitle {
+                font-size: 18px;
+            }
+            
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .header-right {
+                gap: 15px;
+            }
+            
+            .header-phone {
+                font-size: 12px;
+                padding: 6px 8px;
+            }
+            
+            .header-phone span {
+                display: none;
+            }
+            
+            .logo {
+                height: 32px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="listing-header">
+        <div class="header-container">
+            <a href="index.html">
+                <img src="./digitalindia-logo.png"
+                    alt="DigitalIndians Logo" class="logo">
+            </a>
+            <div class="header-right">
+                <nav class="header-nav">
+                    <a href="business-listing.html#plans" class="nav-link">Plans & Pricing</a>
+                    <a href="business-listing.html" class="nav-link">List Your Business</a>
+                    <a href="business-listing.html#faq-section" class="nav-link">FAQs</a>
+                </nav>
+                <div class="header-phone">
+                    <a style="text-decoration: none; color: #0e6a8a;" href="tel:+918481889577"  onclick="event.stopPropagation()">
+                        <i class="fa fa-phone"></i>
+                        <span>8481889577</span></a>
+                </div>
+                <button class="mobile-menu-toggle">
+                    <div class="menu-icon">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </button>
+            </div>
+            <div class="overlay"></div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="page-hero">
+        <div class="page-hero-container">
+            <h1 class="page-hero-title">Get Started with DigitalIndians.org</h1>
+            <p class="page-hero-subtitle">Your gateway to India's digital transformation. Discover how our platform can help you grow your business and connect with customers.</p>
+        </div>
+    </section>
+
+    <!-- Main Content Section -->
+    <section class="page-section">
+        <div class="page-container">
+            <div class="grid-container">
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3 class="feature-title">Business Discovery</h3>
+                    <p class="feature-description">Find and connect with businesses across India. Our platform helps you discover the perfect services and products for your needs.</p>
+                </div>
+
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-store"></i>
+                    </div>
+                    <h3 class="feature-title">List Your Business</h3>
+                    <p class="feature-description">Showcase your business to millions of potential customers. Create a compelling profile and start growing your online presence.</p>
+                </div>
+
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="feature-title">Community Engagement</h3>
+                    <p class="feature-description">Join a thriving community of businesses and customers. Share experiences, reviews, and build lasting relationships.</p>
+                </div>
+            </div>
+
+            <div class="example-section fade-in">
+                <h2>What Can You Do with DigitalIndians?</h2>
+                
+                <div class="example-card">
+                    <i class="fas fa-store-alt example-icon"></i>
+                    <h3>Business Listing</h3>
+                    <p>Create your business profile, showcase your products and services, and reach customers across India.</p>
+                </div>
+
+                <div class="example-card">
+                    <i class="fas fa-chart-line example-icon"></i>
+                    <h3>Growth Analytics</h3>
+                    <p>Track your business performance, customer engagement, and growth metrics all in one place.</p>
+                </div>
+
+                <div class="example-card">
+                    <i class="fas fa-mobile example-icon"></i>
+                    <h3>Mobile Presence</h3>
+                    <p>Reach customers on their mobile devices with our responsive platform and dedicated mobile app.</p>
+                </div>
+            </div>
+
+            <div class="tip-section fade-in">
+                <h2>Tips for Success</h2>
+
+                <div class="tip-card">
+                    <div class="tip-number">Tip 1: Complete Your Profile</div>
+                    <p>Add detailed business information, high-quality photos, and keep your listing up-to-date to attract more customers.</p>
+                </div>
+
+                <div class="tip-card">
+                    <div class="tip-number">Tip 2: Engage with Reviews</div>
+                    <p>Respond to customer reviews promptly and professionally to build trust and improve your visibility.</p>
+                </div>
+
+                <div class="tip-card">
+                    <div class="tip-number">Tip 3: Utilize Analytics</div>
+                    <p>Monitor your performance metrics and customer insights to make data-driven business decisions.</p>
+                </div>
+            </div>
+
+            <div class="cta-section fade-in">
+                <h2>Ready to Get Started?</h2>
+                <p>Join thousands of businesses already growing with DigitalIndians</p>
+                <a href="business-listing.html" class="cta-button">List Your Business Now</a>
+            </div>
+
+            <div class="example-section fade-in">
+                <h2>Additional Resources</h2>
+                
+                <div class="grid-container">
+                    <div class="example-card">
+                        <i class="fas fa-question-circle example-icon"></i>
+                        <h3>FAQs</h3>
+                        <p>Find answers to common questions about our platform and services.</p>
+                        <a href="#" class="learn-more">Learn More →</a>
+                    </div>
+
+                    <div class="example-card">
+                        <i class="fas fa-comments example-icon"></i>
+                        <h3>Community</h3>
+                        <p>Join our community on Discord to connect with other businesses.</p>
+                        <a href="#" class="learn-more">Join Now →</a>
+                    </div>
+
+                    <div class="example-card">
+                        <i class="fas fa-book example-icon"></i>
+                        <h3>Knowledge Base</h3>
+                        <p>Access guides and tutorials to make the most of our platform.</p>
+                        <a href="#" class="learn-more">Explore →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="listing-footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3>About Us</h3>
+                    <ul class="footer-links">
+                        <li><a href="about-us.html" target="_blank">About DigitalIndians</a></li>
+                        <li><a href="#advertise-section" target="_blank">Advertise With Us</a></li>
+                        <li><a href="about-us.html#mission-section" target="_blank">Mission</a></li>
+                        <li><a href="contact-us.html" target="_blank">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>For Businesses</h3>
+                    <ul class="footer-links">
+                        <li><a href="business-listing.html#faq-section" target="_blank">List Your Business</a></li>
+                        <li><a href="listing.html" target="_blank">Listing</a></li>
+                        <li><a href="index.html" target="_blank">Home</a></li>
+                        <li><a href="discover.html" target="_blank">Discover</a></li>
+                        <li><a href="spaces.html" target="_blank">Space</a></li>
+                        <li><a href="youtube.html" target="_blank">YouTubers</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Categories</h3>
+                    <ul class="footer-links">
+                        <li><a href="listing.html?category=b2b" target="_blank">B2B</a></li>
+                        <li><a href="listing.html?category=beauty" target="_blank">Beauty & Personal Care</a></li>
+                        <li><a href="listing.html?category=doctors" target="_blank">Doctors</a></li>
+                        <li><a href="listing.html?category=restaurants" target="_blank">Restaurants</a></li>
+                        <li><a href="listing.html?category=astrology" target="_blank">Astrology</a></li>
+                        <li><a href="listing.html?category=education" target="_blank">Education</a></li>
+                    </ul>
+                </div>
+
+                <!--<div class="footer-column">
+                    <h3>Legal</h3>
+                    <ul class="footer-links">
+                        <li><a href="#" target="_blank">Terms of Use</a></li>
+                        <li><a href="#" target="_blank">Privacy Policy</a></li>
+                        <li><a href="#" target="_blank">Cookie Policy</a></li>
+                        <li><a href="#" target="_blank">Infringement Policy</a></li>
+                        <li><a href="#" target="_blank">Sitemap</a></li>
+                    </ul>
+                </div>-->
+                <!-- Add new social media column -->
+                <div class="footer-column social-media">
+                    <h3>Connect With Us</h3>
+                    <div class="social-links">
+                        <a href="https://www.youtube.com/@digitalindians" target="_blank" class="social-link">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="https://www.instagram.com/digitalindians.org/" target="_blank" class="social-link">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://www.facebook.com/digitalindians.org" target="_blank" class="social-link">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="https://twitter.com/digitalindians" target="_blank" class="social-link">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>By continuing, you agree to our <a href="./terms-of-use.html">Terms of Use</a>, <a href="./privacy-infringement-policy.html">Privacy</a> & <a href="./privacy-infringement-policy.html">Infringement Policy</a></p>
+                <p>&copy; 2023 DigitalIndians. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu toggle functionality
+            const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+            const menuIcon = document.querySelector('.menu-icon');
+            const headerNav = document.querySelector('.header-nav');
+            const overlay = document.querySelector('.overlay');
+            
+            function toggleMobileMenu() {
+                menuIcon.classList.toggle('open');
+                headerNav.classList.toggle('open');
+                overlay.classList.toggle('active');
+                document.body.classList.toggle('no-scroll');
+            }
+            
+            if (mobileMenuToggle) {
+                mobileMenuToggle.addEventListener('click', toggleMobileMenu);
+            }
+            
+            if (overlay) {
+                overlay.addEventListener('click', toggleMobileMenu);
+            }
+            
+            // Animation on scroll
+            const animateElements = document.querySelectorAll('.fade-in, .slide-in-up');
+            
+            function checkIfInView() {
+                const windowHeight = window.innerHeight;
+                const windowTopPosition = window.scrollY;
+                const windowBottomPosition = windowTopPosition + windowHeight;
+                
+                animateElements.forEach(element => {
+                    const elementHeight = element.offsetHeight;
+                    const elementTopPosition = element.offsetTop;
+                    const elementBottomPosition = elementTopPosition + elementHeight;
+                    
+                    // Check if element is in view
+                    if ((elementBottomPosition >= windowTopPosition) && 
+                        (elementTopPosition <= windowBottomPosition)) {
+                        element.style.opacity = '1';
+                    }
+                });
+            }
+            
+            // Set initial state for animations
+            animateElements.forEach(element => {
+                element.style.opacity = '0';
+                element.style.transition = 'opacity 1s ease';
+            });
+            
+            // Check elements on load
+            window.addEventListener('load', checkIfInView);
+            
+            // Check elements on scroll
+            window.addEventListener('scroll', checkIfInView);
+        });
+    </script>
+</body>
+</html> 
