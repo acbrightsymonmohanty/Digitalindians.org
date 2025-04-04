@@ -20,6 +20,11 @@
             box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.2) !important;
             animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
         }
+        .rotating-text{
+            min-width: 70px;
+            color: #f0f3c2;
+
+        }
         
         /* Slide menu header styles */
         .slide-menu-header {
@@ -2589,23 +2594,10 @@
                 rgba(255,255,255,0) 0%,
                 rgba(255,255,255,0.2) 50%,
         }
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#ffffff">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="Description" content="Connect with trusted businesses, freelancers, and service providers across India. Find the best solutions for your needs with verified professionals on DigitalIndians.org.">
-    <meta name="Keywords" content="service providers in India, find businesses online, verified service providers, best freelancers, local business directory, hire professionals, business leads, customer solutions, trusted suppliers, online service marketplace">
-    <title>Find Verified Service Providers & Businesses | DigitalIndians.org</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     
     
     
-    <style>
         .centered-search-input.error {
             border-color: #e74c3c !important;
             box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.2) !important;
@@ -3840,7 +3832,7 @@
                 <a href="business-listing.html" target="_blank" class="free-listing-btn">
                     <span class="pulse-animation"></span>
                     <i class="fas fa-store"></i>
-                    <span class="btn-text">List Your Business <span class="highlight">FREE <span style="color: #fffdfd;font-weight: 800;">*</span></span></span>
+                    <span class="btn-text">List Your <span class="rotating-text"></span> <span class="highlight">FREE <span style="color: #fffdfd;font-weight: 800;">*</span></span></span>
                     <span class="shimmer-effect"></span>
                 </a>
             </div>
@@ -4421,6 +4413,30 @@
                 }
             });
         });
+         // Rotating text functionality
+         (function() {
+            const words = ['Business', 'Services', 'School', 'University', 'Products', 'Startup','Personal','Company','Brand','Youtube'];
+            let currentIndex = 0;
+            const rotatingText = document.querySelector('.rotating-text');
+            
+            if (rotatingText) {
+                rotatingText.textContent = words[0];
+                rotatingText.style.transition = 'all 0.3s ease';
+                rotatingText.style.display = 'inline-block';
+                
+                setInterval(() => {
+                    rotatingText.style.opacity = '0';
+                    rotatingText.style.transform = 'translateY(10px)';
+                    
+                    setTimeout(() => {
+                        currentIndex = (currentIndex + 1) % words.length;
+                        rotatingText.textContent = words[currentIndex];
+                        rotatingText.style.opacity = '1';
+                        rotatingText.style.transform = 'translateY(0)';
+                    }, 300);
+                }, 3000);
+            }
+        })();
     </script>
 </body>
 </html>
