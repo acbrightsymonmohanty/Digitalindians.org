@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>Privacy & Infringement Policy - DigitalIndians</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Page Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #333;
+            scroll-behavior: smooth;
+        }
+        
+        body.no-scroll {
+            overflow: hidden;
+        }
+
+        /* Header Styles */
+        .listing-header {
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 385px;
+        }
+        
+        .logo {
+            height: 40px;
+        }
+        
+        .header-nav {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-link {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #157a9d, #19aa8d);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: #157a9d;
+            background-color: rgba(21, 122, 157, 0.05);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link.active {
+            color: #157a9d;
+            background-color: rgba(21, 122, 157, 0.1);
+        }
+        
+        .nav-link.active::after {
+            width: 100%;
+        }
+        
+        .header-phone {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            color: #333;
+            padding: 8px 15px;
+            border-radius: 30px;
+            background-color: #f0f7fa;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .header-phone:hover {
+            background-color: #e1f5fe;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        @media (max-width: 768px) {
+            .header-nav {
+                gap: 15px;
+            }
+            
+            .nav-link {
+                padding: 6px 10px;
+                font-size: 14px;
+            }
+            
+            .header-phone {
+                padding: 6px 10px;
+                font-size: 14px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .header-nav {
+                gap: 5px;
+            }
+            
+            .nav-link {
+                padding: 4px 8px;
+                font-size: 12px;
+            }
+        }
+
+        /* Mobile Menu Styles */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            z-index: 101;
+        }
+        
+        .menu-icon {
+            width: 24px;
+            height: 20px;
+            position: relative;
+            transform: rotate(0deg);
+            transition: .5s ease-in-out;
+        }
+        
+        .menu-icon span {
+            display: block;
+            position: absolute;
+            height: 3px;
+            width: 100%;
+            background: #333;
+            border-radius: 3px;
+            opacity: 1;
+            left: 0;
+            transform: rotate(0deg);
+            transition: .25s ease-in-out;
+        }
+        
+        .menu-icon span:nth-child(1) { top: 0px; }
+        .menu-icon span:nth-child(2), .menu-icon span:nth-child(3) { top: 8px; }
+        .menu-icon span:nth-child(4) { top: 16px; }
+        
+        .menu-icon.open span:nth-child(1) {
+            top: 8px;
+            width: 0%;
+            left: 50%;
+        }
+        
+        .menu-icon.open span:nth-child(2) { transform: rotate(45deg); }
+        .menu-icon.open span:nth-child(3) { transform: rotate(-45deg); }
+        
+        .menu-icon.open span:nth-child(4) {
+            top: 8px;
+            width: 0%;
+            left: 50%;
+        }
+
+        /* Page-Specific Styles */
+        .page-hero {
+            background: linear-gradient(135deg, #157a9d 0%, #19aa8d 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        .page-hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .page-hero-title {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            animation: slideInUp 1s ease forwards;
+        }
+        
+        .page-hero-subtitle {
+            font-size: 20px;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+            animation: slideInUp 1s ease forwards;
+            animation-delay: 0.2s;
+        }
+
+        .page-section {
+            padding: 80px 0;
+        }
+        
+        .page-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .policy-section {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .policy-section h2 {
+            color: #157a9d;
+            margin-bottom: 20px;
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        .policy-section h3 {
+            color: #19aa8d;
+            margin: 20px 0 15px;
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        .policy-section p {
+            margin-bottom: 15px;
+            line-height: 1.8;
+            color: #555;
+        }
+
+        .policy-section ul {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+
+        .policy-section li {
+            margin-bottom: 10px;
+            line-height: 1.5;
+            color: #555;
+        }
+
+        .policy-navigation {
+            position: sticky;
+            top: 100px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .policy-navigation ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .policy-navigation li {
+            margin-bottom: 10px;
+        }
+
+        .policy-navigation a {
+            color: #157a9d;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: block;
+            padding: 8px 15px;
+            border-radius: 5px;
+        }
+
+        .policy-navigation a:hover {
+            background-color: rgba(21, 122, 157, 0.05);
+            color: #19aa8d;
+        }
+
+        /* Footer */
+        .listing-footer {
+            background-color: #333;
+            color: #fff;
+            padding: 40px 0 20px;
+        }
+        
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-column h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            
+        }
+        
+        .footer-links {
+            display: block;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: #fff;
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #888;
+        }
+
+        .footer-bottom a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-bottom a:hover {
+            color: #157a9d;
+        }
+.social-media {
+            text-align: center;
+        }
+.social-links {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            transform: translateY(-3px);
+            background: #157a9d;
+            color: white;
+        }
+
+        .social-link i {
+            transition: transform 0.3s ease;
+        }
+
+        .social-link:hover i {
+            transform: scale(1.2);
+        }
+
+        /* Social media specific hover colors */
+        .social-link:hover .fa-youtube {
+            color: #FF0000;
+        }
+
+        .social-link:hover .fa-instagram {
+            color: #E4405F;
+        }
+
+        .social-link:hover .fa-facebook {
+            color: #1877F2;
+        }
+
+        .social-link:hover .fa-twitter {
+            color: #1DA1F2;
+        }
+
+        @media (max-width: 768px) {
+            .social-links {
+                gap: 15px;
+            }
+
+            .social-link {
+                width: 35px;
+                height: 35px;
+                font-size: 18px;
+            }
+        }
+        /* Animation Keyframes */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideInUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .fade-in {
+            animation: fadeIn 1s ease forwards;
+        }
+        
+        .slide-in-up {
+            animation: slideInUp 1s ease forwards;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+            
+            .header-right {
+                position: relative;
+            }
+            
+            .header-nav {
+                position: fixed;
+                top: 0;
+                right: -280px;
+                width: 280px;
+                height: 100vh;
+                background: white;
+                padding: 80px 20px 30px;
+                flex-direction: column;
+                gap: 20px;
+                box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+                transition: right 0.3s ease;
+                z-index: 100;
+            }
+            
+            .header-nav.open {
+                right: 0;
+            }
+            
+            .overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 99;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            }
+            
+            .overlay.active {
+                display: block;
+                opacity: 1;
+            }
+
+            .page-hero-title {
+                font-size: 36px;
+            }
+            
+            .page-hero-subtitle {
+                font-size: 18px;
+            }
+            
+            .policy-navigation {
+                position: static;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .header-right {
+                gap: 15px;
+            }
+            
+            .header-phone {
+                font-size: 12px;
+                padding: 6px 8px;
+            }
+            
+            .header-phone span {
+                display: none;
+            }
+            
+            .logo {
+                height: 32px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="listing-header">
+        <div class="header-container">
+            <a href="index.html">
+                <img src="./digitalindia-logo.png"
+                    alt="DigitalIndians Logo" class="logo">
+            </a>
+            <div class="header-right">
+                <nav class="header-nav">
+                    <a href="business-listing.html#plans" class="nav-link">Plans & Pricing</a>
+                    <a href="business-listing.html" class="nav-link">List Your Business</a>
+                    <a href="business-listing.html#faq-section" class="nav-link">FAQs</a>
+                </nav>
+                <div class="header-phone">
+                    <a style="text-decoration: none; color: #0e6a8a;" href="tel:+918481889577"  onclick="event.stopPropagation()">
+                        <i class="fa fa-phone"></i>
+                        <span>8481889577</span></a>
+                <button class="mobile-menu-toggle">
+                    <div class="menu-icon">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </button>
+            </div>
+            <div class="overlay"></div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="page-hero">
+        <div class="page-hero-container">
+            <h1 class="page-hero-title">Privacy & Infringement Policy</h1>
+            <p class="page-hero-subtitle">Learn about how we protect your privacy and handle intellectual property matters</p>
+        </div>
+    </section>
+
+    <!-- Main Content Section -->
+    <section class="page-section">
+        <div class="page-container">
+            <nav class="policy-navigation fade-in">
+                <ul>
+                    <li><a href="#privacy-policy">Privacy Policy</a></li>
+                    <li><a href="#data-collection">Data Collection</a></li>
+                    <li><a href="#data-usage">Data Usage</a></li>
+                    <li><a href="#infringement">Copyright Infringement</a></li>
+                    <li><a href="#user-rights">User Rights</a></li>
+                    <li><a href="#contact">Contact Information</a></li>
+                </ul>
+            </nav>
+
+            <div id="privacy-policy" class="policy-section fade-in">
+                <h2>Privacy Policy Overview</h2>
+                <p>At Digital Indians, we take your privacy seriously. This policy outlines how we collect, use, and protect your personal information when you use our services.</p>
+                <p>This policy applies to all services offered by Digital Indians, including our website, mobile applications, and business listing services.</p>
+            </div>
+
+            <div id="data-collection" class="policy-section fade-in">
+                <h2>Data Collection</h2>
+                <h3>Information We Collect</h3>
+                <ul>
+                    <li>Personal information (name, email, phone number)</li>
+                    <li>Business information for listings</li>
+                    <li>Usage data and analytics</li>
+                    <li>Device and browser information</li>
+                </ul>
+                
+                <h3>How We Collect Information</h3>
+                <ul>
+                    <li>Direct submission through forms</li>
+                    <li>Automated collection through cookies</li>
+                    <li>Third-party services and analytics</li>
+                </ul>
+            </div>
+
+            <div id="data-usage" class="policy-section fade-in">
+                <h2>Data Usage and Protection</h2>
+                <p>We use your information to:</p>
+                <ul>
+                    <li>Provide and improve our services</li>
+                    <li>Communicate with you about your account</li>
+                    <li>Send relevant updates and notifications</li>
+                    <li>Ensure platform security and prevent fraud</li>
+                </ul>
+            </div>
+
+            <div id="infringement" class="policy-section fade-in">
+                <h2>Copyright Infringement Policy</h2>
+                <p>We respect intellectual property rights and expect our users to do the same. Our policy addresses:</p>
+                <ul>
+                    <li>Copyright protection measures</li>
+                    <li>Trademark rights</li>
+                    <li>Content ownership</li>
+                    <li>DMCA compliance</li>
+                </ul>
+
+                <h3>Reporting Infringement</h3>
+                <p>If you believe your intellectual property rights have been violated, please submit a detailed report including:</p>
+                <ul>
+                    <li>Description of the copyrighted work</li>
+                    <li>Location of the infringing material</li>
+                    <li>Contact information</li>
+                    <li>Statement of good faith belief</li>
+                </ul>
+            </div>
+
+            <div id="user-rights" class="policy-section fade-in">
+                <h2>Your Rights and Choices</h2>
+                <ul>
+                    <li>Access your personal information</li>
+                    <li>Request data correction or deletion</li>
+                    <li>Opt-out of communications</li>
+                    <li>Control cookie preferences</li>
+                </ul>
+            </div>
+
+            <div id="contact" class="policy-section fade-in">
+                <h2>Contact Information</h2>
+                <div class="contact-info">
+                    <p>For privacy-related inquiries:</p>
+                    <p>Email: privacy@digitalindians.com</p>
+                    <p>For copyright infringement reports:</p>
+                    <p>Email: copyright@digitalindians.com</p>
+                    <p>Address: [Your Company Address]</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="listing-footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3>About Us</h3>
+                    <ul class="footer-links">
+                        <li><a href="about-us.html" target="_blank">About DigitalIndians</a></li>
+                        <li><a href="#advertise-section" target="_blank">Advertise With Us</a></li>
+                        <li><a href="about-us.html#mission-section" target="_blank">Mission</a></li>
+                        <li><a href="contact-us.html" target="_blank">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>For Businesses</h3>
+                    <ul class="footer-links">
+                        <li><a href="business-listing.html#faq-section" target="_blank">List Your Business</a></li>
+                        <li><a href="listing.html" target="_blank">Listing</a></li>
+                        <li><a href="index.html" target="_blank">Home</a></li>
+                        <li><a href="discover.html" target="_blank">Discover</a></li>
+                        <li><a href="spaces.html" target="_blank">Space</a></li>
+                        <li><a href="youtube.html" target="_blank">YouTubers</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Categories</h3>
+                    <ul class="footer-links">
+                        <li><a href="listing.html?category=b2b" target="_blank">B2B</a></li>
+                        <li><a href="listing.html?category=beauty" target="_blank">Beauty & Personal Care</a></li>
+                        <li><a href="listing.html?category=doctors" target="_blank">Doctors</a></li>
+                        <li><a href="listing.html?category=restaurants" target="_blank">Restaurants</a></li>
+                        <li><a href="listing.html?category=astrology" target="_blank">Astrology</a></li>
+                        <li><a href="listing.html?category=education" target="_blank">Education</a></li>
+                    </ul>
+                </div>
+
+                <!--<div class="footer-column">
+                    <h3>Legal</h3>
+                    <ul class="footer-links">
+                        <li><a href="#" target="_blank">Terms of Use</a></li>
+                        <li><a href="#" target="_blank">Privacy Policy</a></li>
+                        <li><a href="#" target="_blank">Cookie Policy</a></li>
+                        <li><a href="#" target="_blank">Infringement Policy</a></li>
+                        <li><a href="#" target="_blank">Sitemap</a></li>
+                    </ul>
+                </div>-->
+                <!-- Add new social media column -->
+                <div class="footer-column social-media">
+                    <h3>Connect With Us</h3>
+                    <div class="social-links">
+                        <a href="https://www.youtube.com/@digitalindians" target="_blank" class="social-link">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="https://www.instagram.com/digitalindians.org/" target="_blank" class="social-link">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://www.facebook.com/digitalindians.org" target="_blank" class="social-link">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="https://twitter.com/digitalindians" target="_blank" class="social-link">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>By continuing, you agree to our <a href="./terms-of-use.html">Terms of Use</a>, <a href="./privacy-infringement-policy.html">Privacy</a> & <a href="./privacy-infringement-policy.html">Infringement Policy</a></p>
+                <p>&copy; 2023 DigitalIndians. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu toggle functionality
+            const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+            const menuIcon = document.querySelector('.menu-icon');
+            const headerNav = document.querySelector('.header-nav');
+            const overlay = document.querySelector('.overlay');
+            
+            function toggleMobileMenu() {
+                menuIcon.classList.toggle('open');
+                headerNav.classList.toggle('open');
+                overlay.classList.toggle('active');
+                document.body.classList.toggle('no-scroll');
+            }
+            
+            if (mobileMenuToggle) {
+                mobileMenuToggle.addEventListener('click', toggleMobileMenu);
+            }
+            
+            if (overlay) {
+                overlay.addEventListener('click', toggleMobileMenu);
+            }
+            
+            // Animation on scroll
+            const animateElements = document.querySelectorAll('.fade-in, .slide-in-up');
+            
+            function checkIfInView() {
+                const windowHeight = window.innerHeight;
+                const windowTopPosition = window.scrollY;
+                const windowBottomPosition = windowTopPosition + windowHeight;
+                
+                animateElements.forEach(element => {
+                    const elementHeight = element.offsetHeight;
+                    const elementTopPosition = element.offsetTop;
+                    const elementBottomPosition = elementTopPosition + elementHeight;
+                    
+                    // Check if element is in view
+                    if ((elementBottomPosition >= windowTopPosition) && 
+                        (elementTopPosition <= windowBottomPosition)) {
+                        element.style.opacity = '1';
+                    }
+                });
+            }
+            
+            // Set initial state for animations
+            animateElements.forEach(element => {
+                element.style.opacity = '0';
+                element.style.transition = 'opacity 1s ease';
+            });
+            
+            // Check elements on load
+            window.addEventListener('load', checkIfInView);
+            
+            // Check elements on scroll
+            window.addEventListener('scroll', checkIfInView);
+
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        const headerOffset = 100;
+                        const elementPosition = target.offsetTop;
+                        const offsetPosition = elementPosition - headerOffset;
+
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: "smooth"
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

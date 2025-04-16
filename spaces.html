@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DigitalIndians - Spaces</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Fixed header styles */
+        .main-header {
+            position: sticky;
+            top: 0;
+            background-color: #fff;
+            padding: 15px 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+        
+        .header-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+            margin: 0;
+        }
+        
+        .header-right {
+            display: flex;
+            align-items: center;
+        }
+        
+        .profile-time {
+            margin-right: 1rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .profile-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: #2d7ff9;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        
+        /* Spaces page specific styles */
+        .spaces-container {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .spaces-filter {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        
+        .spaces-search {
+            position: relative;
+            flex: 1;
+            max-width: 400px;
+            margin-right: 20px;
+        }
+        
+        .spaces-search input {
+            width: 100%;
+            padding: 10px 15px 10px 40px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        
+        .spaces-search input:focus {
+            border-color: #2d7ff9;
+            box-shadow: 0 0 0 2px rgba(45, 127, 249, 0.1);
+        }
+        
+        .spaces-search i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+        }
+        
+        .spaces-category-filter {
+            display: flex;
+            overflow-x: auto;
+            padding-bottom: 5px;
+            margin-top: 10px;
+            width: 100%;
+        }
+        
+        .category-filter-btn {
+            padding: 8px 16px;
+            background-color: #f0f0f0;
+            border: none;
+            border-radius: 20px;
+            margin-right: 10px;
+            font-size: 0.85rem;
+            color: #555;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+        
+        .category-filter-btn:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .category-filter-btn.active {
+            background-color: #157a9d;
+            color: white;
+        }
+        
+        .spaces-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        
+        .space-card {
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .space-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
+        }
+        
+        .space-card-banner {
+            height: 120px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .space-card-banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .space-card-banner-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+            padding: 20px 15px 15px;
+            color: white;
+        }
+        
+        .space-card-category {
+            font-size: 0.75rem;
+            font-weight: 500;
+            background-color: rgb(21 122 157);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+            display: inline-block;
+        }
+        
+        .space-card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 0;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+        
+        .space-card-content {
+            padding: 15px;
+        }
+        
+        .space-card-desc {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
+        .space-card-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 10px;
+            border-top: 1px solid #f0f0f0;
+            color: #666;
+            font-size: 0.85rem;
+        }
+        
+        .space-card-stat {
+            display: flex;
+            align-items: center;
+        }
+        
+        .space-card-stat i {
+            margin-right: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .space-create-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #157a9d;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(45, 127, 249, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 90;
+            border: none;
+        }
+        
+        .space-create-btn:hover {
+            transform: scale(1.1);
+            background-color: #1a6cd1;
+        }
+        
+        .space-create-btn i {
+            font-size: 1.5rem;
+        }
+        
+        /* Translation notification styles */
+        .translation-notification {
+            position: fixed;
+            bottom: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            transition: bottom 0.3s ease;
+        }
+        
+        .translation-notification.show {
+            bottom: 20px;
+        }
+        
+        .translation-notification i {
+            margin-right: 10px;
+            color: #4CAF50;
+        }
+        
+        .translation-notification span {
+            flex: 1;
+        }
+        
+        .close-notification {
+            background: none;
+            border: none;
+            color: #aaa;
+            cursor: pointer;
+            margin-left: 10px;
+            padding: 0;
+            font-size: 14px;
+        }
+        
+        .close-notification:hover {
+            color: white;
+        }
+        
+        @media (max-width: 992px) {
+            .spaces-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .spaces-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .spaces-filter {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .spaces-search {
+                max-width: 100%;
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+            
+            .header-title {
+                font-size: 1.2rem;
+            }
+        }
+
+        
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-toggle {
+                display: flex;
+            }
+
+            .mobile-toggle i {
+                font-size: 20px;
+                color: #333;
+                transition: transform 0.3s ease;
+            }
+
+            .mobile-toggle.active i {
+                transform: rotate(90deg);
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                width: 280px;
+                z-index: 1000;
+                transition: transform 0.3s ease;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .overlay.active {
+                display: block;
+                opacity: 1;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding-top: 0px;
+                width: 100%;
+            }
+
+            .spaces-container {
+                padding: 10px;
+            }
+
+            .spaces-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .spaces-filter {
+                flex-direction: column;
+                margin-bottom: 15px;
+            }
+
+            .spaces-search {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+
+            .spaces-category-filter {
+                padding: 10px 0;
+                margin-bottom: 10px;
+            }
+
+            .category-filter-btn {
+                padding: 6px 12px;
+                font-size: 13px;
+            }
+
+            .space-card {
+                margin-bottom: 15px;
+            }
+
+            .space-card-banner {
+                height: 160px;
+            }
+
+            .space-create-btn {
+                bottom: 20px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+            }
+
+            .header-title {
+                margin-left: 35px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .spaces-container {
+                padding: 8px;
+            }
+
+            .space-card-banner {
+                height: 140px;
+            }
+
+            .space-card-title {
+                font-size: 16px;
+            }
+
+            .space-card-desc {
+                font-size: 14px;
+            }
+
+            .space-card-stats {
+                font-size: 12px;
+            }
+        }
+    </style>
+    <script>
+        // Check authentication on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const authToken = localStorage.getItem('authToken');
+            if (!authToken) {
+                console.log("User not logged in, redirecting to login page");
+                
+                // Show a notification that login is required
+                const notification = document.createElement('div');
+                notification.className = 'translation-notification';
+                notification.innerHTML = '<i class="fas fa-lock"></i>' +
+                    '<span>Login required to access this page</span>' +
+                    '<button class="close-notification"><i class="fas fa-times"></i></button>';
+                
+                document.body.appendChild(notification);
+                
+                // Add event listener for close button
+                const closeBtn = notification.querySelector('.close-notification');
+                if (closeBtn) {
+                    closeBtn.addEventListener('click', function() {
+                        notification.classList.remove('show');
+                        setTimeout(() => {
+                            notification.remove();
+                        }, 300);
+                    });
+                }
+                
+                // Show notification with animation
+                setTimeout(() => {
+                    notification.classList.add('show');
+                    
+                    // Redirect to login page after a short delay
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 1500);
+                }, 100);
+            }
+        });
+    </script>
+</head>
+<body>
+    <!-- <button class="mobile-toggle" aria-label="Toggle Menu">
+        <i class="fas fa-bars"></i>
+    </button> -->
+
+    <div class="overlay"></div>
+
+    <div class="app-container">
+        <button class="sidebar-toggle" aria-label="Toggle Sidebar">
+            <svg width="20" height="20" viewBox="0 0 24 24" class="toggle-icon">
+                <path fill="currentColor" d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+            </svg>
+        </button>
+        <aside class="sidebar">
+            
+            <div class="sidebar-top">
+                <a href="./index.html">
+                <div class="logo-container">
+                    <img class="small-logo" style="width: 70%;" src="./digitalindilogo.png" alt="DigitalIndians Small Logo">
+                    <img class="full-logo" style="width: 70%;" src="./digitalindia-logo.png" alt="DigitalIndians Logo">
+                </div></a>
+                <div class="new-thread">
+                    <button class="btn-new-thread">
+                        <i class="fas fa-plus"></i>
+                        <span class="btn-text">New Query</span>
+                        <span class="shortcut">Ctrl I</span>
+                    </button>
+                </div>
+                <nav class="nav-menu">
+                    <a href="index.html" class="nav-item"><i class="fas fa-home"></i> <span class="nav-text">Home</span></a>
+                    <a href="discover.html" class="nav-item"><i class="fas fa-compass"></i> <span class="nav-text">Discover</span></a>
+                    <a href="youtube.html" class="nav-item"><i class="fab fa-youtube"></i> <span class="nav-text">YouTubers</span></a>
+                    <a href="spaces.html" class="nav-item active"><i class="fas fa-layer-group"></i> <span class="nav-text">Spaces</span></a>
+                    <a href="library.html" class="nav-item"><i class="fas fa-book"></i> <span class="nav-text">Library</span></a>
+                    <a href="listing.html" class="nav-item"><i class="fas fa-list"></i> <span class="nav-text">Listings</span></a>
+                </nav>
+            </div>
+            <div class="sidebar-bottom">
+                <a style="text-decoration: none;" href="login.html" class="btn-sign-up">
+                    <i class="fas fa-user-plus"></i>
+                    <span style="text-decoration: none;" class="btn-text">Login</span>
+                </a>
+            </div>
+        </aside>
+        
+        <main class="main-content">
+            <div class="main-header">
+                <div class="header-left">
+                    <h1 class="header-title">Spaces</h1>
+                </div>
+                <div class="header-right">
+                    
+                </div>
+            </div>
+            
+            <div class="spaces-container">
+                <div class="spaces-filter">
+                    <div class="spaces-search">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search spaces...">
+                    </div>
+                    
+                    <div class="spaces-category-filter">
+                        <button class="category-filter-btn active" data-category="all">All Spaces</button>
+                        <button class="category-filter-btn" data-category="technology">Technology</button>
+                        <button class="category-filter-btn" data-category="business">Business</button>
+                        <button class="category-filter-btn" data-category="health">Health & Wellness</button>
+                        <button class="category-filter-btn" data-category="education">Education</button>
+                        <button class="category-filter-btn" data-category="creative">Creative Arts</button>
+                        <button class="category-filter-btn" data-category="lifestyle">Lifestyle</button>
+                    </div>
+                </div>
+                
+                <div class="spaces-grid" id="spaces-grid">
+                    <!-- Spaces cards will be dynamically inserted here -->
+                </div>
+            </div>
+            <a href="https://provider.digitalindians.org/login.aspx" target="_blank">
+                <button class="space-create-btn" id="create-space-btn">
+                    <i class="fas fa-plus"></i>
+                </button>
+            </a>
+        </main>
+    </div>
+    <!-- Mobile Navigation Bar -->
+    <nav class="mobile-nav">
+        <div class="mobile-nav-menu">
+            <a href="index.html" class="mobile-nav-item active">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="discover.html" class="mobile-nav-item">
+                <i class="fas fa-compass"></i>
+                <span>Discover</span>
+            </a>
+            <a href="spaces.html" class="mobile-nav-item">
+                <i class="fas fa-layer-group"></i>
+                <span>Spaces</span>
+            </a>
+            <a href="library.html" class="mobile-nav-item">
+                <i class="fas fa-book"></i>
+                <span>Library</span>
+            </a>
+            <a href="javascript:void(0)" class="mobile-nav-item" id="moreBtn">
+                <i class="fas fa-ellipsis-h"></i>
+                <span>More</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Mobile Slide Menu -->
+    <div class="mobile-slide-menu" id="slideMenu">
+        <div class="slide-menu-header">
+            <span class="slide-menu-title">More Options</span>
+            <button class="slide-menu-close" id="closeSlideMenu">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="mobile-nav-menu">
+            <a href="youtube.html" class="mobile-nav-item">
+                <i class="fab fa-youtube"></i>
+                <span>YouTubers</span>
+            </a>
+            <a href="listing.html" class="mobile-nav-item">
+                <i class="fas fa-list"></i>
+                <span>Listings</span>
+            </a>
+            <a href="login.html" class="mobile-nav-item">
+                <i class="fas fa-user"></i>
+                <span>Login</span>
+            </a>
+            <a href="business-listing.html" class="mobile-nav-item">
+                <i class="fas fa-store"></i>
+                <span>List Business</span>
+            </a>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+    <script>
+        // Update current time
+        function updateCurrentTime() {
+            const timeElement = document.getElementById('current-time');
+            if (timeElement) {
+                const now = new Date();
+                const hours = now.getHours().toString().padStart(2, '0');
+                const minutes = now.getMinutes().toString().padStart(2, '0');
+                timeElement.textContent = `${hours}:${minutes}`;
+            }
+        }
+        
+        // Update time immediately and then every minute
+        updateCurrentTime();
+        setInterval(updateCurrentTime, 60000);
+        
+        // Setup user profile
+        function setupUserProfile() {
+            const profileAvatar = document.getElementById('user-profile-avatar');
+            
+            if (!profileAvatar) return;
+            
+            const authToken = localStorage.getItem('authToken');
+            const userEmail = localStorage.getItem('userEmail');
+            
+            if (authToken && userEmail) {
+                // User is logged in
+                const username = userEmail.split('@')[0];
+                
+                // Update profile avatar with user info
+                profileAvatar.innerHTML = '';
+                
+                // Create image element for avatar
+                const avatarImg = document.createElement('img');
+                avatarImg.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(username)}&background=2d7ff9&color=fff`;
+                avatarImg.alt = username;
+                profileAvatar.appendChild(avatarImg);
+                
+                // Add click event to redirect to account page
+                profileAvatar.addEventListener('click', function() {
+                    window.location.href = 'account.html';
+                });
+            } else {
+                // User is not logged in, show default icon
+                profileAvatar.innerHTML = '<i class="fas fa-user"></i>';
+                
+                // Add click event to redirect to login page
+                profileAvatar.addEventListener('click', function() {
+                    window.location.href = 'login.html';
+                });
+            }
+        }
+        
+        // Sample data for spaces
+        const spacesData = {
+            all: [
+                {
+                    title: "AI Enthusiasts",
+                    description: "A community for discussing the latest advancements in artificial intelligence and machine learning.",
+                    category: "technology",
+                    banner: "https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg",
+                    members: "3.4K",
+                    posts: "752"
+                },
+                {
+                    title: "Startup Founders",
+                    description: "Connect with other entrepreneurs to share experiences, challenges, and strategies for success.",
+                    category: "business",
+                    banner: "https://images.pexels.com/photos/3183183/pexels-photo-3183183.jpeg",
+                    members: "2.8K",
+                    posts: "631"
+                },
+                {
+                    title: "Wellness Warriors",
+                    description: "A supportive community focused on holistic health, fitness, and mental wellbeing.",
+                    category: "health",
+                    banner: "https://images.pexels.com/photos/3822906/pexels-photo-3822906.jpeg",
+                    members: "5.2K",
+                    posts: "1.1K"
+                },
+                {
+                    title: "Coding Challenges",
+                    description: "Improve your programming skills through daily challenges and collaborative problem-solving.",
+                    category: "technology",
+                    banner: "https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg",
+                    members: "4.1K",
+                    posts: "895"
+                },
+                {
+                    title: "Digital Marketing Pros",
+                    description: "Share insights and strategies for effective digital marketing and customer acquisition.",
+                    category: "business",
+                    banner: "https://images.pexels.com/photos/905163/pexels-photo-905163.jpeg",
+                    members: "3.7K",
+                    posts: "823"
+                },
+                {
+                    title: "Mindful Meditation",
+                    description: "Learn and practice meditation techniques for reducing stress and enhancing mental clarity.",
+                    category: "health",
+                    banner: "https://images.pexels.com/photos/3759657/pexels-photo-3759657.jpeg",
+                    members: "6.3K",
+                    posts: "1.4K"
+                },
+                {
+                    title: "Creative Writers Club",
+                    description: "A space for writers to share their work, receive feedback, and discuss the craft of writing.",
+                    category: "creative",
+                    banner: "https://images.pexels.com/photos/3059745/pexels-photo-3059745.jpeg",
+                    members: "3.9K",
+                    posts: "856"
+                },
+                {
+                    title: "Sustainable Living",
+                    description: "Exchange ideas and experiences on eco-friendly lifestyles and sustainable practices.",
+                    category: "lifestyle",
+                    banner: "https://images.pexels.com/photos/1072824/pexels-photo-1072824.jpeg",
+                    members: "4.5K",
+                    posts: "972"
+                },
+                {
+                    title: "Educational Innovators",
+                    description: "Educators and learners exploring new approaches to teaching and knowledge acquisition.",
+                    category: "education",
+                    banner: "https://images.pexels.com/photos/256431/pexels-photo-256431.jpeg",
+                    members: "3.2K",
+                    posts: "715"
+                }
+            ]
+        };
+        
+        // Filter spaces by category
+        function filterSpacesByCategory(category) {
+            if (category === 'all') {
+                return spacesData.all;
+            } else {
+                return spacesData.all.filter(space => space.category === category);
+            }
+        }
+        
+        // Render spaces based on category filter
+        function renderSpaces(category) {
+            const spacesGrid = document.getElementById('spaces-grid');
+            if (!spacesGrid) return;
+            
+            // Clear existing content
+            spacesGrid.innerHTML = '';
+            
+            // Get filtered spaces
+            const filteredSpaces = filterSpacesByCategory(category);
+            
+            // Create space cards
+            filteredSpaces.forEach(space => {
+                const spaceCard = document.createElement('div');
+                spaceCard.className = 'space-card';
+                spaceCard.innerHTML = `
+                    <div class="space-card-banner">
+                        <img src="${space.banner}" alt="${space.title}">
+                        <div class="space-card-banner-overlay">
+                            <span class="space-card-category">${space.category.charAt(0).toUpperCase() + space.category.slice(1)}</span>
+                            <h3 class="space-card-title">${space.title}</h3>
+                        </div>
+                    </div>
+                    <div class="space-card-content">
+                        <p class="space-card-desc">${space.description}</p>
+                        <div class="space-card-stats">
+                            <div class="space-card-stat">
+                                <i class="fas fa-users"></i>
+                                <span>${space.members} members</span>
+                            </div>
+                            <div class="space-card-stat">
+                                <i class="far fa-comment-dots"></i>
+                                <span>${space.posts} posts</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                // Add click event to cards
+                spaceCard.addEventListener('click', function() {
+                    // Check if user is logged in
+                    const authToken = localStorage.getItem('authToken');
+                    if (!authToken) {
+                        // Show notification and redirect to login
+                        const notification = document.createElement('div');
+                        notification.className = 'translation-notification';
+                        notification.innerHTML = '<i class="fas fa-lock"></i>' +
+                            '<span>Login required to access spaces</span>' +
+                            '<button class="close-notification"><i class="fas fa-times"></i></button>';
+                        
+                        document.body.appendChild(notification);
+                        
+                        // Add event listener for close button
+                        const closeBtn = notification.querySelector('.close-notification');
+                        if (closeBtn) {
+                            closeBtn.addEventListener('click', function() {
+                                notification.classList.remove('show');
+                                setTimeout(() => {
+                                    notification.remove();
+                                }, 300);
+                            });
+                        }
+                        
+                        // Show notification and redirect
+                        setTimeout(() => {
+                            notification.classList.add('show');
+                            setTimeout(() => {
+                                window.location.href = 'login.html';
+                            }, 1500);
+                        }, 100);
+                    } else {
+                        // If logged in, redirect or show detail (simulation)
+                        alert(`You clicked on "${space.title}" space. In a real application, this would open the space details.`);
+                    }
+                });
+                
+                spacesGrid.appendChild(spaceCard);
+            });
+        }
+        
+        // Handle category filter buttons
+        function setupCategoryFilters() {
+            const filterButtons = document.querySelectorAll('.category-filter-btn');
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    // Get selected category and render spaces
+                    const category = this.getAttribute('data-category');
+                    renderSpaces(category);
+                });
+            });
+        }
+        
+        // Handle space search
+        function setupSpaceSearch() {
+            const searchInput = document.querySelector('.spaces-search input');
+            if (!searchInput) return;
+            
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase().trim();
+                
+                if (searchTerm === '') {
+                    // If search is empty, show current category
+                    const activeBtn = document.querySelector('.category-filter-btn.active');
+                    const category = activeBtn ? activeBtn.getAttribute('data-category') : 'all';
+                    renderSpaces(category);
+                    return;
+                }
+                
+                // Filter spaces based on search term
+                const filteredSpaces = spacesData.all.filter(space => 
+                    space.title.toLowerCase().includes(searchTerm) || 
+                    space.description.toLowerCase().includes(searchTerm) ||
+                    space.category.toLowerCase().includes(searchTerm)
+                );
+                
+                // Render filtered spaces
+                const spacesGrid = document.getElementById('spaces-grid');
+                if (!spacesGrid) return;
+                
+                // Clear existing content
+                spacesGrid.innerHTML = '';
+                
+                if (filteredSpaces.length === 0) {
+                    // Show no results message
+                    spacesGrid.innerHTML = `
+                        <div style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+                            <i class="fas fa-search" style="font-size: 3rem; color: #ddd; margin-bottom: 20px;"></i>
+                            <h3>No spaces found</h3>
+                            <p>Try different keywords or browse by category</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // Create space cards for filtered results
+                filteredSpaces.forEach(space => {
+                    const spaceCard = document.createElement('div');
+                    spaceCard.className = 'space-card';
+                    spaceCard.innerHTML = `
+                        <div class="space-card-banner">
+                            <img src="${space.banner}" alt="${space.title}">
+                            <div class="space-card-banner-overlay">
+                                <span class="space-card-category">${space.category.charAt(0).toUpperCase() + space.category.slice(1)}</span>
+                                <h3 class="space-card-title">${space.title}</h3>
+                            </div>
+                        </div>
+                        <div class="space-card-content">
+                            <p class="space-card-desc">${space.description}</p>
+                            <div class="space-card-stats">
+                                <div class="space-card-stat">
+                                    <i class="fas fa-users"></i>
+                                    <span>${space.members} members</span>
+                                </div>
+                                <div class="space-card-stat">
+                                    <i class="far fa-comment-dots"></i>
+                                    <span>${space.posts} posts</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Add click event
+                    spaceCard.addEventListener('click', function() {
+                        // Check if user is logged in
+                        const authToken = localStorage.getItem('authToken');
+                        if (!authToken) {
+                            // Prompt for login
+                            alert('Please log in to access this space.');
+                            window.location.href = 'login.html';
+                        } else {
+                            // Open space details (simulation)
+                            alert(`You clicked on "${space.title}" space. In a real application, this would open the space details.`);
+                        }
+                    });
+                    
+                    spacesGrid.appendChild(spaceCard);
+                });
+            });
+        }
+        
+        // Handle create space button
+        function setupCreateSpaceButton() {
+            const createBtn = document.getElementById('create-space-btn');
+            if (!createBtn) return;
+            
+            createBtn.addEventListener('click', function() {
+                // Check if user is logged in
+                const authToken = localStorage.getItem('authToken');
+                if (!authToken) {
+                    // Show notification and redirect to login
+                    const notification = document.createElement('div');
+                    notification.className = 'translation-notification';
+                    notification.innerHTML = '<i class="fas fa-lock"></i>' +
+                        '<span>Login required to create a space</span>' +
+                        '<button class="close-notification"><i class="fas fa-times"></i></button>';
+                    
+                    document.body.appendChild(notification);
+                    
+                    // Add event listener for close button
+                    const closeBtn = notification.querySelector('.close-notification');
+                    if (closeBtn) {
+                        closeBtn.addEventListener('click', function() {
+                            notification.classList.remove('show');
+                            setTimeout(() => {
+                                notification.remove();
+                            }, 300);
+                        });
+                    }
+                    
+                    // Show notification and redirect
+                    setTimeout(() => {
+                        notification.classList.add('show');
+                        setTimeout(() => {
+                            window.location.href = 'login.html';
+                        }, 1500);
+                    }, 100);
+                } else {
+                    
+                }
+            });
+        }
+        
+        // Initialize notification close buttons
+        function initializeNotificationCloseButtons() {
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.close-notification')) {
+                    const notification = e.target.closest('.translation-notification');
+                    if (notification) {
+                        notification.classList.remove('show');
+                        setTimeout(() => {
+                            notification.remove();
+                        }, 300);
+                    }
+                }
+            });
+        }
+        
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set up user profile
+            setupUserProfile();
+            
+            // Set up category filters
+            setupCategoryFilters();
+            
+            // Set up space search
+            setupSpaceSearch();
+            
+            // Set up create space button
+            setupCreateSpaceButton();
+            
+            // Initialize notification close buttons
+            initializeNotificationCloseButtons();
+            
+            // Render initial spaces (all category)
+            renderSpaces('all');
+            
+            // Set up buttons and links
+            const newThreadBtn = document.querySelector('.btn-new-thread');
+            if (newThreadBtn) {
+                newThreadBtn.addEventListener('click', function() {
+                    window.location.href = 'index.html';
+                });
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileToggle = document.querySelector('.mobile-toggle');
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.querySelector('.overlay');
+            const mainContent = document.querySelector('.main-content');
+
+            function toggleSidebar() {
+                sidebar.classList.toggle('active');
+                overlay.classList.toggle('active');
+                mobileToggle.classList.toggle('active');
+            }
+
+            mobileToggle.addEventListener('click', toggleSidebar);
+            overlay.addEventListener('click', toggleSidebar);
+
+            // Close sidebar when clicking nav items
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    if (window.innerWidth <= 768) {
+                        toggleSidebar();
+                    }
+                });
+            });
+
+            // Handle swipe gestures
+            let touchStartX = 0;
+            let touchEndX = 0;
+
+            mainContent.addEventListener('touchstart', e => {
+                touchStartX = e.changedTouches[0].screenX;
+            }, false);
+
+            mainContent.addEventListener('touchend', e => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            }, false);
+
+            function handleSwipe() {
+                const swipeDistance = touchEndX - touchStartX;
+                if (Math.abs(swipeDistance) > 50) {
+                    if (swipeDistance > 0 && !sidebar.classList.contains('active')) {
+                        toggleSidebar(); // Open sidebar on right swipe
+                    } else if (swipeDistance < 0 && sidebar.classList.contains('active')) {
+                        toggleSidebar(); // Close sidebar on left swipe
+                    }
+                }
+            }
+        });
+        // Add mobile navigation functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const moreBtn = document.getElementById('moreBtn');
+            const slideMenu = document.getElementById('slideMenu');
+            const closeSlideMenu = document.getElementById('closeSlideMenu');
+            let touchStartY = 0;
+            let touchEndY = 0;
+
+            // Slide menu functionality
+            moreBtn.addEventListener('click', function() {
+                slideMenu.classList.add('active');
+            });
+
+            closeSlideMenu.addEventListener('click', function() {
+                slideMenu.classList.remove('active');
+            });
+
+            // Close slide menu when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!slideMenu.contains(e.target) && !moreBtn.contains(e.target)) {
+                    slideMenu.classList.remove('active');
+                }
+            });
+
+            // Pull to refresh functionality
+            const pullToRefresh = document.querySelector('.pull-to-refresh');
+            const mainContent = document.querySelector('.main-content');
+
+            mainContent.addEventListener('touchstart', function(e) {
+                touchStartY = e.touches[0].clientY;
+            });
+
+            mainContent.addEventListener('touchmove', function(e) {
+                touchEndY = e.touches[0].clientY;
+                const diff = touchEndY - touchStartY;
+
+                if (diff > 50 && window.scrollY === 0) {
+                    pullToRefresh.classList.add('active');
+                }
+            });
+
+            mainContent.addEventListener('touchend', function() {
+                if (pullToRefresh.classList.contains('active')) {
+                    setTimeout(function() {
+                        window.location.reload();
+                    }, 1000);
+                }
+            });
+
+            // Active state for mobile nav items
+            const navItems = document.querySelectorAll('.mobile-nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    if (!this.id || this.id !== 'moreBtn') {
+                        navItems.forEach(i => i.classList.remove('active'));
+                        this.classList.add('active');
+                    }
+                });
+            });
+
+            // Smooth scroll to top
+            const scrollToTop = () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            };
+
+            // Add swipe gesture for slide menu
+            let touchStartX = 0;
+            let touchEndX = 0;
+
+            document.addEventListener('touchstart', function(e) {
+                touchStartX = e.touches[0].clientX;
+            });
+
+            document.addEventListener('touchend', function(e) {
+                touchEndX = e.changedTouches[0].clientX;
+                const diff = touchEndX - touchStartX;
+
+                if (Math.abs(diff) > 100) {
+                    if (diff > 0 && !slideMenu.classList.contains('active')) {
+                        // Swipe right
+                        slideMenu.classList.add('active');
+                    } else if (diff < 0 && slideMenu.classList.contains('active')) {
+                        // Swipe left
+                        slideMenu.classList.remove('active');
+                    }
+                }
+            });
+        });
+    </script>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+</body>
+</html>

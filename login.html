@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="Description" content="Sign in to DigitalIndians.org to connect with verified businesses, freelancers, and YouTubers. Access your dashboard, search history, and favorite service providers.">
+    <meta name="Keywords" content="customer login, user account access, sign in digitalindians, business directory login, freelancer login, service provider dashboard, search history access">
+    <title>Login to Your DigitalIndians Account | Access Services & Providers</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .login-container {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            background-color: white;
+        }
+        
+        @media (max-width: 480px) {
+            .login-container {
+                max-width: 100%;
+                margin: 186px 15px;
+                padding: 20px;
+                box-shadow: 0 8px 24px rgb(0 0 0 / 67%);
+            }
+            
+            .otp-inputs input {
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
+            }
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .login-header img {
+            width: 180px;
+            margin-bottom: 20px;
+        }
+        
+        .login-header h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .login-header p {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .login-form {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+        
+        .login-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .login-btn:hover {
+            background-color: #106a8a;
+        }
+        
+        .login-btn:disabled {
+            background-color: #a5a5a5;
+            cursor: not-allowed;
+        }
+        
+        .otp-inputs {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        .otp-inputs input {
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            font-size: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        
+        .otp-inputs input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+        
+        .resend-otp {
+            text-align: center;
+            margin-top: 15px;
+        }
+        
+        .resend-otp button {
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            font-weight: 500;
+            cursor: pointer;
+        }
+        
+        .resend-otp button:disabled {
+            color: #a5a5a5;
+            cursor: not-allowed;
+        }
+        
+        .timer {
+            color: #666;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        
+        .back-btn {
+            background: none;
+            border: none;
+            color: #666;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        
+        .login-steps {
+            display: none;
+        }
+        
+        .login-steps.active {
+            display: block;
+        }
+        
+        .error-message {
+            color: #e53e3e;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .success-message {
+            color: #38a169;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .form-hint {
+            display: block;
+            color: #666;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body class="login-page">
+    <div class="login-container">
+        <div class="login-header">
+            <img src="./digitalindia-logo.png" alt="DigitalIndians Logo">
+            <h2>Welcome Back</h2>
+            <p>Sign in to your account</p>
+        </div>
+        
+        <!-- Step 1: Email Input -->
+        <div class="login-steps active" id="step-email">
+            <div class="login-form">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" placeholder="Enter your email" autocomplete="email" required>
+                    <div class="error-message" id="email-error">Please enter a valid email address</div>
+                    <small class="form-hint">Enter the email address associated with your account</small>
+                </div>
+                <button class="login-btn" id="request-otp-btn" disabled>Get OTP</button>
+            </div>
+        </div>
+        
+        <!-- Step 2: OTP Verification -->
+        <div class="login-steps" id="step-otp">
+            <button class="back-btn" id="back-to-email">
+                <i class="fas fa-arrow-left"></i> Back
+            </button>
+            <div class="login-form">
+                <p>We've sent a 4-digit OTP to your email</p>
+                <div class="form-group">
+                    <label for="otp">Enter OTP</label>
+                    <div class="otp-inputs">
+                        <input type="text" maxlength="1" class="otp-input" data-index="0">
+                        <input type="text" maxlength="1" class="otp-input" data-index="1">
+                        <input type="text" maxlength="1" class="otp-input" data-index="2">
+                        <input type="text" maxlength="1" class="otp-input" data-index="3">
+                    </div>
+                    <div class="error-message" id="otp-error">Invalid OTP. Please try again.</div>
+                    <div class="success-message" id="otp-success">OTP verified successfully!</div>
+                </div>
+                <div class="resend-otp">
+                    <button id="resend-otp" disabled>Resend OTP</button>
+                    <div class="timer" id="otp-timer">Resend available in <span id="timer-count">60</span>s</div>
+                </div>
+                <button class="login-btn" id="verify-otp-btn">Verify & Sign In</button>
+            </div>
+        </div>
+        
+        <!-- Step 3: Success Message -->
+        <div class="login-steps" id="step-success">
+            <div class="login-form">
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <i class="fas fa-check-circle" style="font-size: 60px; color: #38a169;"></i>
+                </div>
+                <h3 style="text-align: center; margin-bottom: 20px;">Login Successful!</h3>
+                <p style="text-align: center; margin-bottom: 30px;">You will be redirected to the dashboard in a moment.</p>
+                <button class="login-btn" id="continue-btn">Continue</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="login.js"></script>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+</body>
+</html> 

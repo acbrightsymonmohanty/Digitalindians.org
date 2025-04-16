@@ -1,0 +1,4396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="Description" content="Connect with trusted businesses, freelancers, and service providers across India. Find the best solutions for your needs with verified professionals on DigitalIndians.org.">
+    <meta name="Keywords" content="service providers in India, find businesses online, verified service providers, best freelancers, local business directory, hire professionals, business leads, customer solutions, trusted suppliers, online service marketplace">
+    <title>Find Verified Service Providers & Businesses | DigitalIndians.org</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    
+    
+    <style>
+        .centered-search-input.error {
+            border-color: #e74c3c !important;
+            box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.2) !important;
+            animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+        }
+        .rotating-text{
+            min-width: 70px;
+            color: #f0f3c2;
+
+        }
+        
+        /* Slide menu header styles */
+        .slide-menu-header {
+            display: none; /* Hide by default on desktop */
+            padding: 16px;
+            border-bottom: 1px solid #eee;
+            position: relative;
+            
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+
+        /* Add mobile toggle and overlay styles */
+        .mobile-toggle {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            width: 40px;
+            height: 40px;
+            background: #fff;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            z-index: 1001;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        
+
+        
+
+        @media (max-width: 768px) {
+            .mobile-toggle {
+                display: flex;
+            }
+
+            .mobile-toggle i {
+                font-size: 20px;
+                color: #333;
+                transition: transform 0.3s ease;
+            }
+
+            .mobile-toggle.active i {
+                transform: rotate(90deg);
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+                position: fixed;
+                height: 100vh;
+                z-index: 1000;
+                transition: transform 0.3s ease;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .overlay.active {
+                display: block;
+                opacity: 1;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding-top: 60px;
+            }
+        }
+
+        /* Mobile optimization styles */
+        @media screen and (-webkit-min-device-pixel-ratio: 0) { 
+            select, textarea, input {
+                font-size: 16px !important;
+            }
+        }
+
+        @media (hover: none) and (pointer: coarse) {
+            .nav-item, .footer-link, .floating-button {
+                min-height: 44px;
+                padding: 12px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-toggle {
+                display: flex;
+                position: fixed;
+                top: 15px;
+                left: 15px;
+                z-index: 1001;
+                display: none;
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+                position: fixed;
+                width: 280px;
+                height: 100vh;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding-top: 70px;
+            }
+
+            .search-center-container {
+                padding: 0 15px;
+                margin-top: 20px;
+            }
+
+            .news-section {
+                padding: 10px;
+                overflow-x: auto;
+                gap: 12px;
+                height: 139px;
+            }
+
+            .news-card {
+                
+                flex-shrink: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .footer-links {
+                flex-wrap: wrap;
+                gap: 8px;
+                padding: 10px;
+            }
+
+            .footer-language {
+                width: 100%;
+                margin-top: 10px;
+            }
+
+            .search-heading {
+                font-size: 24px;
+            }
+
+            .search-input-wrapper {
+                width: 100%;
+            }
+        }
+        
+        /* Free Listing Button Styles */
+        .free-listing-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+        }
+        
+        .free-listing-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 16px;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            transform: translateY(0);
+            animation: float 3s ease-in-out infinite, glow 2s infinite alternate;
+        }
+        
+        .free-listing-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.6);
+        }
+        
+        .free-listing-btn i {
+            font-size: 18px;
+            animation: bounce 2s infinite;
+        }
+        
+        
+        
+        .free-listing-btn .highlight {
+            font-weight: 800;
+            color: #ffe600;
+            text-shadow: 0 0 5px rgba(0,0,0,0.3);
+            position: relative;
+            display: inline-block;
+            animation: pulse-text 1.5s infinite;
+        }
+        
+        .shimmer-effect {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                rgba(255,255,255,0) 0%,
+                rgba(255,255,255,0.2) 50%,
+                rgba(255,255,255,0) 100%
+            );
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+            pointer-events: none;
+        }
+        
+        @keyframes pulse-text {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        .pulse-animation {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50px;
+            background: rgb(21 122 157);
+            top: 0;
+            left: 0;
+            z-index: -1;
+            
+        }
+        
+        /* Additional animations for Free Listing button */
+        .free-listing-btn.attention {
+            animation: attention 0.5s ease-in-out;
+        }
+        
+        .ripple-effect {
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.4);
+            width: 100px;
+            height: 100px;
+            transform: scale(0);
+            animation: ripple 0.6s linear;
+            pointer-events: none;
+        }
+        
+        .listing-tooltip {
+            position: fixed;
+            background-color: #333;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            z-index: 1000;
+            opacity: 0;
+            animation: fadeInOut 2s ease-in-out forwards;
+        }
+        
+        .listing-tooltip::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 8px 8px 0;
+            border-style: solid;
+            border-color: #333 transparent transparent;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.7;
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: 0.3;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0.7;
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        @keyframes attention {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+        
+        @keyframes ripple {
+            to {
+                transform: scale(2.5);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes fadeInOut {
+            0% {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            20% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            80% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+        }
+        
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 10px rgba(255, 107, 107, 0.6);
+            }
+            to {
+                box-shadow: 0 0 20px rgba(255, 107, 107, 0.9), 0 0 30px rgba(255, 142, 83, 0.5);
+            }
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-5px);
+            }
+            60% {
+                transform: translateY(-3px);
+            }
+        }
+        
+        @keyframes shimmer {
+            0% {
+                background-position: -100% 0;
+            }
+            100% {
+                background-position: 200% 0;
+            }
+        }
+        
+        /* Mobile responsive styles for free listing button */
+        @media (max-width: 768px) {
+            .free-listing-container {
+                top: 15px;
+                right: 15px;
+            }
+            
+            .free-listing-btn {
+                padding: 10px 16px;
+                font-size: 14px;
+            }
+            
+            .free-listing-btn i {
+                font-size: 16px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .free-listing-btn .btn-text {
+                display: inline-block;
+                max-width: fit-content;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            
+            .free-listing-btn {
+                padding: 8px 12px;
+                border-radius: 50px;
+            }
+            
+            .free-listing-btn i {
+                margin-right: 5px;
+            }
+            
+            
+        }
+
+        /* Swipe Text Animation Styles */
+        .swipe-paragraphs {
+            position: relative;
+            height: 20px;
+            overflow: hidden;
+        }
+
+        .swipe-text {
+            position: absolute;
+            width: 100%;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .swipe-text.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Add these new styles */
+        .rotating-ads {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .ad-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .ad-content.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Search Input Typing Styles */
+        .centered-search-input {
+            width: 100%;
+            
+           
+            border-radius: 8px;
+            font-size: 16px;
+            color: #666;
+            font-weight: normal;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+      
+
+        .centered-search-input.typing {
+            color: #080808;
+        }
+
+        .search-input-wrapper .auto-detect {
+            color: #666;
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+
+        .search-input-wrapper.typing .auto-detect {
+            opacity: 1;
+        }
+
+        /* Add these styles for suggestions */
+        .search-suggestions {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-top: 8px;
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+
+        .search-suggestions.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .search-input-wrapper {
+            position: relative;
+        }
+
+        /* Add styles for stock indicators */
+        .stock-indicator {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .stock-indicator.profit {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            box-shadow: 0 2px 8px rgba(76, 175, 80, 0.2);
+        }
+
+        .stock-indicator.loss {
+            background: linear-gradient(135deg, #f44336, #e53935);
+            box-shadow: 0 2px 8px rgba(244, 67, 54, 0.2);
+        }
+
+        .stock-indicator::before {
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            color: white;
+        }
+
+        .stock-indicator.profit::before {
+            content: "\f062"; /* up arrow */
+        }
+
+        .stock-indicator.loss::before {
+            content: "\f063"; /* down arrow */
+        }
+
+        .stock-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stock-info p {
+            margin: 0;
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* Add loading animation */
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .loading {
+            animation: pulse 1.5s infinite;
+        }
+
+        .finance-card {
+            height: 139px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: white;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .finance-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .finance-card .card-icon {
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .finance-card .card-content {
+            flex: 1;
+        }
+
+        .finance-card h3 {
+            color: #333;
+            font-size: 16px;
+            font-weight: 600;
+            margin: 0 0 8px 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .stock-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stock-info p {
+            color: #666;
+            font-size: 14px;
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .stock-indicator {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .stock-indicator.profit {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+        }
+
+        .stock-indicator.loss {
+            background: linear-gradient(135deg, #f44336, #e53935);
+            box-shadow: 0 2px 8px rgba(244, 67, 54, 0.3);
+        }
+
+        #stock-name, #stock-price, #stock-indicator {
+            transition: opacity 0.3s ease;
+        }
+
+        /* Add bounce animation for arrows */
+        @keyframes bounceArrow {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
+        }
+
+        .auth-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: none; /* Hide by default */
+            align-items: center;
+        }
+
+        /* Show auth container only on mobile screens */
+        @media (max-width: 768px) {
+            .auth-container {
+                display: flex;
+                top: auto; /* Remove top positioning */
+                bottom: 70px; /* Position above mobile nav */
+                right: 20px;
+                z-index: 1000;
+            }
+
+            .auth-link {
+                background: #157a9d;
+                color: white;
+                padding: 12px 20px;
+                border-radius: 50px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                text-decoration: none;
+                margin-bottom: 30px;
+            }
+
+            .auth-link i {
+                font-size: 18px;
+            }
+
+            .auth-link:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            }
+
+            /* Adjust profile container for mobile */
+            #profile-container .btn-profile {
+                background: #157a9d;
+                color: white;
+                padding: 12px 20px;
+                border-radius: 50px;
+        /* margin-right: 4px; */
+             margin-left: -58%;
+        /* margin-bottom: 54px;
+            }
+
+            #profile-container .profile-card {
+                bottom: calc(100% + 10px);
+                top: auto;
+                right: 0;
+            }
+        }
+
+        .profile-container {
+            position: relative;
+            z-index: 1002; /* Higher than other elements */
+        }
+
+        .profile-card {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            width: 280px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            padding: 16px;
+            display: none;
+            animation: slideDown 0.3s ease;
+            z-index: 1002; /* Higher than other elements */
+        }
+
+        /* Desktop specific styles */
+        @media (min-width: 769px) {
+            .auth-container {
+                position: relative;
+                display: flex;
+                align-items: center;
+                z-index: 1002; /* Higher than other elements */
+            }
+
+            .profile-card {
+                position: fixed; /* Change to fixed positioning */
+                top: 80px; /* Position below the header */
+                right: 20px;
+                transform-origin: top right;
+                max-height: calc(100vh - 100px); /* Prevent overflow */
+                overflow-y: auto; /* Add scroll if needed */
+            }
+        }
+
+        /* Mobile specific styles */
+        @media (max-width: 768px) {
+            .auth-container {
+                position: relative;
+                width: 100%;
+            }
+
+            .profile-card {
+                position: absolute;
+                bottom: calc(100% + 10px);
+                right: 0;
+                top: auto;
+                max-height: calc(100vh - 200px); /* Prevent overflow */
+                overflow-y: auto; /* Add scroll if needed */
+            }
+        }
+
+        .profile-card.active {
+            display: block;
+        }
+
+        /* Add backdrop when profile card is active */
+        .profile-backdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: 1001;
+        }
+
+        .profile-backdrop.active {
+            display: block;
+        }
+
+        .centered-search-input.error {
+            border-color: #e74c3c !important;
+            box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.2) !important;
+            animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+
+        /* Add mobile toggle and overlay styles */
+        .mobile-toggle {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            width: 40px;
+            height: 40px;
+            background: #fff;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            z-index: 1001;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        
+
+       
+
+        @media (max-width: 768px) {
+            .mobile-toggle {
+                display: flex;
+            }
+
+            .mobile-toggle i {
+                font-size: 20px;
+                color: #333;
+                transition: transform 0.3s ease;
+            }
+
+            .mobile-toggle.active i {
+                transform: rotate(90deg);
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+                position: fixed;
+                height: 100vh;
+                z-index: 1000;
+                transition: transform 0.3s ease;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .overlay.active {
+                display: block;
+                opacity: 1;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding-top: 60px;
+            }
+        }
+
+        /* Mobile optimization styles */
+        @media screen and (-webkit-min-device-pixel-ratio: 0) { 
+            select, textarea, input {
+                font-size: 16px !important;
+            }
+        }
+
+        @media (hover: none) and (pointer: coarse) {
+            .nav-item, .footer-link, .floating-button {
+                min-height: 44px;
+                padding: 12px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-toggle {
+                display: flex;
+                position: fixed;
+                top: 15px;
+                left: 15px;
+                z-index: 1001;
+                display: none;
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+                position: fixed;
+                width: 280px;
+                height: 100vh;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding-top: 70px;
+            }
+
+            .search-center-container {
+                padding: 0 15px;
+                margin-top: 20px;
+            }
+
+            .news-section {
+                padding: 10px;
+                overflow-x: auto;
+                gap: 12px;
+                height: 139px;
+            }
+
+            .news-card {
+                
+                flex-shrink: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .footer-links {
+                flex-wrap: wrap;
+                gap: 8px;
+                padding: 10px;
+            }
+
+            .footer-language {
+                width: 100%;
+                margin-top: 10px;
+            }
+
+            .search-heading {
+                font-size: 24px;
+            }
+
+            .search-input-wrapper {
+                width: 100%;
+            }
+        }
+        
+        /* Free Listing Button Styles */
+        .free-listing-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+        }
+        
+        .free-listing-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 16px;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            transform: translateY(0);
+            animation: float 3s ease-in-out infinite, glow 2s infinite alternate;
+        }
+        
+        .free-listing-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.6);
+        }
+        
+        .free-listing-btn i {
+            font-size: 18px;
+            animation: bounce 2s infinite;
+        }
+        
+        
+        
+        .free-listing-btn .highlight {
+            font-weight: 800;
+            color: #ffe600;
+            text-shadow: 0 0 5px rgba(0,0,0,0.3);
+            position: relative;
+            display: inline-block;
+            animation: pulse-text 1.5s infinite;
+        }
+        
+        .shimmer-effect {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                rgba(255,255,255,0) 0%,
+                rgba(255,255,255,0.2) 50%,
+                rgba(255,255,255,0) 100%
+            );
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+            pointer-events: none;
+        }
+        
+        @keyframes pulse-text {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        .pulse-animation {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50px;
+            background: rgb(21 122 157);
+            top: 0;
+            left: 0;
+            z-index: -1;
+            
+        }
+        
+        /* Additional animations for Free Listing button */
+        .free-listing-btn.attention {
+            animation: attention 0.5s ease-in-out;
+        }
+        
+        .ripple-effect {
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.4);
+            width: 100px;
+            height: 100px;
+            transform: scale(0);
+            animation: ripple 0.6s linear;
+            pointer-events: none;
+        }
+        
+        .listing-tooltip {
+            position: fixed;
+            background-color: #333;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            z-index: 1000;
+            opacity: 0;
+            animation: fadeInOut 2s ease-in-out forwards;
+        }
+        
+        .listing-tooltip::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 8px 8px 0;
+            border-style: solid;
+            border-color: #333 transparent transparent;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.7;
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: 0.3;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0.7;
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        @keyframes attention {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+        
+        @keyframes ripple {
+            to {
+                transform: scale(2.5);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes fadeInOut {
+            0% {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            20% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            80% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+        }
+        
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 10px rgba(255, 107, 107, 0.6);
+            }
+            to {
+                box-shadow: 0 0 20px rgba(255, 107, 107, 0.9), 0 0 30px rgba(255, 142, 83, 0.5);
+            }
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-5px);
+            }
+            60% {
+                transform: translateY(-3px);
+            }
+        }
+        
+        @keyframes shimmer {
+            0% {
+                background-position: -100% 0;
+            }
+            100% {
+                background-position: 200% 0;
+            }
+        }
+        
+        /* Mobile responsive styles for free listing button */
+        @media (max-width: 768px) {
+            .free-listing-container {
+                top: 15px;
+                right: 15px;
+            }
+            
+            .free-listing-btn {
+                padding: 10px 16px;
+                font-size: 14px;
+            }
+            
+            .free-listing-btn i {
+                font-size: 16px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .free-listing-btn .btn-text {
+                display: inline-block;
+                max-width: fit-content;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            
+            .free-listing-btn {
+                padding: 8px 12px;
+                border-radius: 50px;
+            }
+            
+            .free-listing-btn i {
+                margin-right: 5px;
+            }
+            
+            
+        }
+
+        /* Swipe Text Animation Styles */
+        .swipe-paragraphs {
+            position: relative;
+            height: 20px;
+            overflow: hidden;
+        }
+
+        .swipe-text {
+            position: absolute;
+            width: 100%;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .swipe-text.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Add these new styles */
+        .rotating-ads {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .ad-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .ad-content.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Search Input Typing Styles */
+        .centered-search-input {
+            width: 100%;
+            
+           
+            border-radius: 8px;
+            font-size: 16px;
+            color: #666;
+            font-weight: normal;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+      
+
+        .centered-search-input.typing {
+            color: #080808;
+        }
+
+        .search-input-wrapper .auto-detect {
+            color: #666;
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+
+        .search-input-wrapper.typing .auto-detect {
+            opacity: 1;
+        }
+
+        /* Add these styles for suggestions */
+        .search-suggestions {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-top: 8px;
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+
+        .search-suggestions.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .search-input-wrapper {
+            position: relative;
+        }
+
+        /* Add styles for stock indicators */
+        .stock-indicator {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .stock-indicator.profit {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            box-shadow: 0 2px 8px rgba(76, 175, 80, 0.2);
+        }
+
+        .stock-indicator.loss {
+            background: linear-gradient(135deg, #f44336, #e53935);
+            box-shadow: 0 2px 8px rgba(244, 67, 54, 0.2);
+        }
+
+        .stock-indicator::before {
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            color: white;
+        }
+
+        .stock-indicator.profit::before {
+            content: "\f062"; /* up arrow */
+        }
+
+        .stock-indicator.loss::before {
+            content: "\f063"; /* down arrow */
+        }
+
+        .stock-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stock-info p {
+            margin: 0;
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* Add loading animation */
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .loading {
+            animation: pulse 1.5s infinite;
+        }
+
+        .finance-card {
+            height: 139px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: white;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .finance-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .finance-card .card-icon {
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .finance-card .card-content {
+            flex: 1;
+        }
+
+        .finance-card h3 {
+            color: #333;
+            font-size: 16px;
+            font-weight: 600;
+            margin: 0 0 8px 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .stock-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stock-info p {
+            color: #666;
+            font-size: 14px;
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .stock-indicator {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .stock-indicator.profit {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+        }
+
+        .stock-indicator.loss {
+            background: linear-gradient(135deg, #f44336, #e53935);
+            box-shadow: 0 2px 8px rgba(244, 67, 54, 0.3);
+        }
+
+        #stock-name, #stock-price, #stock-indicator {
+            transition: opacity 0.3s ease;
+        }
+
+        /* Add bounce animation for arrows */
+        @keyframes bounceArrow {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
+        }
+
+        .auth-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: none; /* Hide by default */
+            align-items: center;
+        }
+
+        /* Show auth container only on mobile screens */
+        @media (max-width: 768px) {
+            .auth-container {
+                display: flex;
+                top: auto; /* Remove top positioning */
+                bottom: 70px; /* Position above mobile nav */
+                right: 20px;
+                z-index: 1000;
+            }
+
+            .auth-link {
+                background: #157a9d;
+                color: white;
+                padding: 12px 20px;
+                border-radius: 50px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                text-decoration: none;
+                margin-bottom: 30px;
+            }
+
+            .auth-link i {
+                font-size: 18px;
+            }
+
+            .auth-link:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            }
+
+            /* Adjust profile container for mobile */
+            #profile-container .btn-profile {
+                background: #157a9d;
+                color: white;
+                padding: 12px 20px;
+            }
+
+            #profile-container .profile-card {
+                bottom: calc(100% + 10px);
+                top: auto;
+                right: 0;
+            }
+        }
+
+        .profile-container {
+            position: relative;
+            z-index: 1002; /* Higher than other elements */
+        }
+
+        .profile-card {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            width: 280px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            padding: 16px;
+            display: none;
+            animation: slideDown 0.3s ease;
+            z-index: 1002; /* Higher than other elements */
+        }
+        
+
+        /* Desktop specific styles */
+        @media (min-width: 769px) {
+            .auth-container {
+                position: relative;
+                display: flex;
+                align-items: center;
+                z-index: 1002; /* Higher than other elements */
+            }
+
+            .profile-card {
+                position: fixed; /* Change to fixed positioning */
+                top: 80px; /* Position below the header */
+                right: 20px;
+                transform-origin: top right;
+                max-height: calc(100vh - 100px); /* Prevent overflow */
+                overflow-y: auto; /* Add scroll if needed */
+            }
+        }
+
+        /* Mobile specific styles */
+        @media (max-width: 768px) {
+            .auth-container {
+                position: relative;
+                width: 100%;
+            }
+
+            .profile-card {
+                position: absolute;
+                bottom: calc(100% + 10px);
+                right: 0;
+                top: auto;
+                max-height: calc(100vh - 200px); /* Prevent overflow */
+                overflow-y: auto; /* Add scroll if needed */
+            }
+        }
+
+        .profile-card.active {
+            display: block;
+        }
+
+        /* Add backdrop when profile card is active */
+        .profile-backdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: 1001;
+        }
+
+        .profile-backdrop.active {
+            display: block;
+        }
+
+        .centered-search-input.error {
+            border-color: #e74c3c !important;
+            box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.2) !important;
+            animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+
+        /* Add mobile toggle and overlay styles */
+        .mobile-toggle {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            width: 40px;
+            height: 40px;
+            background: #fff;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            z-index: 1001;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        
+
+
+        @media (max-width: 768px) {
+            .mobile-toggle {
+                display: flex;
+            }
+
+            .mobile-toggle i {
+                font-size: 20px;
+                color: #333;
+                transition: transform 0.3s ease;
+            }
+
+            .mobile-toggle.active i {
+                transform: rotate(90deg);
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+                position: fixed;
+                height: 100vh;
+                z-index: 1000;
+                transition: transform 0.3s ease;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .overlay.active {
+                display: block;
+                opacity: 1;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding-top: 60px;
+            }
+        }
+
+        /* Mobile optimization styles */
+        @media screen and (-webkit-min-device-pixel-ratio: 0) { 
+            select, textarea, input {
+                font-size: 16px !important;
+            }
+        }
+
+        @media (hover: none) and (pointer: coarse) {
+            .nav-item, .footer-link, .floating-button {
+                min-height: 44px;
+                padding: 12px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-toggle {
+                display: flex;
+                position: fixed;
+                top: 15px;
+                left: 15px;
+                z-index: 1001;
+                display: none;
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+                position: fixed;
+                width: 280px;
+                height: 100vh;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding-top: 70px;
+            }
+
+            .search-center-container {
+                padding: 0 15px;
+                margin-top: 20px;
+            }
+
+            .news-section {
+                padding: 10px;
+                overflow-x: auto;
+                gap: 12px;
+                height: 139px;
+            }
+
+            .news-card {
+                
+                flex-shrink: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .footer-links {
+                flex-wrap: wrap;
+                gap: 8px;
+                padding: 10px;
+            }
+
+            .footer-language {
+                width: 100%;
+                margin-top: 10px;
+            }
+
+            .search-heading {
+                font-size: 24px;
+            }
+
+            .search-input-wrapper {
+                width: 100%;
+            }
+        }
+        
+        /* Free Listing Button Styles */
+        .free-listing-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+        }
+        
+        .free-listing-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 16px;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            transform: translateY(0);
+            animation: float 3s ease-in-out infinite, glow 2s infinite alternate;
+        }
+        
+        .free-listing-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.6);
+        }
+        
+        .free-listing-btn i {
+            font-size: 18px;
+            animation: bounce 2s infinite;
+        }
+        
+        
+        
+        .free-listing-btn .highlight {
+            font-weight: 800;
+            color: #ffe600;
+            text-shadow: 0 0 5px rgba(0,0,0,0.3);
+            position: relative;
+            display: inline-block;
+            animation: pulse-text 1.5s infinite;
+        }
+        
+        .shimmer-effect {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                rgba(255,255,255,0) 0%,
+                rgba(255,255,255,0.2) 50%,
+                rgba(255,255,255,0) 100%
+            );
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+            pointer-events: none;
+        }
+        
+        @keyframes pulse-text {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        .pulse-animation {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50px;
+            background: rgb(21 122 157);
+            top: 0;
+            left: 0;
+            z-index: -1;
+            
+        }
+        
+        /* Additional animations for Free Listing button */
+        .free-listing-btn.attention {
+            animation: attention 0.5s ease-in-out;
+        }
+        
+        .ripple-effect {
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.4);
+            width: 100px;
+            height: 100px;
+            transform: scale(0);
+            animation: ripple 0.6s linear;
+            pointer-events: none;
+        }
+        
+        .listing-tooltip {
+            position: fixed;
+            background-color: #333;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            z-index: 1000;
+            opacity: 0;
+            animation: fadeInOut 2s ease-in-out forwards;
+        }
+        
+        .listing-tooltip::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 8px 8px 0;
+            border-style: solid;
+            border-color: #333 transparent transparent;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.7;
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: 0.3;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0.7;
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        @keyframes attention {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+        
+        @keyframes ripple {
+            to {
+                transform: scale(2.5);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes fadeInOut {
+            0% {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            20% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            80% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+        }
+        
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 10px rgba(255, 107, 107, 0.6);
+            }
+            to {
+                box-shadow: 0 0 20px rgba(255, 107, 107, 0.9), 0 0 30px rgba(255, 142, 83, 0.5);
+            }
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-5px);
+            }
+            60% {
+                transform: translateY(-3px);
+            }
+        }
+        
+        @keyframes shimmer {
+            0% {
+                background-position: -100% 0;
+            }
+            100% {
+                background-position: 200% 0;
+            }
+        }
+        
+        /* Mobile responsive styles for free listing button */
+        @media (max-width: 768px) {
+            .free-listing-container {
+                top: 15px;
+                right: 15px;
+                margin-bottom: 170%;
+            }
+            
+            .free-listing-btn {
+                padding: 10px 16px;
+                font-size: 14px;
+            }
+            
+            .free-listing-btn i {
+                font-size: 16px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .free-listing-btn .btn-text {
+                display: inline-block;
+                max-width: fit-content;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            
+            .free-listing-btn {
+                padding: 8px 12px;
+                border-radius: 50px;
+            }
+            
+            .free-listing-btn i {
+                margin-right: 5px;
+            }
+            
+            
+        }
+
+        /* Swipe Text Animation Styles */
+        .swipe-paragraphs {
+            position: relative;
+            height: 20px;
+            overflow: hidden;
+        }
+
+        .swipe-text {
+            position: absolute;
+            width: 100%;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .swipe-text.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Add these new styles */
+        .rotating-ads {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .ad-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .ad-content.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Search Input Typing Styles */
+        .centered-search-input {
+            width: 100%;
+            
+           
+            border-radius: 8px;
+            font-size: 16px;
+            color: #666;
+            font-weight: normal;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+      
+
+        .centered-search-input.typing {
+            color: #080808;
+        }
+
+        .search-input-wrapper .auto-detect {
+            color: #666;
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+
+        .search-input-wrapper.typing .auto-detect {
+            opacity: 1;
+        }
+
+        /* Add these styles for suggestions */
+        .search-suggestions {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-top: 8px;
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+
+        .search-suggestions.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .search-input-wrapper {
+            position: relative;
+        }
+
+        /* Add styles for stock indicators */
+        .stock-indicator {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .stock-indicator.profit {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            box-shadow: 0 2px 8px rgba(76, 175, 80, 0.2);
+        }
+
+        .stock-indicator.loss {
+            background: linear-gradient(135deg, #f44336, #e53935);
+            box-shadow: 0 2px 8px rgba(244, 67, 54, 0.2);
+        }
+
+        .stock-indicator::before {
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            color: white;
+        }
+
+        .stock-indicator.profit::before {
+            content: "\f062"; /* up arrow */
+        }
+
+        .stock-indicator.loss::before {
+            content: "\f063"; /* down arrow */
+        }
+
+        .stock-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stock-info p {
+            margin: 0;
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* Add loading animation */
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .loading {
+            animation: pulse 1.5s infinite;
+        }
+
+        .finance-card {
+            height: 139px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: white;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .finance-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .finance-card .card-icon {
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .finance-card .card-content {
+            flex: 1;
+        }
+
+        .finance-card h3 {
+            color: #333;
+            font-size: 16px;
+            font-weight: 600;
+            margin: 0 0 8px 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .stock-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stock-info p {
+            color: #666;
+            font-size: 14px;
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .stock-indicator {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .stock-indicator.profit {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+        }
+
+        .stock-indicator.loss {
+            background: linear-gradient(135deg, #f44336, #e53935);
+            box-shadow: 0 2px 8px rgba(244, 67, 54, 0.3);
+        }
+
+        #stock-name, #stock-price, #stock-indicator {
+            transition: opacity 0.3s ease;
+        }
+
+        /* Add bounce animation for arrows */
+        @keyframes bounceArrow {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
+        }
+
+        .auth-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: none; /* Hide by default */
+            align-items: center;
+        }
+
+        /* Show auth container only on mobile screens */
+        @media (max-width: 768px) {
+            .auth-container {
+                display: flex;
+                top: auto; /* Remove top positioning */
+                bottom: 70px; /* Position above mobile nav */
+                right: 20px;
+                z-index: 1000;
+            }
+
+            .auth-link {
+                background: #157a9d;
+                color: white;
+                padding: 12px 20px;
+                border-radius: 50px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                text-decoration: none;
+                margin-bottom: 30px;
+            }
+
+            .auth-link i {
+                font-size: 18px;
+            }
+
+            .auth-link:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            }
+
+            /* Adjust profile container for mobile */
+            #profile-container .btn-profile {
+                background: #157a9d;
+                color: white;
+                padding: 1px 0px;
+                margin-left: 42%;
+                margin-top: -57px;
+                min-width: 20px;
+                margin-top: 7px;
+            }
+
+            #profile-container .profile-card {
+                bottom: calc(100% + 10px);
+                top: auto;
+                right: 0;
+                left: 47px;
+            }
+        }
+
+        .profile-container {
+            position: relative;
+            z-index: 1002; /* Higher than other elements */
+        }
+
+        .profile-card {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            width: 280px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            padding: 16px;
+            display: none;
+            animation: slideDown 0.3s ease;
+            z-index: 1002; /* Higher than other elements */
+        }
+
+        /* Desktop specific styles */
+        @media (min-width: 769px) {
+            .auth-container {
+                position: relative;
+                display: flex;
+                align-items: center;
+                z-index: 1002; /* Higher than other elements */
+            }
+
+            .profile-card {
+                position: fixed; /* Change to fixed positioning */
+                top: 80px; /* Position below the header */
+                right: 20px;
+                transform-origin: top right;
+                max-height: calc(100vh - 100px); /* Prevent overflow */
+                overflow-y: auto; /* Add scroll if needed */
+            }
+        }
+
+        /* Mobile specific styles */
+        @media (max-width: 768px) {
+            .auth-container {
+                position: relative;
+                width: 100%;
+            }
+
+            .profile-card {
+                position: absolute;
+                bottom: calc(100% + 10px);
+                right: 0;
+                top: auto;
+                max-height: calc(100vh - 200px); /* Prevent overflow */
+                overflow-y: auto; /* Add scroll if needed */
+            }
+        }
+
+        .profile-card.active {
+            display: block;
+        }
+
+        /* Add backdrop when profile card is active */
+        .profile-backdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: 1001;
+        }
+
+        .profile-backdrop.active {
+            display: block;
+        }
+
+        .centered-search-input.error {
+            border-color: #e74c3c !important;
+            box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.2) !important;
+            animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+
+        /* Add mobile toggle and overlay styles */
+        .mobile-toggle {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            width: 40px;
+            height: 40px;
+            background: #fff;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            z-index: 1001;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        
+
+      
+        @media (max-width: 768px) {
+            .mobile-toggle {
+                display: flex;
+            }
+
+            .mobile-toggle i {
+                font-size: 20px;
+                color: #333;
+                transition: transform 0.3s ease;
+            }
+
+            .mobile-toggle.active i {
+                transform: rotate(90deg);
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+                position: fixed;
+                height: 100vh;
+                z-index: 1000;
+                transition: transform 0.3s ease;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .overlay.active {
+                display: block;
+                opacity: 1;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding-top: 60px;
+            }
+        }
+
+        /* Mobile optimization styles */
+        @media screen and (-webkit-min-device-pixel-ratio: 0) { 
+            select, textarea, input {
+                font-size: 16px !important;
+            }
+        }
+
+        @media (hover: none) and (pointer: coarse) {
+            .nav-item, .footer-link, .floating-button {
+                min-height: 44px;
+                padding: 12px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-toggle {
+                display: flex;
+                position: fixed;
+                top: 15px;
+                left: 15px;
+                z-index: 1001;
+                display: none;
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+                position: fixed;
+                width: 280px;
+                height: 100vh;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding-top: 70px;
+            }
+
+            .search-center-container {
+                padding: 0 15px;
+                margin-top: 20px;
+            }
+
+            .news-section {
+                padding: 10px;
+                overflow-x: auto;
+                gap: 12px;
+                height: 139px;
+            }
+
+            .news-card {
+                
+                flex-shrink: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .footer-links {
+                flex-wrap: wrap;
+                gap: 8px;
+                padding: 10px;
+                display: none;
+            }
+
+            .footer-language {
+                width: 100%;
+                margin-top: 10px;
+            }
+
+            .search-heading {
+                font-size: 24px;
+            }
+
+            .search-input-wrapper {
+                width: 100%;
+            }
+        }
+        
+        /* Free Listing Button Styles */
+        .free-listing-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+        }
+        
+        .free-listing-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 16px;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            transform: translateY(0);
+            animation: float 3s ease-in-out infinite, glow 2s infinite alternate;
+        }
+        
+        .free-listing-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.6);
+        }
+        
+        .free-listing-btn i {
+            font-size: 18px;
+            animation: bounce 2s infinite;
+        }
+        
+        
+        
+        .free-listing-btn .highlight {
+            font-weight: 800;
+            color: #ffe600;
+            text-shadow: 0 0 5px rgba(0,0,0,0.3);
+            position: relative;
+            display: inline-block;
+            animation: pulse-text 1.5s infinite;
+        }
+        
+        .shimmer-effect {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                rgba(255,255,255,0) 0%,
+                rgba(255,255,255,0.2) 50%,
+        }
+
+    
+    
+    
+        .centered-search-input.error {
+            border-color: #e74c3c !important;
+            box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.2) !important;
+            animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+
+        /* Add mobile toggle and overlay styles */
+        .mobile-toggle {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            width: 40px;
+            height: 40px;
+            background: #fff;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            z-index: 1001;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-toggle {
+                display: flex;
+            }
+
+            .mobile-toggle i {
+                font-size: 20px;
+                color: #333;
+                transition: transform 0.3s ease;
+            }
+
+            .mobile-toggle.active i {
+                transform: rotate(90deg);
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+                position: fixed;
+                height: 100vh;
+                z-index: 1000;
+                transition: transform 0.3s ease;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .overlay.active {
+                display: block;
+                opacity: 1;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding-top: 60px;
+            }
+        }
+
+        /* Mobile optimization styles */
+        @media screen and (-webkit-min-device-pixel-ratio: 0) { 
+            select, textarea, input {
+                font-size: 16px !important;
+            }
+        }
+
+        @media (hover: none) and (pointer: coarse) {
+            .nav-item, .footer-link, .floating-button {
+                min-height: 44px;
+                padding: 12px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-toggle {
+                display: flex;
+                position: fixed;
+                top: 15px;
+                left: 15px;
+                z-index: 1001;
+                display: none;
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+                position: fixed;
+                width: 280px;
+                height: 100vh;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding-top: 70px;
+            }
+
+            .search-center-container {
+                padding: 0 15px;
+                margin-top: 20px;
+            }
+
+            .news-section {
+                padding: 10px;
+                overflow-x: auto;
+                gap: 12px;
+                height: 139px;
+            }
+
+            .news-card {
+                
+                flex-shrink: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .footer-links {
+                flex-wrap: wrap;
+                gap: 8px;
+                padding: 10px;
+            }
+
+            .footer-language {
+                width: 100%;
+                margin-top: 10px;
+            }
+
+            .search-heading {
+                font-size: 24px;
+            }
+
+            .search-input-wrapper {
+                width: 100%;
+            }
+        }
+        
+        /* Free Listing Button Styles */
+        .free-listing-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+        }
+        
+        .free-listing-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 16px;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            transform: translateY(0);
+            animation: float 3s ease-in-out infinite, glow 2s infinite alternate;
+        }
+        
+        .free-listing-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.6);
+        }
+        
+        .free-listing-btn i {
+            font-size: 18px;
+            animation: bounce 2s infinite;
+        }
+        
+        
+        
+        .free-listing-btn .highlight {
+            font-weight: 800;
+            color: #ffe600;
+            text-shadow: 0 0 5px rgba(0,0,0,0.3);
+            position: relative;
+            display: inline-block;
+            animation: pulse-text 1.5s infinite;
+        }
+        
+        .shimmer-effect {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                rgba(255,255,255,0) 0%,
+                rgba(255,255,255,0.2) 50%,
+                rgba(255,255,255,0) 100%
+            );
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+            pointer-events: none;
+        }
+        
+        @keyframes pulse-text {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        .pulse-animation {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50px;
+            background: rgb(21 122 157);
+            top: 0;
+            left: 0;
+            z-index: -1;
+            
+        }
+        
+        /* Additional animations for Free Listing button */
+        .free-listing-btn.attention {
+            animation: attention 0.5s ease-in-out;
+        }
+        
+        .ripple-effect {
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.4);
+            width: 100px;
+            height: 100px;
+            transform: scale(0);
+            animation: ripple 0.6s linear;
+            pointer-events: none;
+        }
+        
+        .listing-tooltip {
+            position: fixed;
+            background-color: #333;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            z-index: 1000;
+            opacity: 0;
+            animation: fadeInOut 2s ease-in-out forwards;
+        }
+        
+        .listing-tooltip::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 8px 8px 0;
+            border-style: solid;
+            border-color: #333 transparent transparent;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.7;
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: 0.3;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0.7;
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        @keyframes attention {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+        
+        @keyframes ripple {
+            to {
+                transform: scale(2.5);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes fadeInOut {
+            0% {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            20% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            80% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+        }
+        
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 10px rgba(255, 107, 107, 0.6);
+            }
+            to {
+                box-shadow: 0 0 20px rgba(255, 107, 107, 0.9), 0 0 30px rgba(255, 142, 83, 0.5);
+            }
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-5px);
+            }
+            60% {
+                transform: translateY(-3px);
+            }
+        }
+        
+        @keyframes shimmer {
+            0% {
+                background-position: -100% 0;
+            }
+            100% {
+                background-position: 200% 0;
+            }
+        }
+        
+        /* Mobile responsive styles for free listing button */
+        @media (max-width: 768px) {
+            .free-listing-container {
+                top: 15px;
+                right: 15px;
+            }
+            
+            .free-listing-btn {
+                padding: 10px 16px;
+                font-size: 14px;
+            }
+            
+            .free-listing-btn i {
+                font-size: 16px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .free-listing-btn .btn-text {
+                display: inline-block;
+                max-width: fit-content;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            
+            .free-listing-btn {
+                padding: 8px 12px;
+                border-radius: 50px;
+            }
+            
+            .free-listing-btn i {
+                margin-right: 5px;
+            }
+            
+            
+        }
+
+        /* Swipe Text Animation Styles */
+        .swipe-paragraphs {
+            position: relative;
+            height: 20px;
+            overflow: hidden;
+        }
+
+        .swipe-text {
+            position: absolute;
+            width: 100%;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .swipe-text.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Add these new styles */
+        .rotating-ads {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .ad-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .ad-content.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Search Input Typing Styles */
+        .centered-search-input {
+            width: 100%;
+            
+           
+            border-radius: 8px;
+            font-size: 16px;
+            color: #666;
+            font-weight: normal;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+      
+
+        .centered-search-input.typing {
+            color: #080808;
+        }
+
+        .search-input-wrapper .auto-detect {
+            color: #666;
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+
+        .search-input-wrapper.typing .auto-detect {
+            opacity: 1;
+        }
+
+        /* Add these styles for suggestions */
+        .search-suggestions {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-top: 8px;
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+
+        .search-suggestions.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .search-input-wrapper {
+            position: relative;
+        }
+
+        /* Add styles for stock indicators */
+        .stock-indicator {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .stock-indicator.profit {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            box-shadow: 0 2px 8px rgba(76, 175, 80, 0.2);
+        }
+
+        .stock-indicator.loss {
+            background: linear-gradient(135deg, #f44336, #e53935);
+            box-shadow: 0 2px 8px rgba(244, 67, 54, 0.2);
+        }
+
+        .stock-indicator::before {
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            color: white;
+        }
+
+        .stock-indicator.profit::before {
+            content: "\f062"; /* up arrow */
+        }
+
+        .stock-indicator.loss::before {
+            content: "\f063"; /* down arrow */
+        }
+
+        .stock-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stock-info p {
+            margin: 0;
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* Add loading animation */
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .loading {
+            animation: pulse 1.5s infinite;
+        }
+
+        .finance-card {
+            height: 139px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: white;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .finance-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .finance-card .card-icon {
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .finance-card .card-content {
+            flex: 1;
+        }
+
+        .finance-card h3 {
+            color: #333;
+            font-size: 16px;
+            font-weight: 600;
+            margin: 0 0 8px 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .stock-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stock-info p {
+            color: #666;
+            font-size: 14px;
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .stock-indicator {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .stock-indicator.profit {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+        }
+
+        .stock-indicator.loss {
+            background: linear-gradient(135deg, #f44336, #e53935);
+            box-shadow: 0 2px 8px rgba(244, 67, 54, 0.3);
+        }
+
+        #stock-name, #stock-price, #stock-indicator {
+            transition: opacity 0.3s ease;
+        }
+
+        /* Add bounce animation for arrows */
+        @keyframes bounceArrow {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
+        }
+
+        .auth-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: none; /* Hide by default */
+            align-items: center;
+        }
+
+        /* Show auth container only on mobile screens */
+        @media (max-width: 768px) {
+            .auth-container {
+                display: flex;
+                top: auto; /* Remove top positioning */
+                bottom: 70px; /* Position above mobile nav */
+                right: 20px;
+                z-index: 1000;
+            }
+
+            .auth-link {
+                background: #157a9d;
+                color: white;
+                padding: 12px 20px;
+                border-radius: 50px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                text-decoration: none;
+                margin-bottom: 30px;
+            }
+
+            .auth-link i {
+                font-size: 18px;
+            }
+
+            .auth-link:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            }
+
+            /* Adjust profile container for mobile */
+            #profile-container .btn-profile {
+                background: #157a9d;
+                color: white;
+                padding: 12px 20px;
+                
+            }
+
+            #profile-container .profile-card {
+                bottom: calc(100% + 10px);
+                top: auto;
+                right: 0;
+            }
+        }
+
+        .profile-container {
+            position: relative;
+        }
+
+        .btn-profile {
+            display: flex;
+            align-items: center;
+            padding: 8px 16px;
+            background: #157a9d;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .profile-avatar-small {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .profile-avatar-small img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-card {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            width: 280px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            padding: 16px;
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+
+        .profile-card.active {
+            display: block;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .profile-avatar-large {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .profile-avatar-large img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-info h3 {
+            margin: 0;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .profile-info p {
+            margin: 4px 0 0;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .profile-actions {
+            margin-top: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .profile-action-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #333;
+            transition: background-color 0.3s ease;
+        }
+
+        .profile-action-btn:hover {
+            background-color: #f5f5f5;
+        }
+
+        .profile-action-btn i {
+            width: 20px;
+            color: #666;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Add styles for More button active state */
+        .mobile-nav-item#moreBtn.active {
+            color: #157a9d;
+            background-color: rgba(21, 122, 157, 0.1);
+        }
+
+        .mobile-nav-item#moreBtn.active i {
+            transform: rotate(90deg);
+            transition: transform 0.3s ease;
+        }
+
+        /* Slide menu transition */
+        .mobile-slide-menu {
+            position: fixed;
+            bottom: 60px;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            z-index: 999;
+        }
+
+        .mobile-slide-menu.active {
+            transform: translateY(0);
+        }
+        @media (max-width: 768px) {
+            /* Slide menu header styles */
+        .slide-menu-header {
+            display: none; /* Hide by default on desktop */
+            padding: 16px;
+            border-bottom: 1px solid #eee;
+            position: relative;
+            
+        }
+
+        }
+        
+        
+
+        .slide-menu-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            
+        }
+
+        .slide-menu-close {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            padding: 8px;
+            cursor: pointer;
+            color: #666;
+        }
+
+       
+
+        /* Floating Menu Styles */
+        .floating-menu {
+            position: fixed;
+            right: 20px;
+            bottom: 100px; /* Position above mobile nav */
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .floating-button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: white;
+            border: none;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .floating-button i {
+            font-size: 20px;
+            color: #333;
+        }
+
+        .floating-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .help-button {
+            background: #ffffff;
+        }
+
+        .help-button i {
+            color: #157a9d;
+        }
+
+        .help-card {
+            position: absolute;
+            bottom: calc(100% + 10px);
+            right: 0;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            padding: 12px;
+            width: 200px;
+            display: none;
+            animation: slideUp 0.3s ease;
+        }
+
+        .help-button:hover .help-card,
+        .help-button:focus .help-card,
+        .help-button:active .help-card {
+            display: block;
+        }
+
+        .help-card-item {
+            display: flex;
+            align-items: center;
+            
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .help-card-item:hover {
+            background-color: #f5f5f5;
+        }
+
+        .help-card-item i {
+            font-size: 16px;
+            color: #666;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Mobile specific styles */
+        @media (max-width: 768px) {
+            .floating-menu {
+                bottom: 80px; /* Adjust position above mobile nav */
+                right: 15px;
+            }
+
+            .floating-button {
+                width: 45px;
+                height: 45px;
+            }
+
+            .help-card {
+                right: 0;
+                bottom: calc(100% + 10px);
+                width: 180px;
+            }
+
+            /* Handle touch events for mobile */
+            .help-button.active .help-card {
+                display: block;
+            }
+
+            .help-card-item {
+                padding: 12px; /* Larger touch target */
+            }
+        }
+    </style>
+</head>
+<body class="new-chat-page">
+    <div class="app-container new-design">
+        
+        <!-- Add mobile toggle button -->
+        <button class="mobile-toggle" aria-label="Toggle Menu">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <!-- Add overlay -->
+        <div class="overlay"></div>
+
+        <aside class="sidebar">
+            <button class="sidebar-toggle" aria-label="Toggle Sidebar">
+                <svg width="20" height="20" viewBox="0 0 24 24" class="toggle-icon">
+                    <path fill="currentColor" d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+                </svg>
+            </button>
+            <div class="sidebar-top">
+                <a href="./index.html">
+                <div class="logo-container">
+                    <img class="small-logo" style="width: 70%;"   src="./digitalindilogo.png" alt="DigitalIndians Small Logo">
+                    <img class="full-logo" style="width: 70%;" src="./digitalindia-logo.png" alt="DigitalIndians Logo">
+                </div></a>
+                <div class="new-thread">
+                    <button class="btn-new-thread">
+                        <i class="fas fa-plus"></i>
+                        <span class="btn-text">New Query</span>
+                        <span class="shortcut">Ctrl I</span>
+                    </button>
+                </div>
+                <nav class="nav-menu">
+                    <a href="index.html" class="nav-item active"><i class="fas fa-home"></i> <span class="nav-text">Home</span></a>
+                    <a href="discover.html" class="nav-item"><i class="fas fa-compass"></i> <span class="nav-text">Discover</span></a>
+                    <a href="youtube.html" class="nav-item"><i class="fab fa-youtube"></i> <span class="nav-text">YouTubers</span></a>
+                    <a href="spaces.html" class="nav-item"><i class="fas fa-layer-group"></i> <span class="nav-text">Spaces</span></a>
+                    <a href="library.html" class="nav-item"><i class="fas fa-book"></i> <span class="nav-text">Library</span></a>
+                    <a href="listing.html" class="nav-item "><i class="fas fa-list"></i> <span class="nav-text">Listings</span></a>
+                </nav>
+            </div>
+            <div class="sidebar-bottom">
+                <a style="text-decoration: none;" href="login.html" class="btn-sign-up">
+                    <i class="fas fa-user-plus"></i>
+                    <span style="text-decoration: none;" class="btn-text">Login</span>
+                </a>
+            </div>
+        </aside>
+        
+        <main class="main-content new-main-content">
+            <!-- Centered Search Section -->
+            <div class="search-center-container">
+                <h1 class="search-heading">What do you want to know?</h1>
+                
+                <div class="search-bar-container">
+                    <div class="search-input-wrapper">
+                        <input type="text" class="centered-search-input" id="centered-search-input" placeholder="Ask anything..." autocomplete="off" tabindex="0">
+                        
+                        <div class="search-controls">
+                            <div class="auto-detect">
+                                <i class="fa-solid fa-globe"></i>
+                            </div>
+
+                            <div class="auto-detect">
+                                <i class="fas fa-magic"></i>
+                                <span>Auto</span>
+                            </div>
+                            
+                            <button class="send-button" id="send-button">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- News & Updates Section -->
+                <div class="news-section">
+                    <div class="news-card match-card">
+                        <div class="rotating-ads">
+                            <!-- Weather Info -->
+                            <a href="https://www.accuweather.com/en/in/india-weather" style="text-decoration: none; color: #333;" target="_blank">
+                                <div class="ad-content active">
+                                    <div class="match-info">
+                                        <div class="team">
+                                            <i class="fas fa-cloud-sun" style="font-size: 24px; color: #ff9800;"></i>
+                                            <span>28°C</span>
+                                        </div>
+                                        <div class="vs" style="font-size: 14px;">Kolkata</div>
+                                        <div class="team">
+                                            <i class="fas fa-umbrella" style="font-size: 24px; color: #29b6f6;"></i>
+                                            <span>24%</span>
+                                        </div>
+                                    </div>
+                                    <div class="match-time">
+                                        <i class="fas fa-wind"></i>
+                                        <span>Humidity: 75%</span>
+                                    </div>
+                                </div>
+                            </a>
+
+                            <!-- Donation -->
+                            <a style="text-decoration: none; color: #333;"target="_blank" href="https://www.ketto.org/fundraiser/my-baby-battles-for-his-life-and-we-need-your-support-to-save-him-987171?utm_source=external_Ketto&utm_medium=google-search&utm_campaign=S14_1000_SALE_Brand_KY_ALL_CLK_IND&utm_term=e_ketto&utm_content=medical_resp_ad2&utm_placement=KT01_AG_1865_BrandSeed_Pure">
+                                <div class="ad-content">
+                                    <div class="match-info">
+                                       <img width="185px;" height="50px" style="border-radius: 5px;" src="./banner.png" alt="">
+                                    </div>
+                                    <div class="card-content">
+                                        <h3>Save Life</h3>
+                                        <div class="swipe-paragraphs">
+                                            <p>Required ₹30,00,000</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+
+                            <!-- College Ad -->
+                            <a href="https://www.hsmemorialschool.org/" target="_blank">
+                                <div class="ad-content">
+                                    <div class="match-info">
+                                        <div class="team">
+                                            <img style="width: 40px;" src="https://play-lh.googleusercontent.com/NjpnxA3gZP7PVWoNsPVFfI_9FD_Ct1dTwEReNpsy7-_4iVsFFDdK6XBM5V47z32LuQ" alt="">
+                                            
+                                        </div>
+                                        <div class="vs" style="text-align: center; font-weight: 500;" >Admission Going on</div>
+                                        <div class="team">
+                                            <img style="width: 50px;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQd8sdldDu4GuiYg_XqT66K9N7V53iHERCKFeL3V0fy_jYgEe-GJjvEL__B7W-BfVifsv8&usqp=CAU" alt="">
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="card-content">
+                                        <h3 >H.S. Memorial School</h3>
+                                        <div class="swipe-paragraphs">
+                                            <p>Affiliated to CISCE New Delhi</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <a href="https://cityhosting.in/" target="_blank" style="text-decoration: none;">
+                        <div class="news-card product-card">
+                            <div class="card-icon">
+                                <img style="width: 80px;" src="https://static.vecteezy.com/system/resources/thumbnails/004/578/814/small_2x/security-package-for-web-hosting-and-cloud-server-free-vector.jpg" alt="">
+                            </div>
+                            <div class="card-content">
+                                <h3>Host Without Limits</h3>
+                                <div class="swipe-paragraphs">
+                                    <p class="swipe-text active">Build your own website</p>
+                                    <p class="swipe-text">Get the domain your name always wanted.</p>
+                                    <p class="swipe-text">Find Your New Domain</p>
+                                    <p class="swipe-text">Powering Your Online Presence, 24/7.</p>
+                                    <p class="swipe-text">Secure Hosting, Worry-Free Growth!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <a style="text-decoration: none;" href="https://www.tradingview.com/" target="_blank" id="stock-card">
+                        <div class="news-card product-card">
+                            <div class="card-icon">
+                                <img style="width: 80px;" src="https://static.vecteezy.com/system/resources/previews/012/806/386/non_2x/3d-businessman-buying-or-selling-shares-investing-in-stock-market-from-mobile-phone-candlestick-chart-of-stock-sale-and-buy-using-mobile-phones-market-investment-trading-3d-rendering-png.png" alt="">
+                            </div>
+                            <div class="card-content">
+                                <h3 id="stock-name">Reliance Industries</h3>
+                                <div class="stock-info">
+                                    <p id="stock-price">₹2,456.75 (+1.2%)</p>
+                                    <div id="stock-indicator" class="stock-indicator profit"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Footer Section -->
+            <footer class="main-footer">
+                <div class="footer-links">
+                    <a href="business-listing.html#plans" target="_blank" class="footer-link">Pro</a>
+                    <a href="./enterprise.html" class="footer-link" target="_blank">Enterprise</a>
+                    <a href="./api.html" class="footer-link" target="_blank">API</a>
+                    <a href="./discover.html" class="footer-link" target="_blank">Blog</a>
+                    <a href="https://wa.me/918481889577?text=Hi%20DigitalIndians,%20I%27m%20interested%20in%20career%20opportunities" class="footer-link" target="_blank">Careers</a>
+                        <div class="language-selector" style="cursor: not-allowed; pointer-events: none;">
+                            <span class="language-label">English</span>
+                            <i class="fas fa-chevron-down"></i>
+                            <div class="language-dropdown">
+                                <div class="language-option active" data-lang="en">English</div>
+                                <div class="language-option" data-lang="hi">हिंदी (Hindi)</div>
+                                <div class="language-option" data-lang="bn">বাংলা (Bengali)</div>
+                                <div class="language-option" data-lang="or">ଓଡ଼ିଆ (Odia)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+            
+            <!-- Floating Menu -->
+            <div class="floating-menu">
+                <button class="floating-button" style="visibility: hidden;">
+                    <i class="fas fa-headset"></i>
+                </button>
+                <button class="floating-button help-button">
+                    <i class="fas fa-question-circle"></i>
+                    <div class="help-card">
+                        <div  class="help-card-item">
+                            <i class="fas fa-rocket"></i>
+                            <span><a href="./get-started.html" style="text-decoration: none;color: rgb(22, 22, 22);" target="_blank">Get Started</a></span>
+                        </div>
+                        <div class="help-card-item">
+                            <i class="fas fa-info-circle"></i>
+                            <span>Help Center</span>
+                        </div>
+                        <div class="help-card-item">
+                            <i=""></i>
+                            <span><a href="./terms-of-use.html" style="text-decoration: none;color: #7d7e7d;margin-left: 2px;    font-size: 12px;" target="_blank">Terms of Service</a></span>
+                        </div>
+                        <div class="help-card-item">
+                            <i la="fas fa-shield"></i>
+                            <span><a href="./privacy-infringement-policy.html"style="text-decoration: none;color: #7d7e7d;margin-left: -28px;    font-size: 12px;" target="_blank">Privacy Policy</a></span>
+                        </div>
+                    </div>
+                </button>
+            </div>
+            
+            <!-- Free Listing Button -->
+            <div class="free-listing-container">
+                <a href="business-listing.html" target="_blank" class="free-listing-btn">
+                    <span class="pulse-animation"></span>
+                    <i class="fas fa-store"></i>
+                    <span class="btn-text">List Your <span class="rotating-text"></span> <span class="highlight">FREE <span style="color: #fffdfd;font-weight: 800;">*</span></span></span>
+                    <span class="shimmer-effect"></span>
+                </a>
+            </div>
+        </main>
+    </div>
+
+    <!-- Mobile Navigation Bar -->
+    <nav class="mobile-nav">
+        <div class="mobile-nav-menu">
+            <a href="index.html" class="mobile-nav-item active">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="discover.html" class="mobile-nav-item">
+                <i class="fas fa-compass"></i>
+                <span>Discover</span>
+            </a>
+            <a href="spaces.html" class="mobile-nav-item">
+                <i class="fas fa-layer-group"></i>
+                <span>Spaces</span>
+            </a>
+            <a href="library.html" class="mobile-nav-item">
+                <i class="fas fa-book"></i>
+                <span>Library</span>
+            </a>
+            <a href="javascript:void(0)" class="mobile-nav-item" id="moreBtn">
+                <i class="fas fa-ellipsis-h"></i>
+                <span>More</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Mobile Slide Menu -->
+    <div class="mobile-slide-menu" id="slideMenu">
+        <div class="slide-menu-header">
+            <span class="slide-menu-title">More Options</span>
+            <button class="slide-menu-close" id="closeSlideMenu">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="mobile-nav-menu">
+            <a href="youtube.html" class="mobile-nav-item">
+                <i class="fab fa-youtube"></i>
+                <span>YouTubers</span>
+            </a>
+            <a href="listing.html" class="mobile-nav-item">
+                <i class="fas fa-list"></i>
+                <span>Listings</span>
+            </a>
+            <a href="business-listing.html" class="mobile-nav-item">
+                <i class="fas fa-store"></i>
+                <span>List Your Business</span>
+            </a>
+            <!-- Add auth container -->
+            <div id="profile-container"></div>
+            
+            <!-- Login link shown when not logged in -->
+            <a href="login.html" id="login-link" class="auth-link">
+                <i class="fas fa-user"></i>
+                
+                <span>Login</span>
+            </a>
+        </div>
+        <!--<div class="auth-container">-->
+            <!-- Profile container will be dynamically inserted here when logged in -->
+            <!--<div id="profile-container"></div>
+        </div>-->
+    </div>
+
+    <!-- Pull to refresh indicator -->
+    
+
+    <script src="gemini-api.js"></script>
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileToggle = document.querySelector('.mobile-toggle');
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.querySelector('.overlay');
+            const mainContent = document.querySelector('.main-content');
+
+            function toggleSidebar() {
+                sidebar.classList.toggle('active');
+                overlay.classList.toggle('active');
+                mobileToggle.classList.toggle('active');
+            }
+
+            mobileToggle.addEventListener('click', toggleSidebar);
+            overlay.addEventListener('click', toggleSidebar);
+
+            // Close sidebar when clicking nav items
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    if (window.innerWidth <= 768) {
+                        toggleSidebar();
+                    }
+                });
+            });
+
+            // Handle swipe gestures
+            let touchStartX = 0;
+            let touchEndX = 0;
+
+            mainContent.addEventListener('touchstart', e => {
+                touchStartX = e.changedTouches[0].screenX;
+            }, false);
+
+            mainContent.addEventListener('touchend', e => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            }, false);
+
+            function handleSwipe() {
+                const swipeDistance = touchEndX - touchStartX;
+                if (Math.abs(swipeDistance) > 50) {
+                    if (swipeDistance > 0 && !sidebar.classList.contains('active')) {
+                        toggleSidebar(); // Open sidebar on right swipe
+                    } else if (swipeDistance < 0 && sidebar.classList.contains('active')) {
+                        toggleSidebar(); // Close sidebar on left swipe
+                    }
+                }
+            }
+            
+            // Free Listing Button Animation
+            const freeListingBtn = document.querySelector('.free-listing-btn');
+            if (freeListingBtn) {
+                // Add entrance animation
+                freeListingBtn.style.transform = 'translateY(-50px)';
+                freeListingBtn.style.opacity = '0';
+                
+                setTimeout(() => {
+                    freeListingBtn.style.transition = 'all 0.5s ease';
+                    freeListingBtn.style.transform = 'translateY(0)';
+                    freeListingBtn.style.opacity = '1';
+                    
+                    // Add attention animation after entrance
+                    setTimeout(() => {
+                        freeListingBtn.classList.add('attention');
+                        setTimeout(() => {
+                            freeListingBtn.classList.remove('attention');
+                        }, 1000);
+                    }, 1000);
+                }, 500);
+                
+                // Add click effect
+                freeListingBtn.addEventListener('click', function(e) {
+                    // Create ripple effect
+                    const ripple = document.createElement('span');
+                    ripple.classList.add('ripple-effect');
+                    this.appendChild(ripple);
+                    
+                    const rect = this.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    ripple.style.left = `${x}px`;
+                    ripple.style.top = `${y}px`;
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                    
+                    // Show tooltip message
+                    const tooltip = document.createElement('div');
+                    tooltip.classList.add('listing-tooltip');
+                    tooltip.textContent = 'List your business for FREE! No credit card required.';
+                    document.body.appendChild(tooltip);
+                    
+                    const btnRect = this.getBoundingClientRect();
+                    tooltip.style.left = `${btnRect.left + btnRect.width / 2 - tooltip.offsetWidth / 2}px`;
+                    tooltip.style.top = `${btnRect.top - tooltip.offsetHeight - 10}px`;
+                    
+                    setTimeout(() => {
+                        tooltip.remove();
+                    }, 2000);
+                });
+                
+                // Periodic animations to draw attention
+                let animationIndex = 0;
+                const animations = [
+                    () => {
+                        freeListingBtn.classList.add('attention');
+                        setTimeout(() => freeListingBtn.classList.remove('attention'), 1000);
+                    },
+                    () => {
+                        freeListingBtn.style.transform = 'translateY(-10px)';
+                        setTimeout(() => freeListingBtn.style.transform = '', 1000);
+                    },
+                    () => {
+                        const highlight = freeListingBtn.querySelector('.highlight');
+                        if (highlight) {
+                            highlight.style.fontSize = '1.2em';
+                            setTimeout(() => highlight.style.fontSize = '', 1000);
+                        }
+                    }
+                ];
+                
+                // Run a different animation every 15 seconds
+                setInterval(() => {
+                    animations[animationIndex]();
+                    animationIndex = (animationIndex + 1) % animations.length;
+                }, 15000);
+            }
+
+            // Add swipe animation for product card
+            function initProductCardSwipe() {
+                const texts = document.querySelectorAll('.swipe-text');
+                let currentIndex = 0;
+
+                function swipeText() {
+                    texts.forEach(text => text.classList.remove('active'));
+                    texts[currentIndex].classList.add('active');
+                    currentIndex = (currentIndex + 1) % texts.length;
+                }
+
+                // Start the animation
+                setInterval(swipeText, 3000); // Change text every 3 seconds
+            }
+
+            // Initialize swipe animation when document is loaded
+            initProductCardSwipe();
+
+            // Initialize the ad rotation
+            function initAdRotation() {
+                const ads = document.querySelectorAll('.ad-content');
+                let currentIndex = 0;
+
+                function rotateAds() {
+                    ads.forEach(ad => {
+                        ad.classList.remove('active');
+                    });
+                    ads[currentIndex].classList.add('active');
+                    currentIndex = (currentIndex + 1) % ads.length;
+                }
+
+                // Rotate ads every 5 seconds
+                setInterval(rotateAds, 5000);
+            }
+
+            initAdRotation();
+
+            // Add this to your existing DOMContentLoaded event listener
+            const searchInput = document.getElementById('centered-search-input');
+            const searchWrapper = document.querySelector('.search-input-wrapper');
+
+            // Immediately remove focus and hide suggestions when page loads
+            searchInput.blur();
+            
+            // Prevent any automatic focus
+            window.addEventListener('load', function() {
+                searchInput.blur();
+                if (document.querySelector('.search-suggestions')) {
+                    document.querySelector('.search-suggestions').classList.remove('active');
+                }
+            });
+
+            // Show suggestions only on manual click
+            searchInput.addEventListener('click', function() {
+                if (document.querySelector('.search-suggestions')) {
+                    document.querySelector('.search-suggestions').classList.add('active');
+                }
+                if (this.value && !this.hasAttribute('user-typed')) {
+                    this.value = '';
+                    this.classList.remove('typing');
+                    searchWrapper.classList.remove('typing');
+                }
+            });
+
+            // Hide suggestions when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!searchWrapper.contains(e.target)) {
+                    if (document.querySelector('.search-suggestions')) {
+                        document.querySelector('.search-suggestions').classList.remove('active');
+                    }
+                }
+            });
+
+            searchInput.addEventListener('input', function() {
+                if (this.value.length > 0) {
+                    this.classList.add('typing');
+                    searchWrapper.classList.add('typing');
+                    if (document.querySelector('.search-suggestions')) {
+                        document.querySelector('.search-suggestions').classList.add('active');
+                    }
+                } else {
+                    this.classList.remove('typing');
+                    searchWrapper.classList.remove('typing');
+                }
+            });
+
+            searchInput.addEventListener('focus', function() {
+                if (this.value && !this.hasAttribute('user-typed')) {
+                    this.value = '';
+                    this.classList.remove('typing');
+                    searchWrapper.classList.remove('typing');
+                }
+            });
+
+            searchInput.addEventListener('keydown', function() {
+                this.setAttribute('user-typed', 'true');
+            });
+
+            searchInput.addEventListener('blur', function() {
+                if (this.value.length === 0) {
+                    this.classList.remove('typing');
+                    searchWrapper.classList.remove('typing');
+                    this.removeAttribute('user-typed');
+                }
+            });
+
+            // Predefined stock data for demonstration
+            const stockData = [
+                { name: 'Reliance Industries', price: '2,456.75', change: '+1.2%'},
+                { name: 'TCS', price: '3,567.80', change: '-0.8%',},
+                { name: 'HDFC Bank', price: '1,678.45', change: '+2.1%'},
+                { name: 'Infosys', price: '1,456.30', change: '+0.9%' },
+                { name: 'Tata Motors', price: '567.90', change: '-1.5%' },
+                { name: 'Wipro', price: '456.75', change: '+1.7%'},
+                { name: 'Bharti Airtel', price: '789.45', change: '+0.5%'},
+                { name: 'SBI', price: '567.80', change: '-0.3%'}
+            ];
+
+            let currentIndex = 0;
+
+            function updateStockData() {
+                const stockName = document.getElementById('stock-name');
+                const stockPrice = document.getElementById('stock-price');
+                const stockIndicator = document.getElementById('stock-indicator');
+
+                if (stockName && stockPrice && stockIndicator) {
+                    // Fade out
+                    stockName.style.opacity = '0';
+                    stockPrice.style.opacity = '0';
+                    stockIndicator.style.opacity = '0';
+
+                    setTimeout(() => {
+                        const stock = stockData[currentIndex];
+                        stockName.textContent = stock.name;
+                        stockPrice.textContent = `₹${stock.price} (${stock.change})`;
+                        stockIndicator.className = `stock-indicator ${stock.profit ? 'profit' : 'loss'}`;
+                        
+                        // Fade in with animation
+                        stockName.style.opacity = '1';
+                        stockPrice.style.opacity = '1';
+                        stockIndicator.style.opacity = '1';
+                        
+                        // Add bounce animation to arrow
+                        stockIndicator.style.animation = 'none';
+                        stockIndicator.offsetHeight; // Trigger reflow
+                        stockIndicator.style.animation = 'bounceArrow 0.5s ease';
+
+                        currentIndex = (currentIndex + 1) % stockData.length;
+                    }, 300);
+                }
+            }
+
+            // Initial update
+            updateStockData();
+
+            // Update every 5 seconds
+            setInterval(updateStockData, 5000);
+
+            // Add help button functionality for mobile
+            const helpButton = document.querySelector('.help-button');
+            const helpCard = document.querySelector('.help-card');
+
+            // Toggle help card on click/touch for mobile
+            helpButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                this.classList.toggle('active');
+            });
+
+            // Close help card when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!helpButton.contains(e.target)) {
+                    helpButton.classList.remove('active');
+                }
+            });
+
+            // Close help card when scrolling
+            document.addEventListener('scroll', function() {
+                helpButton.classList.remove('active');
+            });
+
+            // Prevent help card from closing when clicking inside it
+            helpCard.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        });
+
+        // Check if location was already detected (stored in sessionStorage)
+        const locationDetected = sessionStorage.getItem('locationDetected');
+        
+        if (!locationDetected) {
+            // Get user's geolocation
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        const latitude = position.coords.latitude;
+                        const longitude = position.coords.longitude;
+                        
+                        // Get location name using reverse geocoding
+                        fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`)
+                            .then(response => response.json())
+                            .then(data => {
+                                const city = data.address.city || data.address.town || data.address.village || '';
+                                const state = data.address.state || '';
+                                const country = data.address.country || '';
+                                
+                                // Create location string
+                                const location = `${city}${city && state ? ', ' : ''}${state}${(city || state) && country ? ', ' : ''}${country}`;
+                                
+                                // Store in sessionStorage to prevent repeated detection
+                                sessionStorage.setItem('locationDetected', 'true');
+                                sessionStorage.setItem('userLocation', location);
+                                
+                                // Add to current URL if not already present
+                                const url = new URL(window.location.href);
+                                if (!url.searchParams.has('location')) {
+                                    url.searchParams.set('location', location);
+                                    window.history.replaceState({}, '', url.toString());
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error getting location name:', error);
+                            });
+                    },
+                    function(error) {
+                        console.error('Error getting location:', error);
+                        handleLocationError(error);
+                    }
+                );
+            } else {
+                console.error('Geolocation is not supported by this browser');
+                handleLocationError({ code: 'NOT_SUPPORTED' });
+            }
+        } else {
+            // Location was already detected, get from sessionStorage
+            const savedLocation = sessionStorage.getItem('userLocation');
+            if (savedLocation) {
+                const url = new URL(window.location.href);
+                if (!url.searchParams.has('location')) {
+                    url.searchParams.set('location', savedLocation);
+                    window.history.replaceState({}, '', url.toString());
+                }
+            }
+        }
+
+        function handleLocationError(error) {
+            let message = '';
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    message = 'Location permission denied';
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    message = 'Location information unavailable';
+                    break;
+                case error.TIMEOUT:
+                    message = 'Location request timed out';
+                    break;
+                case 'NOT_SUPPORTED':
+                    message = 'Geolocation not supported';
+                    break;
+                default:
+                    message = 'An error occurred getting location';
+            }
+            
+            // Show error notification to user
+            if (window.showToast) {
+                window.showToast(message, true);
+            } else {
+                console.error(message);
+            }
+        }
+
+        // Add mobile navigation functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const moreBtn = document.getElementById('moreBtn');
+            const slideMenu = document.getElementById('slideMenu');
+            const closeSlideMenu = document.getElementById('closeSlideMenu');
+            let touchStartY = 0;
+            let touchEndY = 0;
+
+            // Modified Slide menu functionality to toggle
+            moreBtn.addEventListener('click', function(e) {
+                e.preventDefault(); // Prevent default behavior
+                e.stopPropagation(); // Stop event propagation
+                
+                // Toggle the active class
+                if (slideMenu.classList.contains('active')) {
+                    slideMenu.classList.remove('active');
+                    moreBtn.classList.remove('active');
+                } else {
+                    slideMenu.classList.add('active');
+                    moreBtn.classList.add('active');
+                }
+            });
+
+            closeSlideMenu.addEventListener('click', function() {
+                slideMenu.classList.remove('active');
+                moreBtn.classList.remove('active');
+            });
+
+            // Close slide menu when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!slideMenu.contains(e.target) && !moreBtn.contains(e.target)) {
+                    slideMenu.classList.remove('active');
+                    moreBtn.classList.remove('active');
+                }
+            });
+
+            // Pull to refresh functionality
+            const pullToRefresh = document.querySelector('.pull-to-refresh');
+            const mainContent = document.querySelector('.main-content');
+
+            mainContent.addEventListener('touchstart', function(e) {
+                touchStartY = e.touches[0].clientY;
+            });
+
+            mainContent.addEventListener('touchmove', function(e) {
+                touchEndY = e.touches[0].clientY;
+                const diff = touchEndY - touchStartY;
+
+                if (diff > 50 && window.scrollY === 0) {
+                    pullToRefresh.classList.add('active');
+                }
+            });
+
+            mainContent.addEventListener('touchend', function() {
+                if (pullToRefresh.classList.contains('active')) {
+                    setTimeout(function() {
+                        window.location.reload();
+                    }, 1000);
+                }
+            });
+
+            // Active state for mobile nav items
+            const navItems = document.querySelectorAll('.mobile-nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    if (!this.id || this.id !== 'moreBtn') {
+                        navItems.forEach(i => i.classList.remove('active'));
+                        this.classList.add('active');
+                    }
+                });
+            });
+
+            // Smooth scroll to top
+            const scrollToTop = () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            };
+
+            // Add swipe gesture for slide menu
+            let touchStartX = 0;
+            let touchEndX = 0;
+
+            document.addEventListener('touchstart', function(e) {
+                touchStartX = e.touches[0].clientX;
+            });
+
+            document.addEventListener('touchend', function(e) {
+                touchEndX = e.changedTouches[0].clientX;
+                const diff = touchEndX - touchStartX;
+
+                if (Math.abs(diff) > 100) {
+                    if (diff > 0 && !slideMenu.classList.contains('active')) {
+                        // Swipe right
+                        slideMenu.classList.add('active');
+                    } else if (diff < 0 && slideMenu.classList.contains('active')) {
+                        // Swipe left
+                        slideMenu.classList.remove('active');
+                    }
+                }
+            });
+        });
+         // Rotating text functionality
+         (function() {
+            const words = ['Business', 'Services', 'School', 'University', 'Products', 'Startup','Personal','Company','Brand','Youtube'];
+            let currentIndex = 0;
+            const rotatingText = document.querySelector('.rotating-text');
+            
+            if (rotatingText) {
+                rotatingText.textContent = words[0];
+                rotatingText.style.transition = 'all 0.3s ease';
+                rotatingText.style.display = 'inline-block';
+                
+                setInterval(() => {
+                    rotatingText.style.opacity = '0';
+                    rotatingText.style.transform = 'translateY(10px)';
+                    
+                    setTimeout(() => {
+                        currentIndex = (currentIndex + 1) % words.length;
+                        rotatingText.textContent = words[currentIndex];
+                        rotatingText.style.opacity = '1';
+                        rotatingText.style.transform = 'translateY(0)';
+                    }, 300);
+                }, 3000);
+            }
+        })();
+    </script>
+</body>
+</html>

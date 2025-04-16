@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="Description" content="Browse and connect with top YouTubers in India for brand collaborations, video promotions, and digital marketing opportunities on DigitalIndians.org.">
+    <meta name="Keywords" content="find YouTubers, YouTube influencers, brand collaborations, YouTuber marketing, influencer partnerships, video content creators, hire YouTubers">
+    <title>Find & Collaborate with YouTubers | DigitalIndians.org</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styleyoutube.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script>
+        // Check authentication on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const authToken = localStorage.getItem('authToken');
+            if (!authToken) {
+                console.log("User not logged in, redirecting to login page");
+                
+                // Show a notification that login is required
+                const notification = document.createElement('div');
+                notification.className = 'translation-notification';
+                notification.innerHTML = '<i class="fas fa-lock"></i>' +
+                    '<span>Login required to access this page</span>' +
+                    '<button class="close-notification"><i class="fas fa-times"></i></button>';
+                
+                document.body.appendChild(notification);
+                
+                // Add event listener for close button
+                const closeBtn = notification.querySelector('.close-notification');
+                if (closeBtn) {
+                    closeBtn.addEventListener('click', function() {
+                        notification.classList.remove('show');
+                        setTimeout(() => {
+                            notification.remove();
+                        }, 300);
+                    });
+                }
+                
+                // Show notification with animation
+                setTimeout(() => {
+                    notification.classList.add('show');
+                    
+                    // Redirect to login page after a short delay
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 1500);
+                }, 100);
+            }
+        });
+    </script>
+    <style>
+        .youtube-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        
+        .youtube-logo {
+            width: 150px;
+            height: 150px;
+            margin-bottom: 1.5rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .youtube-logo:hover {
+            transform: scale(1.1);
+        }
+        
+        .youtube-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        
+        .youtube-description {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 600px;
+            margin-bottom: 2rem;
+        }
+        
+        .youtube-button {
+            background-color: #FF0000;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .youtube-button:hover {
+            background-color: #CC0000;
+        }
+        
+        #youtube-iframe-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 30px auto 0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        #youtube-iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+        }
+        
+        .loading-indicator {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #FF0000;
+            font-size: 2rem;
+        }
+        
+        .close-iframe-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: background-color 0.3s ease;
+        }
+        
+        .close-iframe-btn:hover {
+            background-color: rgba(255, 0, 0, 0.8);
+        }
+        
+        @media (max-width: 768px) {
+            #youtube-iframe {
+                height: 400px;
+            }
+            
+            .youtube-title {
+                font-size: 1.5rem;
+            }
+            
+            .youtube-description {
+                font-size: 1rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            #youtube-iframe {
+                height: 300px;
+            }
+        }
+        
+        /* Styles for YouTuber Grid */
+        .popular-youtubers-section {
+            padding: 20px 0;
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #333;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .youtubers-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+        
+        .youtuber-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .youtuber-card.highlighted {
+            box-shadow: 0 8px 25px rgba(255, 0, 0, 0.25);
+            transform: translateY(-5px) scale(1.02);
+            border: 2px solid #FF0000;
+        }
+        
+        .youtuber-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+        
+        .youtuber-card.highlighted:hover {
+            transform: translateY(-5px) scale(1.02);
+        }
+        
+        .youtuber-thumbnail {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 100%;
+            overflow: hidden;
+        }
+        
+        .youtuber-thumbnail::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+            z-index: 1;
+        }
+        
+        .youtuber-thumbnail img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .youtuber-card:hover .youtuber-thumbnail img {
+            transform: scale(1.05);
+        }
+        
+        .verified-badge {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            z-index: 2;
+        }
+        
+        .profile-icon {
+            position: absolute;
+            bottom: -25px;
+            left: 15px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 3px solid white;
+            overflow: hidden;
+            z-index: 2;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .profile-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .youtuber-info {
+            padding: 15px;
+            padding-top: 30px;
+        }
+        
+        .youtuber-info h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin: 0 0 5px 0;
+            color: #333;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .subscribers {
+            font-size: 13px;
+            color: #666;
+            margin: 0 0 5px 0;
+        }
+        
+        .category {
+            font-size: 12px;
+            color: #888;
+            background-color: #f5f5f5;
+            padding: 3px 8px;
+            border-radius: 12px;
+            display: inline-block;
+        }
+        
+        @media (max-width: 1200px) {
+            .youtubers-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .youtubers-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .youtubers-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .section-title {
+                font-size: 20px;
+            }
+        }
+        
+        /* Fixed navigation bar */
+        .main-header {
+            position: sticky;
+            top: 0;
+            background-color: #fff;
+            z-index: 100;
+            padding: 10px 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .main-header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+        }
+        
+        .main-header input {
+            flex: 1;
+            max-width: 400px;
+            margin: 0 15px;
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .main-header button {
+            margin-left: 10px;
+        }
+        
+        /* Add padding to the top of the container to account for fixed header */
+        
+        
+        @media (max-width: 768px) {
+            .main-header {
+                flex-wrap: wrap;
+                padding: 10px 15px;
+            }
+            
+            .main-header h1 {
+                width: 100%;
+                margin-bottom: 10px;
+                margin-left: 28px;
+            }
+            
+            .main-header input {
+                flex: 1;
+                margin: 0;
+            }
+        }
+
+        /* Mobile Toggle Button Styles */
+        .mobile-toggle {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            width: 40px;
+            height: 40px;
+            background: #fff;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            z-index: 1001;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-toggle {
+                display: flex;
+            }
+
+            .mobile-toggle i {
+                font-size: 20px;
+                color: #333;
+                transition: transform 0.3s ease;
+            }
+
+            .mobile-toggle.active i {
+                transform: rotate(90deg);
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                width: 280px;
+                z-index: 1000;
+                transition: transform 0.3s ease;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .overlay.active {
+                display: block;
+                opacity: 1;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .youtubers-grid {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!--<button class="mobile-toggle" aria-label="Toggle Menu">
+        <i class="fas fa-bars"></i>
+    </button> -->
+
+    <div class="overlay"></div>
+
+    <div class="app-container">
+        <button class="sidebar-toggle" aria-label="Toggle Sidebar">
+            <svg width="20" height="20" viewBox="0 0 24 24" class="toggle-icon">
+                <path fill="currentColor" d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+            </svg>
+        </button>
+        <aside class="sidebar">
+            
+            <div class="sidebar-top"><a href="./index.html">
+                <div class="logo-container">
+                    <img class="small-logo" style="width: 70%;" src="./digitalindilogo.png" alt="DigitalIndians Small Logo">
+                    <img class="full-logo" style="width: 70%;" src="./digitalindia-logo.png" alt="DigitalIndians Logo">
+                </div></a>
+                <div class="new-thread">
+                    <button class="btn-new-thread">
+                        <i class="fas fa-plus"></i>
+                        <span class="btn-text">New Query</span>
+                        <span class="shortcut">Ctrl I</span>
+                    </button>
+                </div>
+                <nav class="nav-menu">
+                    <a href="index.html" class="nav-item"><i class="fas fa-home"></i> <span class="nav-text">Home</span></a>
+                    <a href="discover.html" class="nav-item"><i class="fas fa-compass"></i> <span class="nav-text">Discover</span></a>
+                    <a href="youtube.html" class="nav-item active"><i class="fab fa-youtube"></i> <span class="nav-text">YouTubers</span></a>
+                    <a href="spaces.html" class="nav-item"><i class="fas fa-layer-group"></i> <span class="nav-text">Spaces</span></a>
+                    <a href="library.html" class="nav-item"><i class="fas fa-book"></i> <span class="nav-text">Library</span></a>
+                    <a href="listing.html" class="nav-item"><i class="fas fa-list"></i> <span class="nav-text">Listings</span></a>
+                </nav>
+            </div>
+            <div class="sidebar-bottom">
+                <a style="text-decoration: none;" href="login.html" class="btn-sign-up" >
+                    <i class="fas fa-user-plus"></i>
+                    <span style="text-decoration: none;" class="btn-text">Login</span>
+                </a>
+            </div>
+        </aside>
+        <main class="main-content">
+            <div class="main-header">
+                <h1>YouTube</h1>
+                <input type="text" id="searchInput" placeholder="Enter channel name...">
+                        <button class="btn-sign-up" onclick="searchChannel()" style="margin-bottom: 0; border-radius: 50px;">Search</button>
+            </div>
+            <div class="discover-container">
+                <!-- Popular YouTuber Grid -->
+                <div class="popular-youtubers-section">
+                    <h2 class="section-title">Popular YouTube Creators</h2>
+                    <div class="youtubers-grid">
+                        <div class="youtuber-card" data-channel="@otvodisha" onclick="window.location.href='youtube.html?channel=@otvodisha'">
+                            <div class="youtuber-thumbnail">
+                                <img src="data:image/png;base64,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" alt="Odia TV">
+                                <div class="verified-badge"><i class="fas fa-check-circle"></i></div>
+                            </div>
+                            <div class="youtuber-info">
+                                <h3>OTV Odisha</h3>
+                                <p class="subscribers">2.46M subscribers</p>
+                                <p class="category">News & Entertainment</p>
+                            </div>
+                        </div>
+                        
+                        <div class="youtuber-card" data-channel="@tseries" onclick="window.location.href='youtube.html?channel=@tseries'">
+                            <div class="youtuber-thumbnail">
+                                <img src="https://images.seeklogo.com/logo-png/31/2/t-series-logo-png_seeklogo-310761.png" alt="T-Series">
+                                <div class="verified-badge"><i class="fas fa-check-circle"></i></div>
+                            </div>
+                            <div class="youtuber-info">
+                                <h3>T-Series</h3>
+                                <p class="subscribers">245M subscribers</p>
+                                <p class="category">Music</p>
+                            </div>
+                        </div>
+                        
+                        <div class="youtuber-card" data-channel="@mkbhd" onclick="window.location.href='youtube.html?channel=@mkbhd'">
+                            <div class="youtuber-thumbnail">
+                                <img src="https://yt3.ggpht.com/PEwQfVuhh5jO7_NDDufCq349q0W6MgZeYlgeMyW3OSRMxMx9W5yre5Fgbi4Bql56L1cPwoteOA=s176-c-k-c0x00ffffff-no-rj-mo" alt="MKBHD">
+                                <div class="verified-badge"><i class="fas fa-check-circle"></i></div>
+                            </div>
+                            <div class="youtuber-info">
+                                <h3>Marques Brownlee</h3>
+                                <p class="subscribers">18.3M subscribers</p>
+                                <p class="category">Tech</p>
+                            </div>
+                        </div>
+                        
+                        <div class="youtuber-card" data-channel="@BBKiVines" onclick="window.location.href='youtube.html?channel=@BBKiVines'">
+                            <div class="youtuber-thumbnail">
+                                <img src="https://yt3.ggpht.com/H2c8y3sN7j3Hslc_eCun0FSJCQcrYl4zPyhsCt1510INBq1h2vFQTMUOtI4HJNkFD07s0pFlCA=s176-c-k-c0x00ffffff-no-rj-mo" alt="BB Ki Vines">
+                                <div class="verified-badge"><i class="fas fa-check-circle"></i></div>
+                            </div>
+                            <div class="youtuber-info">
+                                <h3>BB Ki Vines</h3>
+                                <p class="subscribers">22.9M subscribers</p>
+                                <p class="category">Comedy</p>
+                            </div>
+                        </div>
+                        
+                        <div class="youtuber-card" data-channel="@Zeemusic" onclick="window.location.href='youtube.html?channel=@Zeemusic'">
+                            <div class="youtuber-thumbnail">
+                                <img src="https://yt3.ggpht.com/x4fZcSujELdVRcWIt8UAFtvRZzrbfCKI2vTbXoNuG33CSN_FRJrSgwyLhXqThKfGaaqahx_FCQ=s176-c-k-c0x00ffffff-no-rj-mo" alt="Zee Music Company">
+                                <div class="verified-badge"><i class="fas fa-check-circle"></i></div>
+                            </div>
+                            <div class="youtuber-info">
+                                <h3>Zee Music Company</h3>
+                                <p class="subscribers">92.4M subscribers</p>
+                                <p class="category">Music</p>
+                            </div>
+                        </div>
+                        
+                        <div class="youtuber-card" data-channel="@sonyliv" onclick="window.location.href='youtube.html?channel=@sonyliv'">
+                            <div class="youtuber-thumbnail">
+                                <img src="https://yt3.ggpht.com/6p7LTvjA8wmweYTfSZYsJ5kOOoDSsNj_6MZO2lIugeBM17i_244I-j-7fYZisHGiQEMLpgqoMA=s176-c-k-c0x00ffffff-no-rj-mo" alt="Sony LIV">
+                                <div class="verified-badge"><i class="fas fa-check-circle"></i></div>
+                            </div>
+                            <div class="youtuber-info">
+                                <h3>Sony LIV</h3>
+                                <p class="subscribers">27.4M subscribers</p>
+                                <p class="category">Entertainment</p>
+                            </div>
+                        </div>
+                        
+                        <div class="youtuber-card" data-channel="@carryminati" onclick="window.location.href='youtube.html?channel=@carryminati'">
+                            <div class="youtuber-thumbnail">
+                                <img src="https://yt3.ggpht.com/cxE8FStJktJ2oiuv1f-7OHMfJI7ZlMby4NgPDkfJTyV3sOsvdo5pmsAb8TAcJVNor6gNT2h_0w=s176-c-k-c0x00ffffff-no-rj-mo" alt="CarryMinati">
+                                <div class="verified-badge"><i class="fas fa-check-circle"></i></div>
+                            </div>
+                            <div class="youtuber-info">
+                                <h3>CarryMinati</h3>
+                                <p class="subscribers">40.3M subscribers</p>
+                                <p class="category">Gaming & Comedy</p>
+                            </div>
+                        </div>
+                        
+                        <div class="youtuber-card" data-channel="@TechnicalGuruji" onclick="window.location.href='youtube.html?channel=@TechnicalGuruji'">
+                            <div class="youtuber-thumbnail">
+                                <img src="https://yt3.ggpht.com/ytc/AIdro_nQFOjj2baePBWQGqL0lgv7SwxZ1uXYo8pg_hViDZb6DEsX=s88-c-k-c0x00ffffff-no-rj" alt="Technical Guruji">
+                                <div class="verified-badge"><i class="fas fa-check-circle"></i></div>
+                            </div>
+                            <div class="youtuber-info">
+                                <h3>Technical Guruji</h3>
+                                <p class="subscribers">23.5M subscribers</p>
+                                <p class="category">Technology</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Search results will appear here -->
+                <div id="results" class="results-container"></div>
+            </div>
+            <script src="scriptyoutub.js"></script>
+
+            <div class="youtube-container" style="display: none;">
+                <h2 class="youtube-title">Welcome to Our YouTube Channel</h2>
+                <p class="youtube-description">
+                    Discover our latest videos, tutorials, and updates. Click on the YouTube logo above to view our channel.
+                </p>
+                
+                <button class="youtube-button" onclick="showYouTubeContent()">
+                    <i class="fab fa-youtube"></i> View Our Channel
+                </button>
+                
+                <div id="youtube-iframe-container" style="display: none;">
+                    <div class="loading-indicator">
+                        <i class="fas fa-spinner fa-spin"></i>
+                    </div>
+                    <button class="close-iframe-btn" onclick="closeYouTubeContent()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <iframe id="youtube-iframe" src="" frameborder="0" allowfullscreen></iframe>
+                </div>
+            </div>
+        </main>
+    </div>
+    <!-- Mobile Navigation Bar -->
+    <nav class="mobile-nav">
+        <div class="mobile-nav-menu">
+            <a href="index.html" class="mobile-nav-item active">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="discover.html" class="mobile-nav-item">
+                <i class="fas fa-compass"></i>
+                <span>Discover</span>
+            </a>
+            <a href="spaces.html" class="mobile-nav-item">
+                <i class="fas fa-layer-group"></i>
+                <span>Spaces</span>
+            </a>
+            <a href="library.html" class="mobile-nav-item">
+                <i class="fas fa-book"></i>
+                <span>Library</span>
+            </a>
+            <a href="javascript:void(0)" class="mobile-nav-item" id="moreBtn">
+                <i class="fas fa-ellipsis-h"></i>
+                <span>More</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Mobile Slide Menu -->
+    <div class="mobile-slide-menu" id="slideMenu">
+        <div class="slide-menu-header">
+            <span class="slide-menu-title">More Options</span>
+            <button class="slide-menu-close" id="closeSlideMenu">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="mobile-nav-menu">
+            <a href="youtube.html" class="mobile-nav-item">
+                <i class="fab fa-youtube"></i>
+                <span>YouTubers</span>
+            </a>
+            <a href="listing.html" class="mobile-nav-item">
+                <i class="fas fa-list"></i>
+                <span>Listings</span>
+            </a>
+            <a href="login.html" class="mobile-nav-item">
+                <i class="fas fa-user"></i>
+                <span>Login</span>
+            </a>
+            <a href="business-listing.html" class="mobile-nav-item">
+                <i class="fas fa-store"></i>
+                <span>List Business</span>
+            </a>
+        </div>
+    </div>
+   <script src="gemini-api.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Show YouTube content in iframe
+        function showYouTubeContent() {
+            const container = document.getElementById('youtube-iframe-container');
+            const iframe = document.getElementById('youtube-iframe');
+            const loadingIndicator = container.querySelector('.loading-indicator');
+            
+            // Show container and loading indicator
+            container.style.display = 'block';
+            loadingIndicator.style.display = 'block';
+            
+            // Set iframe source to our YouTube channel
+            iframe.src = 'https://www.youtube.com/embed/?listType=user_uploads&list=YouTubeUserName';
+            
+            // Hide loading indicator when iframe loads
+            iframe.onload = function() {
+                loadingIndicator.style.display = 'none';
+            };
+        }
+        
+        // Close YouTube iframe
+        function closeYouTubeContent() {
+            const container = document.getElementById('youtube-iframe-container');
+            const iframe = document.getElementById('youtube-iframe');
+            
+            // Clear iframe source and hide container
+            iframe.src = '';
+            container.style.display = 'none';
+        }
+        
+        // Highlight YouTuber card based on URL parameter
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const channelParam = urlParams.get('channel');
+            
+            // Add back button styles
+            if (typeof addBackButtonStyles === 'function') {
+                addBackButtonStyles();
+            }
+            
+            if (channelParam) {
+                // Find the card with matching data-channel attribute
+                const card = document.querySelector(`.youtuber-card[data-channel="${channelParam}"]`);
+                if (card) {
+                    // Add highlighted class
+                    card.classList.add('highlighted');
+                    
+                    // Hide the creators grid since we're viewing a specific channel
+                    if (typeof toggleCreatorsGrid === 'function') {
+                        toggleCreatorsGrid(false);
+                    }
+                    
+                    // Scroll to results section instead of the card
+                    setTimeout(() => {
+                        document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 500);
+                }
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileToggle = document.querySelector('.mobile-toggle');
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.querySelector('.overlay');
+            const mainContent = document.querySelector('.main-content');
+
+            function toggleSidebar() {
+                sidebar.classList.toggle('active');
+                overlay.classList.toggle('active');
+                mobileToggle.classList.toggle('active');
+            }
+
+            mobileToggle.addEventListener('click', toggleSidebar);
+            overlay.addEventListener('click', toggleSidebar);
+
+            // Close sidebar when clicking nav items
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    if (window.innerWidth <= 768) {
+                        toggleSidebar();
+                    }
+                });
+            });
+
+            // Handle swipe gestures
+            let touchStartX = 0;
+            let touchEndX = 0;
+
+            mainContent.addEventListener('touchstart', e => {
+                touchStartX = e.changedTouches[0].screenX;
+            }, false);
+
+            mainContent.addEventListener('touchend', e => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            }, false);
+
+            function handleSwipe() {
+                const swipeDistance = touchEndX - touchStartX;
+                if (Math.abs(swipeDistance) > 50) {
+                    if (swipeDistance > 0 && !sidebar.classList.contains('active')) {
+                        toggleSidebar(); // Open sidebar on right swipe
+                    } else if (swipeDistance < 0 && sidebar.classList.contains('active')) {
+                        toggleSidebar(); // Close sidebar on left swipe
+                    }
+                }
+            }
+        });
+    </script>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+    // Add mobile navigation functionality
+    document.addEventListener('DOMContentLoaded', function() {
+            const moreBtn = document.getElementById('moreBtn');
+            const slideMenu = document.getElementById('slideMenu');
+            const closeSlideMenu = document.getElementById('closeSlideMenu');
+            let touchStartY = 0;
+            let touchEndY = 0;
+
+            // Slide menu functionality
+            moreBtn.addEventListener('click', function() {
+                slideMenu.classList.add('active');
+            });
+
+            closeSlideMenu.addEventListener('click', function() {
+                slideMenu.classList.remove('active');
+            });
+
+            // Close slide menu when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!slideMenu.contains(e.target) && !moreBtn.contains(e.target)) {
+                    slideMenu.classList.remove('active');
+                }
+            });
+
+            // Pull to refresh functionality
+            const pullToRefresh = document.querySelector('.pull-to-refresh');
+            const mainContent = document.querySelector('.main-content');
+
+            mainContent.addEventListener('touchstart', function(e) {
+                touchStartY = e.touches[0].clientY;
+            });
+
+            mainContent.addEventListener('touchmove', function(e) {
+                touchEndY = e.touches[0].clientY;
+                const diff = touchEndY - touchStartY;
+
+                if (diff > 50 && window.scrollY === 0) {
+                    pullToRefresh.classList.add('active');
+                }
+            });
+
+            mainContent.addEventListener('touchend', function() {
+                if (pullToRefresh.classList.contains('active')) {
+                    setTimeout(function() {
+                        window.location.reload();
+                    }, 1000);
+                }
+            });
+
+            // Active state for mobile nav items
+            const navItems = document.querySelectorAll('.mobile-nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    if (!this.id || this.id !== 'moreBtn') {
+                        navItems.forEach(i => i.classList.remove('active'));
+                        this.classList.add('active');
+                    }
+                });
+            });
+
+            // Smooth scroll to top
+            const scrollToTop = () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            };
+
+            // Add swipe gesture for slide menu
+            let touchStartX = 0;
+            let touchEndX = 0;
+
+            document.addEventListener('touchstart', function(e) {
+                touchStartX = e.touches[0].clientX;
+            });
+
+            document.addEventListener('touchend', function(e) {
+                touchEndX = e.changedTouches[0].clientX;
+                const diff = touchEndX - touchStartX;
+
+                if (Math.abs(diff) > 100) {
+                    if (diff > 0 && !slideMenu.classList.contains('active')) {
+                        // Swipe right
+                        slideMenu.classList.add('active');
+                    } else if (diff < 0 && slideMenu.classList.contains('active')) {
+                        // Swipe left
+                        slideMenu.classList.remove('active');
+                    }
+                }
+            });
+        });
+	// ]]>
+</script>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+</body>
+</html>

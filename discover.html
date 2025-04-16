@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=width=device-width, initial-scale=1.0">
+    <title>DigitalIndians.org - Discover</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Fixed header styles */
+        .main-header {
+            position: sticky;
+            top: 0;
+            background-color: #fff;
+            padding: 15px 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+        
+        .header-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+            margin: 0;
+        }
+        
+        .header-right {
+            display: flex;
+            align-items: center;
+        }
+        
+        .profile-time {
+            margin-right: 1rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .profile-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: #2d7ff9;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        
+        /* Discover page specific styles */
+        .discover-container {
+            /* padding: 20px; */
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .discover-tabs {
+            display: flex;
+            border-bottom: 1px solid #eaeaea;
+            margin-bottom: 20px;
+            
+            padding-bottom: 5px;
+        }
+        
+        .discover-tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: 500;
+            color: #666;
+            position: relative;
+            white-space: nowrap;
+        }
+        
+        .discover-tab.active {
+            color: #167a9d;
+        }
+        
+        .discover-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: #157a9d;
+        }
+        
+        .discover-content {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        
+        .discover-card {
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .discover-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
+        }
+        
+        .discover-card-image {
+            height: 180px;
+            overflow: hidden;
+        }
+        
+        .discover-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: fill;
+            transition: transform 0.5s ease;
+        }
+        
+        .discover-card:hover .discover-card-image img {
+            transform: scale(1.05);
+        }
+        
+        .discover-card-content {
+            padding: 15px;
+        }
+        
+        .discover-card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+            min-width: 200px;
+            min-height: 40px;
+            max-width: 100%;
+            max-height: 60px;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            line-height: 1.4;
+        }
+        
+        .discover-card-desc {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .discover-card-desc.expanded {
+            -webkit-line-clamp: unset;
+            display: block;
+        }
+
+        .read-more-btn {
+            color: #157a9d;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: inline-block;
+            margin-top: 5px;
+            transition: color 0.3s ease;
+        }
+
+        .read-more-btn:hover {
+            color: #0d5c7a;
+        }
+
+        /* Add margin to footer when description is expanded */
+        .discover-card-desc.expanded + .discover-card-footer {
+            margin-top: 15px;
+        }
+        
+        .discover-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 10px;
+            border-top: 1px solid #f0f0f0;
+        }
+        
+        .discover-card-author {
+            display: flex;
+            align-items: center;
+        }
+        
+        .author-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        .author-name {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #555;
+        }
+        
+        .discover-card-meta {
+            display: flex;
+            align-items: center;
+            color: #888;
+            font-size: 0.8rem;
+        }
+        
+        .discover-card-meta i {
+            margin-right: 5px;
+        }
+        
+        .discover-card-meta span {
+            margin-right: 10px;
+        }
+        
+        /* Translation notification styles */
+        .translation-notification {
+            position: fixed;
+            bottom: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            transition: bottom 0.3s ease;
+        }
+        
+        .translation-notification.show {
+            bottom: 20px;
+        }
+        
+        .translation-notification i {
+            margin-right: 10px;
+            color: #4CAF50;
+        }
+        
+        .translation-notification span {
+            flex: 1;
+        }
+        
+        .close-notification {
+            background: none;
+            border: none;
+            color: #aaa;
+            cursor: pointer;
+            margin-left: 10px;
+            padding: 0;
+            font-size: 14px;
+        }
+        
+        .close-notification:hover {
+            color: white;
+        }
+        
+        @media (max-width: 992px) {
+            .discover-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .discover-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-title {
+                font-size: 1.2rem;
+            }
+        }
+
+        /* Remove mobile toggle styles */
+        .mobile-toggle {
+            display: none !important;
+        }
+
+        .overlay {
+            display: none !important;
+        }
+
+        /* Enhanced Mobile Responsive Styles */
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+                margin-bottom: 70px; /* Add space for mobile nav */
+            }
+
+            .discover-tabs {
+                padding: 10px;
+                margin: 0;
+                gap: 10px;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+            }
+
+            .discover-tabs::-webkit-scrollbar {
+                display: none;
+            }
+
+            .discover-tab {
+                padding: 8px 15px;
+                font-size: 14px;
+                white-space: nowrap;
+            }
+
+            .discover-content {
+                grid-template-columns: 1fr;
+                padding: 10px;
+                gap: 15px;
+                padding-bottom: 80px;
+            }
+
+            .discover-card {
+                margin-bottom: 15px;
+            }
+
+            .main-header {
+                padding: 10px 15px;
+                margin-left: 0;
+            }
+
+            .header-title {
+                font-size: 18px;
+            }
+
+            /* Mobile Navigation Styles */
+            .mobile-nav {
+                display: block !important;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: #ffffff;
+                box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+                z-index: 9999;
+                padding: 10px 0;
+                border-top-left-radius: 0px;
+                border-top-right-radius: 0px;
+            }
+
+            .mobile-slide-menu {
+                bottom: 80px;
+                z-index: 9998;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .discover-card-image {
+                height: 180px;
+            }
+
+            .discover-tabs {
+                padding: 8px;
+            }
+
+            .discover-tab {
+                padding: 6px 12px;
+                font-size: 13px;
+            }
+        }
+
+        .discover-filters {
+            margin-left: auto;
+            padding: 0 15px;
+        }
+
+        .filter-btn {
+            background: #157a9d;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+        }
+
+        .filter-btn:hover {
+            background: #0d5c7a;
+        }
+
+        .filter-panel {
+            display: none;
+            position: fixed;
+            right: 0;
+            top: 0;
+            height: 100%;
+            width: 300px;
+            background: white;
+            box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .filter-panel.active {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+
+        .filter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .close-filters {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .filter-section {
+            margin-bottom: 20px;
+        }
+
+        .filter-section label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .filter-section select,
+        .filter-section input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .apply-filters {
+            width: 100%;
+            background: #157a9d;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .apply-filters:hover {
+            background: #0d5c7a;
+        }
+
+        @media (max-width: 768px) {
+            .filter-panel {
+                width: 100%;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <button class="mobile-toggle" aria-label="Toggle Menu">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="overlay"></div>
+
+    <div class="app-container">
+        <button class="sidebar-toggle" aria-label="Toggle Sidebar">
+            <svg width="20" height="20" viewBox="0 0 24 24" class="toggle-icon">
+                <path fill="currentColor" d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+            </svg>
+        </button>   
+        <aside class="sidebar">
+            
+            <div class="sidebar-top">
+                <a href="./index.html">
+                <div class="logo-container">
+                    <img class="small-logo" style="width: 70%;" src="./digitalindilogo.png" alt="DigitalIndians Small Logo">
+                    <img class="full-logo" style="width: 70%;" src="./digitalindia-logo.png" alt="DigitalIndians Logo">
+                </div></a>
+                <div class="new-thread">
+                    <button class="btn-new-thread">
+                        <i class="fas fa-plus"></i>
+                        <span class="btn-text">New Query</span>
+                        <span class="shortcut">Ctrl I</span>
+                    </button>
+                </div>
+                <nav class="nav-menu">
+                    <a href="index.html" class="nav-item"><i class="fas fa-home"></i> <span class="nav-text">Home</span></a>
+                    <a href="discover.html" class="nav-item active"><i class="fas fa-compass"></i> <span class="nav-text">Discover</span></a>
+                    <a href="youtube.html" class="nav-item"><i class="fab fa-youtube"></i> <span class="nav-text">YouTubers</span></a>
+                    <a href="spaces.html" class="nav-item"><i class="fas fa-layer-group"></i> <span class="nav-text">Spaces</span></a>
+                    <a href="library.html" class="nav-item"><i class="fas fa-book"></i> <span class="nav-text">Library</span></a>
+                    <a href="listing.html" class="nav-item"><i class="fas fa-list"></i> <span class="nav-text">Listings</span></a>
+                </nav>
+            </div>
+            <div class="sidebar-bottom">
+                <a style="text-decoration: none;" href="login.html" class="btn-sign-up">
+                    <i class="fas fa-user-plus"></i>
+                    <span style="text-decoration: none;" class="btn-text">Login</span>
+                </a>
+            </div>
+        </aside>
+        <main class="main-content">
+            <div class="main-header">
+                <div class="header-left">
+                    <h1 class="header-title">Discover</h1>
+                </div>
+                <div class="header-right">
+                    
+                </div>
+            </div>
+            
+            <div class="discover-container">
+                <div class="discover-tabs">
+                    <div class="discover-tab active" data-tab="trending">Trending</div>
+                    <div class="discover-tab" data-tab="latest">Latest</div>
+                    <div class="discover-tab" data-tab="technology">Technology</div>
+                    <div class="discover-tab" data-tab="business">Business</div>
+                    <div class="discover-tab" data-tab="health">Health</div>
+                    
+                    <!-- Add Filter Section -->
+                    <div class="discover-filters">
+                        <button class="filter-btn" id="showFilters">
+                            <i class="fas fa-filter"></i> Filters
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Add Filter Panel -->
+                <div class="filter-panel" id="filterPanel">
+                    <div class="filter-header">
+                        <h3>Filters</h3>
+                        <button class="close-filters" id="closeFilters">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="filter-section">
+                        <label>Language</label>
+                        <select id="languageFilter">
+                            <option value="en">English</option>
+                            <option value="hi">Hindi</option>
+                            <option value="bn">Bengali</option>
+                            <option value="or">Odia</option>
+                            <option value="kn">Kannada</option>
+                            <option value="mr">Marathi</option>
+                            <option value="te">Telugu</option>
+                            <option value="ta">Tamil</option>
+                            <option value="gu">Gujarati</option>
+                            <option value="pa">Punjabi</option>
+                            <option value="ml">Malayalam</option>
+                        </select>
+                    </div>
+                    <div class="filter-section">
+                        <label>Country</label>
+                        <select id="countryFilter">
+                            <option value="in">India</option>
+                            <option value="us">United States</option>
+                            <option value="gb">United Kingdom</option>
+                            <option value="sg">Singapore</option>
+                            <option value="ae">UAE</option>
+                            <option value="au">Australia</option>
+                        </select>
+                    </div>
+                    <div class="filter-section">
+                        <label>Date Range</label>
+                        <input type="date" id="dateFilter" max="<?php echo date('Y-m-d'); ?>">
+                    </div>
+                    <button class="apply-filters" id="applyFilters">Apply Filters</button>
+                </div>
+                
+                <div class="discover-content" id="discover-content">
+                    <!-- Cards will be dynamically inserted here -->
+                </div>
+            </div>
+        </main>
+    </div>
+    <!-- Mobile Navigation Bar -->
+    <nav class="mobile-nav">
+        <div class="mobile-nav-menu">
+            <a href="index.html" class="mobile-nav-item active">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="discover.html" class="mobile-nav-item">
+                <i class="fas fa-compass"></i>
+                <span>Discover</span>
+            </a>
+            <a href="spaces.html" class="mobile-nav-item">
+                <i class="fas fa-layer-group"></i>
+                <span>Spaces</span>
+            </a>
+            <a href="library.html" class="mobile-nav-item">
+                <i class="fas fa-book"></i>
+                <span>Library</span>
+            </a>
+            <a href="javascript:void(0)" class="mobile-nav-item" id="moreBtn">
+                <i class="fas fa-ellipsis-h"></i>
+                <span>More</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Mobile Slide Menu -->
+    <div class="mobile-slide-menu" id="slideMenu">
+        <div class="slide-menu-header">
+            <span class="slide-menu-title">More Options</span>
+            <button class="slide-menu-close" id="closeSlideMenu">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="mobile-nav-menu">
+            <a href="youtube.html" class="mobile-nav-item">
+                <i class="fab fa-youtube"></i>
+                <span>YouTubers</span>
+            </a>
+            <a href="listing.html" class="mobile-nav-item">
+                <i class="fas fa-list"></i>
+                <span>Listings</span>
+            </a>
+            
+            <a href="business-listing.html" class="mobile-nav-item">
+                <i class="fas fa-store"></i>
+                <span>List Business</span>
+            </a>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+    <script>
+        // Update current time
+        function updateCurrentTime() {
+            const timeElement = document.getElementById('current-time');
+            if (timeElement) {
+                const now = new Date();
+                const hours = now.getHours().toString().padStart(2, '0');
+                const minutes = now.getMinutes().toString().padStart(2, '0');
+                timeElement.textContent = `${hours}:${minutes}`;
+            }
+        }
+        
+        // Update time immediately and then every minute
+        updateCurrentTime();
+        setInterval(updateCurrentTime, 60000);
+        
+        // Setup user profile
+        function setupUserProfile() {
+            const profileAvatar = document.getElementById('user-profile-avatar');
+            
+            if (!profileAvatar) return;
+            
+            const authToken = localStorage.getItem('authToken');
+            const userEmail = localStorage.getItem('userEmail');
+            
+            if (authToken && userEmail) {
+                // User is logged in
+                const username = userEmail.split('@')[0];
+                
+                // Update profile avatar with user info
+                profileAvatar.innerHTML = '';
+                
+                // Create image element for avatar
+                const avatarImg = document.createElement('img');
+                avatarImg.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(username)}&background=2d7ff9&color=fff`;
+                avatarImg.alt = username;
+                profileAvatar.appendChild(avatarImg);
+                
+                // Add click event to redirect to account page
+                profileAvatar.addEventListener('click', function() {
+                    window.location.href = 'account.html';
+                });
+            } else {
+                // User is not logged in, show default icon
+                profileAvatar.innerHTML = '<i class="fas fa-user"></i>';
+                
+                // Add click event to redirect to login page
+                profileAvatar.addEventListener('click', function() {
+                    window.location.href = 'login.html';
+                });
+            }
+        }
+        
+        // NewsData API integration
+        const API_KEY = 'pub_77884ebb84f2f2fadb1e45c629ba69db9646a';
+        const BASE_URL = 'https://newsdata.io/api/1/news';
+
+        async function fetchNewsData(category) {
+            try {
+                const language = document.getElementById('languageFilter').value;
+                const country = document.getElementById('countryFilter').value;
+                const date = document.getElementById('dateFilter').value;
+                
+                const query = category === 'trending' ? 'trending' : category;
+                let url = `${BASE_URL}?apikey=${API_KEY}&q=${query}&language=${language}`;
+                
+                // Add country filter if selected
+                if (country) {
+                    url += `&country=${country}`;
+                }
+                
+                // Add date filter if selected
+                if (date) {
+                    url += `&from=${date}`;
+                }
+                
+                const response = await fetch(url);
+                const data = await response.json();
+                return data.results || [];
+            } catch (error) {
+                console.error('Error fetching news:', error);
+                return [];
+            }
+        }
+
+        // Function to render discover cards with API data
+        async function renderDiscoverCards(category) {
+            const contentContainer = document.getElementById('discover-content');
+            if (!contentContainer) return;
+            
+            // Show loading state
+            contentContainer.innerHTML = `
+                <div class="loading-container" style="text-align: center; padding: 20px;">
+                    <div class="spinner" style="width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top: 4px solid #157a9d; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto;"></div>
+                    <p style="margin-top: 10px; color: #666;">Loading articles...</p>
+                </div>
+            `;
+
+            // Fetch data from API
+            const newsData = await fetchNewsData(category);
+            
+            // Clear loading state
+            contentContainer.innerHTML = '';
+            
+            if (newsData.length === 0) {
+                contentContainer.innerHTML = `
+                    <div style="text-align: center; padding: 20px; color: #666;">
+                        <i class="fas fa-newspaper" style="font-size: 48px; margin-bottom: 10px;"></i>
+                        <p>No articles found for this category.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Create cards for each news item
+            newsData.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'discover-card';
+                card.innerHTML = `
+                    <div class="discover-card-image">
+                        <img src="${item.image_url || 'https://via.placeholder.com/400x200?text=No+Image'}" 
+                             alt="${item.title}" 
+                             onerror="this.src='https://via.placeholder.com/400x200?text=No+Image'">
+                    </div>
+                    <div class="discover-card-content">
+                        <h3 class="discover-card-title">${item.title}</h3>
+                        <div>
+                            <p class="discover-card-desc">${item.description || item.content?.substring(0, 150) + '...' || 'No description available'}</p>
+                            <span class="read-more-btn">Read More</span>
+                        </div>
+                        <div class="discover-card-footer">
+                            <div class="discover-card-author">
+                                <img class="author-avatar" src="https://ui-avatars.com/api/?name=${encodeURIComponent(item.source_id || 'News')}&background=random" alt="${item.source_id || 'News Source'}">
+                                <span class="author-name">${item.source_id || 'News Source'}</span>
+                            </div>
+                            <div class="discover-card-meta">
+                                <i class="far fa-clock"></i>
+                                <span>${new Date(item.pubDate).toLocaleDateString()}</span>
+                                <i class="far fa-newspaper"></i>
+                                <span>${item.category?.[0] || category}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                // Add click handlers after creating the card
+                const desc = card.querySelector('.discover-card-desc');
+                const readMoreBtn = card.querySelector('.read-more-btn');
+                const fullText = item.description || item.content || 'No description available';
+                
+                // Only show Read More button if content is long enough
+                if (desc.scrollHeight <= desc.clientHeight) {
+                    readMoreBtn.style.display = 'none';
+                }
+                
+                readMoreBtn.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Prevent card click event
+                    desc.classList.toggle('expanded');
+                    desc.textContent = fullText;
+                    readMoreBtn.textContent = desc.classList.contains('expanded') ? 'Read Less' : 'Read More';
+                });
+                
+                // Add click event to open article in new tab
+                card.addEventListener('click', function() {
+                    if (item.link) {
+                        window.open(item.link, '_blank');
+                    }
+                });
+                
+                contentContainer.appendChild(card);
+            });
+        }
+
+        // Add this CSS for loading spinner
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Handle tab clicks
+        function setupTabs() {
+            const tabs = document.querySelectorAll('.discover-tab');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs
+                    tabs.forEach(t => t.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                    
+                    // Render content for selected category
+                    const category = this.getAttribute('data-tab');
+                    renderDiscoverCards(category);
+                });
+            });
+        }
+
+        // Add filter functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const showFiltersBtn = document.getElementById('showFilters');
+            const closeFiltersBtn = document.getElementById('closeFilters');
+            const filterPanel = document.getElementById('filterPanel');
+            const applyFiltersBtn = document.getElementById('applyFilters');
+            
+            // Show filters
+            showFiltersBtn.addEventListener('click', () => {
+                filterPanel.classList.add('active');
+            });
+            
+            // Close filters
+            closeFiltersBtn.addEventListener('click', () => {
+                filterPanel.classList.remove('active');
+            });
+            
+            // Apply filters
+            applyFiltersBtn.addEventListener('click', () => {
+                const activeTab = document.querySelector('.discover-tab.active');
+                if (activeTab) {
+                    const category = activeTab.getAttribute('data-tab');
+                    renderDiscoverCards(category);
+                }
+                filterPanel.classList.remove('active');
+            });
+            
+            // Close filters when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!filterPanel.contains(e.target) && !showFiltersBtn.contains(e.target)) {
+                    filterPanel.classList.remove('active');
+                }
+            });
+        });
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set up user profile
+            setupUserProfile();
+            
+            // Set up tabs
+            setupTabs();
+            
+            // Render initial content (trending)
+            renderDiscoverCards('trending');
+            
+            // Set up buttons and links
+            const newThreadBtn = document.querySelector('.btn-new-thread');
+            if (newThreadBtn) {
+                newThreadBtn.addEventListener('click', function() {
+                    window.location.href = 'index.html';
+                });
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileToggle = document.querySelector('.mobile-toggle');
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.querySelector('.overlay');
+            const mainContent = document.querySelector('.main-content');
+        
+            function toggleSidebar() {
+                sidebar.classList.toggle('active');
+                overlay.classList.toggle('active');
+                mobileToggle.classList.toggle('active');
+            }
+        
+            mobileToggle.addEventListener('click', toggleSidebar);
+            overlay.addEventListener('click', toggleSidebar);
+        
+            // Close sidebar when clicking nav items
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    if (window.innerWidth <= 768) {
+                        toggleSidebar();
+                    }
+                });
+            });
+        
+            // Handle swipe gestures
+            let touchStartX = 0;
+            let touchEndX = 0;
+        
+            mainContent.addEventListener('touchstart', e => {
+                touchStartX = e.changedTouches[0].screenX;
+            }, false);
+        
+            mainContent.addEventListener('touchend', e => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            }, false);
+        
+            function handleSwipe() {
+                const swipeDistance = touchEndX - touchStartX;
+                if (Math.abs(swipeDistance) > 50) {
+                    if (swipeDistance > 0 && !sidebar.classList.contains('active')) {
+                        toggleSidebar(); // Open sidebar on right swipe
+                    } else if (swipeDistance < 0 && sidebar.classList.contains('active')) {
+                        toggleSidebar(); // Close sidebar on left swipe
+                    }
+                }
+            }
+        });
+        // Add mobile navigation functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const moreBtn = document.getElementById('moreBtn');
+            const slideMenu = document.getElementById('slideMenu');
+            const closeSlideMenu = document.getElementById('closeSlideMenu');
+            let touchStartY = 0;
+            let touchEndY = 0;
+
+            // Slide menu functionality
+            moreBtn.addEventListener('click', function() {
+                slideMenu.classList.add('active');
+            });
+
+            closeSlideMenu.addEventListener('click', function() {
+                slideMenu.classList.remove('active');
+            });
+
+            // Close slide menu when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!slideMenu.contains(e.target) && !moreBtn.contains(e.target)) {
+                    slideMenu.classList.remove('active');
+                }
+            });
+
+            // Pull to refresh functionality
+            const pullToRefresh = document.querySelector('.pull-to-refresh');
+            const mainContent = document.querySelector('.main-content');
+
+            mainContent.addEventListener('touchstart', function(e) {
+                touchStartY = e.touches[0].clientY;
+            });
+
+            mainContent.addEventListener('touchmove', function(e) {
+                touchEndY = e.touches[0].clientY;
+                const diff = touchEndY - touchStartY;
+
+                if (diff > 50 && window.scrollY === 0) {
+                    pullToRefresh.classList.add('active');
+                }
+            });
+
+            mainContent.addEventListener('touchend', function() {
+                if (pullToRefresh.classList.contains('active')) {
+                    setTimeout(function() {
+                        window.location.reload();
+                    }, 1000);
+                }
+            });
+
+            // Active state for mobile nav items
+            const navItems = document.querySelectorAll('.mobile-nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    if (!this.id || this.id !== 'moreBtn') {
+                        navItems.forEach(i => i.classList.remove('active'));
+                        this.classList.add('active');
+                    }
+                });
+            });
+
+            // Smooth scroll to top
+            const scrollToTop = () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            };
+
+            // Add swipe gesture for slide menu
+            let touchStartX = 0;
+            let touchEndX = 0;
+
+            document.addEventListener('touchstart', function(e) {
+                touchStartX = e.touches[0].clientX;
+            });
+
+            document.addEventListener('touchend', function(e) {
+                touchEndX = e.changedTouches[0].clientX;
+                const diff = touchEndX - touchStartX;
+
+                if (Math.abs(diff) > 100) {
+                    if (diff > 0 && !slideMenu.classList.contains('active')) {
+                        // Swipe right
+                        slideMenu.classList.add('active');
+                    } else if (diff < 0 && slideMenu.classList.contains('active')) {
+                        // Swipe left
+                        slideMenu.classList.remove('active');
+                    }
+                }
+            });
+        });
+    </script>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+</body>
+</html>
